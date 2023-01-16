@@ -1,6 +1,4 @@
 using AniMedia.Web.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace AniMedia.Web;
 
@@ -8,6 +6,9 @@ public class Program {
 
     public static void Main(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddApplication();
+        builder.Services.AddInfractructure();
 
         // Add services to the container.
         builder.Services.AddRazorPages();
