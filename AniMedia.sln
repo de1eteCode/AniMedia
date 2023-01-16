@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AniMedia.Web", "AniMedia.Web\AniMedia.Web.csproj", "{48E375A1-A8DC-4FE7-AAC5-00FA0E4190DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AniMedia.Application", "AniMedia.Application\AniMedia.Application.csproj", "{81B5B695-707B-4877-BE66-D6628DF2B487}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AniMedia.Domain", "AniMedia.Domain\AniMedia.Domain.csproj", "{EBBAB593-053E-45CA-8A60-A320BB2A95F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AniMedia.Infrastructure", "AniMedia.Infrastructure\AniMedia.Infrastructure.csproj", "{5A921C1C-2D03-411E-944E-C4AA1C246257}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{3FDD515C-1CE8-4CE4-9C01-DA99F242ECA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AniMedia.Components.Player", "AniMedia.Components.Player\AniMedia.Components.Player.csproj", "{90981C3F-6FDB-47FD-BDB4-D5625D7CCC7D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48E375A1-A8DC-4FE7-AAC5-00FA0E4190DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E375A1-A8DC-4FE7-AAC5-00FA0E4190DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E375A1-A8DC-4FE7-AAC5-00FA0E4190DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E375A1-A8DC-4FE7-AAC5-00FA0E4190DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81B5B695-707B-4877-BE66-D6628DF2B487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81B5B695-707B-4877-BE66-D6628DF2B487}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81B5B695-707B-4877-BE66-D6628DF2B487}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81B5B695-707B-4877-BE66-D6628DF2B487}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBBAB593-053E-45CA-8A60-A320BB2A95F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBBAB593-053E-45CA-8A60-A320BB2A95F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBBAB593-053E-45CA-8A60-A320BB2A95F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBBAB593-053E-45CA-8A60-A320BB2A95F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A921C1C-2D03-411E-944E-C4AA1C246257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A921C1C-2D03-411E-944E-C4AA1C246257}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A921C1C-2D03-411E-944E-C4AA1C246257}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A921C1C-2D03-411E-944E-C4AA1C246257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90981C3F-6FDB-47FD-BDB4-D5625D7CCC7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90981C3F-6FDB-47FD-BDB4-D5625D7CCC7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90981C3F-6FDB-47FD-BDB4-D5625D7CCC7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90981C3F-6FDB-47FD-BDB4-D5625D7CCC7D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{90981C3F-6FDB-47FD-BDB4-D5625D7CCC7D} = {3FDD515C-1CE8-4CE4-9C01-DA99F242ECA4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5CDFBFAD-530A-4B63-AC35-BF6156DC81BE}
+	EndGlobalSection
+EndGlobal

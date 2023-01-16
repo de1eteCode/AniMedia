@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AniMedia.Application\AniMedia.Application.csproj" />
+    <ProjectReference Include="..\AniMedia.Components.Player\AniMedia.Components.Player.csproj" />
+    <ProjectReference Include="..\AniMedia.Domain\AniMedia.Domain.csproj" />
+    <ProjectReference Include="..\AniMedia.Infrastructure\AniMedia.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
