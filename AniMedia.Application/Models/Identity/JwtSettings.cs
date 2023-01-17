@@ -1,4 +1,6 @@
-﻿namespace AniMedia.Application.Models.Identity;
+﻿using System.Text;
+
+namespace AniMedia.Application.Models.Identity;
 
 public class JwtSettings {
     public required string Key { get; init; }
@@ -8,4 +10,6 @@ public class JwtSettings {
     public required string Audience { get; init; }
 
     public required double DurationInMinutes { get; init; }
+
+    public byte[] GetKeyBytes() => Encoding.UTF8.GetBytes(Key);
 }

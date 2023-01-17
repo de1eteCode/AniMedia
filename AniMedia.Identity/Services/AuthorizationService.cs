@@ -1,14 +1,13 @@
 ﻿using AniMedia.Application.Contracts.Identity;
 using AniMedia.Application.Models.Identity;
+using AniMedia.Identity.Configurations;
 using AniMedia.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AniMedia.Identity.Services;
 
@@ -61,7 +60,7 @@ internal class AuthorizationService : IAuthorizationService {
             throw new Exception($"User with email '{request.Email}' already exists");
         }
 
-        var newUser = new ApplicationUser {
+        var user = new ApplicationUser {
             UserName = request.UserName,
             FirstName = request.FirstName,
             SecondName = request.SecondName,
@@ -69,26 +68,49 @@ internal class AuthorizationService : IAuthorizationService {
             EmailConfirmed = true
         };
 
-        var result = await _userManager.CreateAsync(newUser);
+        var result = await _userManager.CreateAsync(user, request.Password);
 
         if (result.Succeeded) {
-            /// Todo:
-            ///     Add role
+            await _userManager.AddToRoleAsync(user, RoleConfiguration.USER.Name);
 
-            throw new NotImplementedException();
-
-#pragma warning disable CS0162 // Обнаружен недостижимый код
             return new RegistrationResponce {
-                UID = userIsExists.Id
+                UID = user.Id
             };
-#pragma warning restore CS0162 // Обнаружен недостижимый код
         }
         else {
             throw new Exception($"{result.Errors}");
         }
     }
 
-    private Task<JwtSecurityToken> GenerateJwtToken(ApplicationUser user) {
-        throw new NotImplementedException();
+    private async Task<JwtSecurityToken> GenerateJwtToken(ApplicationUser user) {
+        var userClaims = await _userManager.GetClaimsAsync(user);
+        var roles = await _userManager.GetRolesAsync(user);
+
+        var roleClaims = new List<Claim>();
+
+        foreach (var role in roles) {
+            roleClaims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        var claims = new[] {
+            new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+            new Claim(CustomClaimTypes.UID, user.Id.ToString()),
+        }
+            .Union(userClaims)
+            .Union(roleClaims);
+
+        var symmetricSecurityKey = new SymmetricSecurityKey(_jwtSettings.GetKeyBytes());
+        var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+        var jwtToken = new JwtSecurityToken(
+            issuer: _jwtSettings.Issuer,
+            audience: _jwtSettings.Audience,
+            claims: claims,
+            expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
+            signingCredentials: signingCredentials);
+
+        return jwtToken;
     }
 }

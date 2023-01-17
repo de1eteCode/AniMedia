@@ -1,9 +1,11 @@
 ﻿using AniMedia.Application.Contracts.Identity;
 using AniMedia.Application.Models.Identity;
+using AniMedia.Identity;
 using AniMedia.Identity.Models;
 using AniMedia.Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -15,10 +17,14 @@ public static class IdentityExtensions {
     public static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration) {
         services.Configure<JwtSettings>(configuration.GetSection(nameof(JwtSettings)));
 
-        /// Todo:
-        ///     Add connect db identity context
+        services.AddDbContext<ApplicationIdentityDbContext>(
+            options => options.UseNpgsql(configuration.GetConnectionString("IdentityDB"),
+            b => b.MigrationsAssembly(typeof(ApplicationIdentityDbContext).Assembly.FullName)));
 
-        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>();
+        services
+            .AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+            .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
+            .AddDefaultTokenProviders();
 
         services.AddTransient<IAuthorizationService, AuthorizationService>();
 

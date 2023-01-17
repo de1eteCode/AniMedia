@@ -8,7 +8,7 @@ public class Program {
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddApplication();
-        builder.Services.AddInfractructure();
+        builder.Services.AddInfractructure(builder.Configuration);
 
         // Add services to the container.
         builder.Services.AddRazorPages();
