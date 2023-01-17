@@ -18,7 +18,7 @@ public static class IdentityExtensions {
         services.Configure<JwtSettings>(configuration.GetSection(nameof(JwtSettings)));
 
         services.AddDbContext<ApplicationIdentityDbContext>(
-            options => options.UseNpgsql(configuration.GetConnectionString("IdentityDB"),
+            options => options.UseNpgsql(configuration.GetConnectionString("ApplicationDB"),
             b => b.MigrationsAssembly(typeof(ApplicationIdentityDbContext).Assembly.FullName)));
 
         services
