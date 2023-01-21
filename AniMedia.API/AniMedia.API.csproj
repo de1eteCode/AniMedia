@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <UserSecretsId>d8072dbd-dc39-4210-8f4d-7a268e0bcc68</UserSecretsId>
   </PropertyGroup>
 
@@ -12,8 +13,16 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="NSwag.MSBuild" Version="13.18.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
+
+  <Target Name="NSwag" AfterTargets="Build">
+    <Exec Command="$(NSwagExe_Net70) run nswag.json /variables:Configuration=$(Configuration)" />
+  </Target>
 
   <ItemGroup>
     <ProjectReference Include="..\AniMedia.Application\AniMedia.Application.csproj" />

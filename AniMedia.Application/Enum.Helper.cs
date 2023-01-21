@@ -8,6 +8,6 @@ public static class EnumHelper {
         where T : Attribute {
         var typeInfo = enumVal.GetType().GetTypeInfo();
         var v = typeInfo.DeclaredMembers.First(x => x.Name == enumVal.ToString());
-        return v.GetCustomAttribute<T>();
+        return v.GetCustomAttribute<T>() ?? throw new Exception();
     }
 }

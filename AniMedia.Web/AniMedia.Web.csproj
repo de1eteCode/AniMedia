@@ -14,6 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="NSwag.CodeGeneration.CSharp" Version="13.18.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +22,10 @@
     <ProjectReference Include="..\AniMedia.Components.Player\AniMedia.Components.Player.csproj" />
     <ProjectReference Include="..\AniMedia.Domain\AniMedia.Domain.csproj" />
     <ProjectReference Include="..\AniMedia.Infrastructure\AniMedia.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\Base\" />
   </ItemGroup>
 
 </Project>
