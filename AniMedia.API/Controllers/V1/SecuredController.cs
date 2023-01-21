@@ -7,10 +7,7 @@ namespace AniMedia.API.Controllers.V1;
 public class SecuredController : BaseApiV1Controller {
 
     [HttpGet]
-    public Object Get() {
-        return Ok(new {
-            IdObj = Guid.NewGuid(),
-            Path = "sdsdsd"
-        });
+    public ActionResult<Guid> Get() {
+        return Ok(Guid.NewGuid());
     }
 }

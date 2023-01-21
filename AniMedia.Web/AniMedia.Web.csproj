@@ -24,8 +24,4 @@
     <ProjectReference Include="..\AniMedia.Infrastructure\AniMedia.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Base\" />
-  </ItemGroup>
-
 </Project>

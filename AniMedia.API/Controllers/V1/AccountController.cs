@@ -1,6 +1,5 @@
 ﻿using AniMedia.Application.Exceptions;
 using AniMedia.Application.Models.Identity;
-using AniMedia.Identity.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using IAuthService = AniMedia.Identity.Contracts.IAuthorizationService;
