@@ -1,4 +1,5 @@
-﻿using AniMedia.Application.Models.Identity;
+﻿using AniMedia.Application.Exceptions;
+using AniMedia.Application.Models.Identity;
 using AniMedia.Identity.Configurations;
 using AniMedia.Identity.Contracts;
 using AniMedia.Identity.Exceptions;
@@ -29,13 +30,13 @@ internal class AuthorizationService : IAuthorizationService {
         var user = await _userManager.FindByNameAsync(request.UserName);
 
         if (user == null) {
-            throw new Exception($"User with '{request.UserName}' username not found");
+            throw new BadRequestException($"User with '{request.UserName}' username not found");
         }
 
         var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
 
         if (signInResult.Succeeded == false) {
-            throw new Exception($"Invalid password for '{request.UserName}'");
+            throw new BadRequestException($"Invalid password for '{request.UserName}'");
         }
 
         var jwtToken = await GenerateJwtToken(user);
@@ -50,13 +51,13 @@ internal class AuthorizationService : IAuthorizationService {
         var userIsExists = await _userManager.FindByNameAsync(request.UserName);
 
         if (userIsExists != null) {
-            throw new Exception($"User with '{request.UserName}' already exists");
+            throw new BadRequestException($"User with '{request.UserName}' already exists");
         }
 
         userIsExists = await _userManager.FindByEmailAsync(request.Email);
 
         if (userIsExists != null) {
-            throw new Exception($"User with email '{request.Email}' already exists");
+            throw new BadRequestException($"User with email '{request.Email}' already exists");
         }
 
         var user = new ApplicationUser {
