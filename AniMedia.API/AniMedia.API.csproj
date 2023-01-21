@@ -4,22 +4,20 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>0401c4ea-5c31-444c-b3a9-95786831cca5</UserSecretsId>
+    <UserSecretsId>d8072dbd-dc39-4210-8f4d-7a268e0bcc68</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AniMedia.Application\AniMedia.Application.csproj" />
-    <ProjectReference Include="..\AniMedia.Components.Player\AniMedia.Components.Player.csproj" />
-    <ProjectReference Include="..\AniMedia.Domain\AniMedia.Domain.csproj" />
+    <ProjectReference Include="..\AniMedia.Identity\AniMedia.Identity.csproj" />
     <ProjectReference Include="..\AniMedia.Infrastructure\AniMedia.Infrastructure.csproj" />
   </ItemGroup>
 
