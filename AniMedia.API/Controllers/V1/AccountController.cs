@@ -1,15 +1,15 @@
-﻿using AniMedia.Application.Contracts.Identity;
-using AniMedia.Application.Models.Identity;
+﻿using AniMedia.Application.Models.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using IAuthService = AniMedia.Identity.Contracts.IAuthorizationService;
 
-namespace AniMedia.API.Controllers;
+namespace AniMedia.API.Controllers.V1;
 
-[Route("api/[controller]")]
-[ApiController]
-public class AccountController : ControllerBase {
-    private readonly IAuthorizationService _authorizationService;
+[AllowAnonymous]
+public class AccountController : BaseApiV1Controller {
+    private readonly IAuthService _authorizationService;
 
-    public AccountController(IAuthorizationService authorizationService) {
+    public AccountController(IAuthService authorizationService) {
         _authorizationService = authorizationService;
     }
 

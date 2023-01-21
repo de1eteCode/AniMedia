@@ -1,13 +1,13 @@
-﻿using AniMedia.Application.Contracts.Identity;
-using AniMedia.Application.Models.Identity;
+﻿using AniMedia.Application.Models.Identity;
 using AniMedia.Identity.Configurations;
+using AniMedia.Identity.Contracts;
+using AniMedia.Identity.Exceptions;
 using AniMedia.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 namespace AniMedia.Identity.Services;
 
@@ -32,7 +32,7 @@ internal class AuthorizationService : IAuthorizationService {
             throw new Exception($"User with '{request.UserName}' username not found");
         }
 
-        var signInResult = await _signInManager.PasswordSignInAsync(user, request.Password, isPersistent: false, lockoutOnFailure: false);
+        var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
 
         if (signInResult.Succeeded == false) {
             throw new Exception($"Invalid password for '{request.UserName}'");
@@ -41,7 +41,6 @@ internal class AuthorizationService : IAuthorizationService {
         var jwtToken = await GenerateJwtToken(user);
 
         return new AuthorizationResponce {
-            UID = user.Id,
             UserName = user.UserName!,
             Token = new JwtSecurityTokenHandler().WriteToken(jwtToken)
         };
@@ -74,11 +73,11 @@ internal class AuthorizationService : IAuthorizationService {
             await _userManager.AddToRoleAsync(user, RoleConfiguration.USER.Name);
 
             return new RegistrationResponce {
-                UID = user.Id
+                UserName = user.UserName,
             };
         }
         else {
-            throw new Exception($"{result.Errors}");
+            throw new IdentityException(result);
         }
     }
 

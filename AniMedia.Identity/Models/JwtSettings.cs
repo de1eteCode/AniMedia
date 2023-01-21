@@ -1,8 +1,8 @@
 ﻿using System.Text;
 
-namespace AniMedia.Application.Models.Identity;
+namespace AniMedia.Identity.Models;
 
-public class JwtSettings {
+internal class JwtSettings {
     public required string Key { get; init; }
 
     public required string Issuer { get; init; }

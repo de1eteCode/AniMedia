@@ -1,4 +1,5 @@
 using AniMedia.API.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
 namespace AniMedia.API;
@@ -11,10 +12,12 @@ public class Program {
         // Add services to the container.
         builder.Services.AddApplication(builder.Configuration);
         builder.Services.AddInfractructure(builder.Configuration);
-
-        builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddIdentity(builder.Configuration);
+        builder.Services.AddHttpContextAccessor();
         AddSwagerDoc(builder.Services);
+        builder.Services.AddControllers();
+
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -49,24 +52,23 @@ public class Program {
 
     private static void AddSwagerDoc(IServiceCollection services) {
         services.AddSwaggerGen(c => {
-            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme() {
-                Description = "",
-                Name = "Authorization",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
-                Scheme = "Bearer"
-            });
+            c.AddSecurityDefinition(
+                JwtBearerDefaults.AuthenticationScheme,
+                new OpenApiSecurityScheme() {
+                    Description = "JWT Authorization header using the Bearer scheme",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = JwtBearerDefaults.AuthenticationScheme
+                });
 
             c.AddSecurityRequirement(new OpenApiSecurityRequirement() {
                 {
                     new OpenApiSecurityScheme() {
-                        Reference= new OpenApiReference() {
-                            Type= ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        },
-                        Scheme = "oauth2",
-                        Name = "Bearer",
-                        In= ParameterLocation.Header
+                        Reference = new OpenApiReference() {
+                            Id = JwtBearerDefaults.AuthenticationScheme,
+                            Type = ReferenceType.SecurityScheme
+                        }
                     },
                     new List<string>()
                 }

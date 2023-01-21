@@ -1,6 +1,6 @@
 ﻿using AniMedia.Application.Models.Identity;
 
-namespace AniMedia.Application.Contracts.Identity;
+namespace AniMedia.Identity.Contracts;
 
 public interface IAuthorizationService {
 

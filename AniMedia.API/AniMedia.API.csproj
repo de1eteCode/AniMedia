@@ -8,11 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AniMedia.Application\AniMedia.Application.csproj" />
+    <ProjectReference Include="..\AniMedia.Identity\AniMedia.Identity.csproj" />
     <ProjectReference Include="..\AniMedia.Infrastructure\AniMedia.Infrastructure.csproj" />
   </ItemGroup>
 

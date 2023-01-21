@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AniMedia.Identity.Migrations
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
-    [Migration("20230117075346_Init db")]
+    [Migration("20230121104816_Init db")]
     partial class Initdb
     {
         /// <inheritdoc />
@@ -102,14 +102,14 @@ namespace AniMedia.Identity.Migrations
                         {
                             Id = new Guid("a6330a68-a4e3-466c-9a03-6b45c093f90f"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7929fb4d-f9b8-48c6-95a1-e6c28d19aa52",
+                            ConcurrencyStamp = "434a6d69-bdfa-41b3-96d9-9ddf9c71d1ca",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@localhost.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBBLpD4JR1IYxSArhZ+ogmBBPUs9qIpfVDg7LzVzisnnGPvpT4rvmPFifwHhXLSp0w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENSkDGjP57BdimWIStx7RAz9xUuqbejE+m5ZFwRP6OxICUQWLPVGgvHmoDQrU0HHSw==",
                             PhoneNumberConfirmed = false,
                             SecondName = "",
                             TwoFactorEnabled = false,
@@ -148,13 +148,13 @@ namespace AniMedia.Identity.Migrations
                         {
                             Id = new Guid("c4e2f893-6c52-487f-9553-9306395f282f"),
                             Name = "Администратор",
-                            NormalizedName = "Администратор"
+                            NormalizedName = "АДМИНИСТРАТОР"
                         },
                         new
                         {
                             Id = new Guid("8238ca98-c992-46d8-9cba-90af4425be5b"),
                             Name = "Пользователь",
-                            NormalizedName = "Пользователь"
+                            NormalizedName = "ПОЛЬЗОВАТЕЛЬ"
                         });
                 });
 
