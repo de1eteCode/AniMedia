@@ -2,7 +2,6 @@
 using AniMedia.Application.Models.Identity;
 using AniMedia.Identity.Configurations;
 using AniMedia.Identity.Contracts;
-using AniMedia.Identity.Exceptions;
 using AniMedia.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
