@@ -20,4 +20,6 @@ internal class RegisterVM {
 
     [Required]
     public string SecondName { get; set; } = string.Empty;
+
+    public bool LogInAfterRegister { get; set; } = true;
 }
