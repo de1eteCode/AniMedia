@@ -1,4 +1,6 @@
+using AniMedia.Web.Contracts;
 using AniMedia.Web.Data;
+using AniMedia.Web.Services;
 using AniMedia.Web.Services.Base;
 using AniMedia.Web.Services.Contracts;
 
@@ -13,6 +15,9 @@ public class Program {
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
         builder.Services.AddSingleton<WeatherForecastService>();
+
+        /// Регистрация сервисов
+        builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 
         builder.Services.AddHttpClient<IApiClient, ApiClient>(e => e.BaseAddress = new Uri(builder.Configuration["ApiServiceUrl"]!));
 

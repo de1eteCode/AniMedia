@@ -4,10 +4,6 @@ namespace AniMedia.Application;
 
 public static class EnumHelper {
 
-    public static T GetAttributeOfType<T>(this Enum enumVal)
-        where T : Attribute {
-        var typeInfo = enumVal.GetType().GetTypeInfo();
-        var v = typeInfo.DeclaredMembers.First(x => x.Name == enumVal.ToString());
-        return v.GetCustomAttribute<T>() ?? throw new Exception();
-    }
+    public static T GetAttributeOfType<T>(this Enum e) where T : Attribute =>
+        e.GetType().GetTypeInfo().DeclaredMembers.First(s => s.Name.Equals(e.ToString())).GetCustomAttribute<T>() ?? throw new Exception($"Not found attribute type of '{typeof(T).Name}'");
 }
