@@ -22,11 +22,11 @@ internal class TokenService : ITokenService {
         UserManager<ApplicationUser> userManager,
         //ITokenStorage tokenStorage,
         IOptions<JwtSettings> jwtSettings,
-        IOptions<JwtBearerOptions> jwtBearerOptions) {
+        IOptionsMonitor<JwtBearerOptions> jwtBearerOptionsMonitor) {
         _userManager = userManager;
         //_tokenStorage = tokenStorage;
         _jwtSettings = jwtSettings.Value;
-        _jwtBearerOptions = jwtBearerOptions.Value;
+        _jwtBearerOptions = jwtBearerOptionsMonitor.Get(JwtBearerDefaults.AuthenticationScheme);
     }
 
     /// <inheritdoc/>
