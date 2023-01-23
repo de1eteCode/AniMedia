@@ -1,4 +1,5 @@
 ﻿using AniMedia.Identity.Exceptions;
+using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text.Json;
 
@@ -26,6 +27,13 @@ internal class ExceptionMiddleware {
                     statusCode = HttpStatusCode.BadRequest;
                     result = JsonSerializer.Serialize(new {
                         Error = identityEx.Errors
+                    });
+                    break;
+
+                case SecurityTokenException securityTokenEx:
+                    statusCode = HttpStatusCode.BadRequest;
+                    result = JsonSerializer.Serialize(new {
+                        Error = securityTokenEx.Message
                     });
                     break;
 

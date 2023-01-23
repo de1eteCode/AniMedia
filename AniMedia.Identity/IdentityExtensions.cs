@@ -38,6 +38,7 @@ public static class IdentityExtensions {
             .AddJwtBearer(
                 JwtBearerDefaults.AuthenticationScheme,
                 options => {
+                    options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters {
                         ValidateIssuer = true,
                         ValidateIssuerSigningKey = true,

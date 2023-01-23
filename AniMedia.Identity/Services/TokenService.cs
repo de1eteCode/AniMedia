@@ -1,5 +1,7 @@
-﻿using AniMedia.Identity.Contracts;
+﻿using AniMedia.Application.Models.Identity;
+using AniMedia.Identity.Contracts;
 using AniMedia.Identity.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -10,18 +12,25 @@ using System.Security.Cryptography;
 namespace AniMedia.Identity.Services;
 
 internal class TokenService : ITokenService {
-    private readonly JwtSettings _jwtSettings;
+    private const string _algoritm = SecurityAlgorithms.HmacSha256;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ITokenStorage _tokenStorage;
+    private readonly JwtSettings _jwtSettings;
+    private readonly JwtBearerOptions _jwtBearerOptions;
 
     public TokenService(
         UserManager<ApplicationUser> userManager,
-        IOptions<JwtSettings> jwtSettings) {
+        //ITokenStorage tokenStorage,
+        IOptions<JwtSettings> jwtSettings,
+        IOptions<JwtBearerOptions> jwtBearerOptions) {
         _userManager = userManager;
+        //_tokenStorage = tokenStorage;
         _jwtSettings = jwtSettings.Value;
+        _jwtBearerOptions = jwtBearerOptions.Value;
     }
 
     /// <inheritdoc/>
-    public async Task<string> GenerateAccessToken(ApplicationUser user) {
+    public async Task<TokenPair> GenerateTokenPair(ApplicationUser user) {
         var userClaims = await _userManager.GetClaimsAsync(user);
         var roles = await _userManager.GetRolesAsync(user);
 
@@ -40,13 +49,13 @@ internal class TokenService : ITokenService {
             .Union(userClaims)
             .Union(roleClaims);
 
-        return await GenerateAccessToken(claims);
+        return await GenerateTokenPair(claims);
     }
 
     /// <inheritdoc/>
-    public Task<string> GenerateAccessToken(IEnumerable<Claim> claims) {
+    public Task<TokenPair> GenerateTokenPair(IEnumerable<Claim> claims) {
         var symmetricSecurityKey = new SymmetricSecurityKey(_jwtSettings.GetKeyBytes());
-        var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+        var signingCredentials = new SigningCredentials(symmetricSecurityKey, _algoritm);
 
         var jwtToken = new JwtSecurityToken(
             issuer: _jwtSettings.Issuer,
@@ -55,14 +64,49 @@ internal class TokenService : ITokenService {
             expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
             signingCredentials: signingCredentials);
 
-        return Task.FromResult(new JwtSecurityTokenHandler().WriteToken(jwtToken));
+        var pair = new TokenPair() {
+            AccessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken),
+            RefreshToken = GenerateRefreshToken()
+        };
+
+        /// Todo:
+        ///     Save new pair
+
+        return Task.FromResult(pair);
     }
 
     /// <inheritdoc/>
-    public Task<string> GenerateRefreshToken() {
+    public Task<TokenPair> GenerateTokenPair(TokenPair expiredPair) {
+        var principal = GetPrincipal(expiredPair.AccessToken);
+        var userName = principal.Identity!.Name;
+
+        /// Todo:
+        ///     Find user in local memory and compare refresh token
+        ///     If equals - save and return new pair
+        ///     Else - exception
+
+        var pair = GenerateTokenPair(principal.Claims);
+        return pair;
+    }
+
+    private string GenerateRefreshToken() {
         using var rndNum = RandomNumberGenerator.Create();
         var randomBytes = new byte[_jwtSettings.RefreshTokenBytes];
         rndNum.GetBytes(randomBytes);
-        return Task.FromResult(Convert.ToBase64String(randomBytes));
+        return Convert.ToBase64String(randomBytes);
+    }
+
+    private ClaimsPrincipal GetPrincipal(string token) {
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        var principal = tokenHandler.ValidateToken(token, _jwtBearerOptions.TokenValidationParameters, out var validToken);
+
+        if (validToken == null ||
+            (validToken is JwtSecurityToken) == false ||
+            ((JwtSecurityToken)validToken).Header.Alg.Equals(_algoritm, StringComparison.InvariantCultureIgnoreCase) == false) {
+            throw new SecurityTokenException("Invalid token");
+        }
+
+        return principal;
     }
 }

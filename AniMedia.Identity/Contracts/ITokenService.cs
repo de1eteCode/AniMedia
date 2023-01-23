@@ -1,27 +1,29 @@
-﻿using AniMedia.Identity.Models;
+﻿using AniMedia.Application.Models.Identity;
+using AniMedia.Identity.Models;
 using System.Security.Claims;
 
 namespace AniMedia.Identity.Contracts;
 
-internal interface ITokenService {
+public interface ITokenService {
 
     /// <summary>
-    /// Генерирование токена доступа
+    /// Генерирование пары токенов
     /// </summary>
-    /// <param name="user">Пользователь, для которого предназначен токе</param>
-    /// <returns>Токен строкой</returns>
-    public Task<string> GenerateAccessToken(ApplicationUser user);
+    /// <param name="user">Пользователь, для которого предназначены токены</param>
+    /// <returns>Пара токенов доступа и рефреша</returns>
+    internal Task<TokenPair> GenerateTokenPair(ApplicationUser user);
 
     /// <summary>
-    /// Генерирование токена доступа
+    /// Генерирование пары токенов
     /// </summary>
     /// <param name="claims">Набор разрешений пользователя</param>
-    /// <returns>Токен строкой</returns>
-    public Task<string> GenerateAccessToken(IEnumerable<Claim> claims);
+    /// <returns>Пара токенов доступа и рефреша</returns>
+    public Task<TokenPair> GenerateTokenPair(IEnumerable<Claim> claims);
 
     /// <summary>
-    /// Генерирование рефреш токена
+    /// Генерирование пары токенов
     /// </summary>
-    /// <returns>Рефреш токен строкой</returns>
-    public Task<string> GenerateRefreshToken();
+    /// <param name="expiredPair">Пара с просроченным токеном</param>
+    /// <returns>Пара токенов доступа и рефреша</returns>
+    public Task<TokenPair> GenerateTokenPair(TokenPair expiredPair);
 }

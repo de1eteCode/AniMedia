@@ -34,13 +34,11 @@ internal class AuthorizationService : IAuthorizationService {
             throw new Exception($"Invalid password for '{request.UserName}'");
         }
 
-        var jwtToken = await _tokenService.GenerateAccessToken(user);
-        var refreshToken = await _tokenService.GenerateRefreshToken();
+        var tokenPair = await _tokenService.GenerateTokenPair(user);
 
         return new AuthorizationResponce {
             UserName = user.UserName!,
-            Token = jwtToken,
-            RefreshToken = refreshToken
+            Tokens = tokenPair
         };
     }
 
