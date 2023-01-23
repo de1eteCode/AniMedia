@@ -3,6 +3,7 @@ using AniMedia.Web.Data;
 using AniMedia.Web.Services;
 using AniMedia.Web.Services.Base;
 using AniMedia.Web.Services.Contracts;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace AniMedia.Web;
 
@@ -16,7 +17,16 @@ public class Program {
         builder.Services.AddServerSideBlazor();
         builder.Services.AddSingleton<WeatherForecastService>();
 
-        /// Регистрация сервисов
+        // auth options
+        builder.Services.Configure<CookiePolicyOptions>(options => {
+            options.MinimumSameSitePolicy = SameSiteMode.None;
+        });
+
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options => {
+                options.LoginPath = "/account/login";
+            });
+
         builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 
         builder.Services.AddHttpClient<IApiClient, ApiClient>(e => e.BaseAddress = new Uri(builder.Configuration["ApiServiceUrl"]!));
@@ -30,11 +40,15 @@ public class Program {
             app.UseHsts();
         }
 
-        app.UseHttpsRedirection();
+        app.UseCookiePolicy();
+        app.UseAuthentication();
 
+        app.UseHttpsRedirection();
         app.UseStaticFiles();
 
         app.UseRouting();
+
+        app.UseAuthorization();
 
         app.MapBlazorHub();
         app.MapFallbackToPage("/_Host");
