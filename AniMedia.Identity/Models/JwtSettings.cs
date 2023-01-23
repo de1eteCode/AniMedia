@@ -11,5 +11,7 @@ internal class JwtSettings {
 
     public required double DurationInMinutes { get; init; }
 
+    public required int RefreshTokenBytes { get; init; }
+
     public byte[] GetKeyBytes() => Encoding.UTF8.GetBytes(Key);
 }

@@ -27,6 +27,7 @@ public static class IdentityExtensions {
             .AddDefaultTokenProviders();
 
         services.AddTransient<IAuthorizationService, AuthorizationService>();
+        services.AddTransient<ITokenService, TokenService>();
 
         services
             .AddAuthentication(options => {
