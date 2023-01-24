@@ -27,6 +27,8 @@ public static class IdentityExtensions {
             .AddDefaultTokenProviders();
 
         services.AddTransient<IAuthorizationService, AuthorizationService>();
+        services.AddTransient<ITokenService, TokenService>();
+        services.AddTransient<ITokenStorage, TokenDbStorage>();
 
         services
             .AddAuthentication(options => {
@@ -37,6 +39,7 @@ public static class IdentityExtensions {
             .AddJwtBearer(
                 JwtBearerDefaults.AuthenticationScheme,
                 options => {
+                    options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters {
                         ValidateIssuer = true,
                         ValidateIssuerSigningKey = true,

@@ -4,25 +4,21 @@ using AniMedia.Identity.Contracts;
 using AniMedia.Identity.Exceptions;
 using AniMedia.Identity.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace AniMedia.Identity.Services;
 
 internal class AuthorizationService : IAuthorizationService {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly JwtSettings _jwtSettings;
+    private readonly ITokenService _tokenService;
 
     public AuthorizationService(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        IOptions<JwtSettings> jwtSettings) {
+        ITokenService tokenService) {
         _userManager = userManager;
         _signInManager = signInManager;
-        _jwtSettings = jwtSettings.Value;
+        _tokenService = tokenService;
     }
 
     public async Task<AuthorizationResponce> Login(AuthorizationRequest request) {
@@ -38,11 +34,11 @@ internal class AuthorizationService : IAuthorizationService {
             throw new Exception($"Invalid password for '{request.UserName}'");
         }
 
-        var jwtToken = await GenerateJwtToken(user);
+        var tokenPair = await _tokenService.GenerateTokenPair(user);
 
         return new AuthorizationResponce {
             UserName = user.UserName!,
-            Token = new JwtSecurityTokenHandler().WriteToken(jwtToken)
+            Tokens = tokenPair
         };
     }
 
@@ -79,37 +75,5 @@ internal class AuthorizationService : IAuthorizationService {
         else {
             throw new IdentityException(result);
         }
-    }
-
-    private async Task<JwtSecurityToken> GenerateJwtToken(ApplicationUser user) {
-        var userClaims = await _userManager.GetClaimsAsync(user);
-        var roles = await _userManager.GetRolesAsync(user);
-
-        var roleClaims = new List<Claim>();
-
-        foreach (var role in roles) {
-            roleClaims.Add(new Claim(ClaimTypes.Role, role));
-        }
-
-        var claims = new[] {
-            new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email!),
-            new Claim(CustomClaimTypes.UID, user.Id.ToString()),
-        }
-            .Union(userClaims)
-            .Union(roleClaims);
-
-        var symmetricSecurityKey = new SymmetricSecurityKey(_jwtSettings.GetKeyBytes());
-        var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
-
-        var jwtToken = new JwtSecurityToken(
-            issuer: _jwtSettings.Issuer,
-            audience: _jwtSettings.Audience,
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
-            signingCredentials: signingCredentials);
-
-        return jwtToken;
     }
 }
