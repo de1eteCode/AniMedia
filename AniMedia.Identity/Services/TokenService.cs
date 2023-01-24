@@ -41,7 +41,8 @@ internal class TokenService : ITokenService {
         }
 
         var claims = new[] {
-            new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
+            new Claim(ClaimTypes.UserData, user.Id.ToString("N")),
+            new Claim(ClaimTypes.NameIdentifier, user.UserName!),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email!),
             new Claim(CustomClaimTypes.UID, user.Id.ToString()),
@@ -49,11 +50,11 @@ internal class TokenService : ITokenService {
             .Union(userClaims)
             .Union(roleClaims);
 
-        return await GenerateTokenPair(claims);
+        return await GenerateTokenPair(user.UserName!, claims);
     }
 
     /// <inheritdoc/>
-    public async Task<TokenPair> GenerateTokenPair(IEnumerable<Claim> claims) {
+    public async Task<TokenPair> GenerateTokenPair(string username, IEnumerable<Claim> claims) {
         var symmetricSecurityKey = new SymmetricSecurityKey(_jwtSettings.GetKeyBytes());
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, _algoritm);
 
@@ -69,7 +70,7 @@ internal class TokenService : ITokenService {
             RefreshToken = GenerateRefreshToken()
         };
 
-        await _tokenStorage.SaveRefreshToken(pair.RefreshToken, DateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenLifeTimeInMinutes));
+        await _tokenStorage.SaveRefreshToken(username, pair.RefreshToken, DateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenLifeTimeInMinutes));
 
         return pair;
     }
@@ -77,14 +78,21 @@ internal class TokenService : ITokenService {
     /// <inheritdoc/>
     public async Task<TokenPair> GenerateTokenPair(TokenPair expiredPair) {
         var principal = GetPrincipal(expiredPair.AccessToken);
+        var username = principal.Claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.NameIdentifier))?.Value;
 
-        if (await _tokenStorage.TryGetRefreshToken(expiredPair.RefreshToken, out var refreshToken) == false || refreshToken.Value < DateTime.UtcNow) {
+        if (username == null) {
+            throw new SecurityTokenException("Not found data user in tokens");
+        }
+
+        var (isFinded, pair) = await _tokenStorage.TryGetRefreshToken(username, expiredPair.RefreshToken);
+
+        if (isFinded == false || pair.Value < DateTime.UtcNow) {
             throw new SecurityTokenException("Refresh token not found or expired");
         }
 
-        _ = await _tokenStorage.TryRemoveRefreshToken(refreshToken.Key);
+        _ = await _tokenStorage.TryRemoveRefreshToken(username, pair.Key);
 
-        return await GenerateTokenPair(principal.Claims);
+        return await GenerateTokenPair(username, principal.Claims);
     }
 
     private string GenerateRefreshToken() {
@@ -100,8 +108,8 @@ internal class TokenService : ITokenService {
         var principal = tokenHandler.ValidateToken(token, _jwtBearerOptions.TokenValidationParameters, out var validToken);
 
         if (validToken == null ||
-            (validToken is JwtSecurityToken) == false ||
-            ((JwtSecurityToken)validToken).Header.Alg.Equals(_algoritm, StringComparison.InvariantCultureIgnoreCase) == false) {
+            (validToken is JwtSecurityToken securityToken) == false ||
+            securityToken.Header.Alg.Equals(_algoritm, StringComparison.InvariantCultureIgnoreCase) == false) {
             throw new SecurityTokenException("Invalid token");
         }
 

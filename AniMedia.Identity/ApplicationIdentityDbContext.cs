@@ -15,4 +15,6 @@ internal class ApplicationIdentityDbContext : IdentityDbContext<ApplicationUser,
 
         builder.ApplyConfigurationsFromAssembly(GetType().Assembly);
     }
+
+    public virtual DbSet<RefreshTokenUser> RefreshTokenUsers { get; set; } = default!;
 }

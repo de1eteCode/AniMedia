@@ -16,9 +16,10 @@ public interface ITokenService {
     /// <summary>
     /// Генерирование пары токенов
     /// </summary>
+    /// <param name="username">Имя пользователя</param>
     /// <param name="claims">Набор разрешений пользователя</param>
     /// <returns>Пара токенов доступа и рефреша</returns>
-    public Task<TokenPair> GenerateTokenPair(IEnumerable<Claim> claims);
+    public Task<TokenPair> GenerateTokenPair(string username, IEnumerable<Claim> claims);
 
     /// <summary>
     /// Генерирование пары токенов
