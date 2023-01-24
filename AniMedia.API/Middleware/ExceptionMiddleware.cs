@@ -1,5 +1,4 @@
 ﻿using AniMedia.Application.Exceptions;
-using AniMedia.Identity.Exceptions;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text.Json;

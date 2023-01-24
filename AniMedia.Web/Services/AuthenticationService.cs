@@ -29,11 +29,11 @@ internal class AuthenticationService : BaseService, IAuthService {
 
             var responce = await _api.ApiV1AccountLoginAsync(request);
 
-            if (responce == null || string.IsNullOrEmpty(responce.Token)) {
+            if (responce == null || string.IsNullOrEmpty(responce.Tokens.AccessToken)) {
                 return false;
             }
 
-            var tokenContent = _tokenHandler.ReadJwtToken(responce.Token);
+            var tokenContent = _tokenHandler.ReadJwtToken(responce.Tokens.AccessToken);
             var claims = ParseClaims(tokenContent);
 
             var user = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));

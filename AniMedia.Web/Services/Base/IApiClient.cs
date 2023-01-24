@@ -50,6 +50,13 @@ namespace AniMedia.Web.Services.Contracts
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Guid> ApiV1SecuredAsync(System.Threading.CancellationToken cancellationToken);
 
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<UpdateTokenResponce> ApiV1TokenAsync(UpdateTokenRequest request);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<UpdateTokenResponce> ApiV1TokenAsync(UpdateTokenRequest request, System.Threading.CancellationToken cancellationToken);
+
     }
 
     
