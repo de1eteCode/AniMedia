@@ -20,11 +20,11 @@ internal class TokenService : ITokenService {
 
     public TokenService(
         UserManager<ApplicationUser> userManager,
-        //ITokenStorage tokenStorage,
+        ITokenStorage tokenStorage,
         IOptions<JwtSettings> jwtSettings,
         IOptionsMonitor<JwtBearerOptions> jwtBearerOptionsMonitor) {
         _userManager = userManager;
-        //_tokenStorage = tokenStorage;
+        _tokenStorage = tokenStorage;
         _jwtSettings = jwtSettings.Value;
         _jwtBearerOptions = jwtBearerOptionsMonitor.Get(JwtBearerDefaults.AuthenticationScheme);
     }
@@ -53,7 +53,7 @@ internal class TokenService : ITokenService {
     }
 
     /// <inheritdoc/>
-    public Task<TokenPair> GenerateTokenPair(IEnumerable<Claim> claims) {
+    public async Task<TokenPair> GenerateTokenPair(IEnumerable<Claim> claims) {
         var symmetricSecurityKey = new SymmetricSecurityKey(_jwtSettings.GetKeyBytes());
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, _algoritm);
 
@@ -61,7 +61,7 @@ internal class TokenService : ITokenService {
             issuer: _jwtSettings.Issuer,
             audience: _jwtSettings.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
+            expires: DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenLifeTimeInMinutes),
             signingCredentials: signingCredentials);
 
         var pair = new TokenPair() {
@@ -69,24 +69,22 @@ internal class TokenService : ITokenService {
             RefreshToken = GenerateRefreshToken()
         };
 
-        /// Todo:
-        ///     Save new pair
+        await _tokenStorage.SaveRefreshToken(pair.RefreshToken, DateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenLifeTimeInMinutes));
 
-        return Task.FromResult(pair);
+        return pair;
     }
 
     /// <inheritdoc/>
-    public Task<TokenPair> GenerateTokenPair(TokenPair expiredPair) {
+    public async Task<TokenPair> GenerateTokenPair(TokenPair expiredPair) {
         var principal = GetPrincipal(expiredPair.AccessToken);
-        var userName = principal.Identity!.Name;
 
-        /// Todo:
-        ///     Find user in local memory and compare refresh token
-        ///     If equals - save and return new pair
-        ///     Else - exception
+        if (await _tokenStorage.TryGetRefreshToken(expiredPair.RefreshToken, out var refreshToken) == false || refreshToken.Value < DateTime.UtcNow) {
+            throw new SecurityTokenException("Refresh token not found or expired");
+        }
 
-        var pair = GenerateTokenPair(principal.Claims);
-        return pair;
+        _ = await _tokenStorage.TryRemoveRefreshToken(refreshToken.Key);
+
+        return await GenerateTokenPair(principal.Claims);
     }
 
     private string GenerateRefreshToken() {

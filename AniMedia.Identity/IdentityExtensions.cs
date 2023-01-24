@@ -29,6 +29,15 @@ public static class IdentityExtensions {
         services.AddTransient<IAuthorizationService, AuthorizationService>();
         services.AddTransient<ITokenService, TokenService>();
 
+        services.AddSingleton<ITokenStorage, LocalMemoryTokenStorage>(provider => new LocalMemoryTokenStorage(new Hanssens.Net.LocalStorageConfiguration() {
+            AutoLoad = true,
+            AutoSave = true,
+            EnableEncryption = configuration.GetValue<bool>("LocalStorage:Encryption"),
+            ReadOnly = false,
+            EncryptionSalt = configuration.GetValue<string>("LocalStorage:EncryptionSalt"),
+            Filename = configuration.GetValue<string>("LocalStorage:Filename")
+        }));
+
         services
             .AddAuthentication(options => {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
