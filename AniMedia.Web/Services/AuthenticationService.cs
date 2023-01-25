@@ -2,22 +2,22 @@
 using AniMedia.Web.Models.ViewModels.Identity;
 using AniMedia.Web.Services.Base;
 using AniMedia.Web.Services.Contracts;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-
+using System.Security.Cryptography;
 using IAuthService = AniMedia.Web.Contracts.IAuthenticationService;
 
 namespace AniMedia.Web.Services;
 
 internal class AuthenticationService : BaseService, IAuthService {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly JwtSecurityTokenHandler _tokenHandler;
+    private readonly string TokenKey = nameof(TokenKey);
+    private readonly string RefreshToken = nameof(RefreshToken);
 
-    public AuthenticationService(IApiClient api, IHttpContextAccessor httpContextAccessor, JwtSecurityTokenHandler jwtSecurityTokenHandler) : base(api) {
-        _httpContextAccessor = httpContextAccessor;
-        _tokenHandler = jwtSecurityTokenHandler;
+    private readonly ProtectedLocalStorage _localStorage;
+
+    public AuthenticationService(IApiClient api, ProtectedLocalStorage localStorage) : base(api) {
+        _localStorage = localStorage;
     }
 
     public async Task<bool> Authenticate(LoginVM viewModel) {
@@ -29,20 +29,23 @@ internal class AuthenticationService : BaseService, IAuthService {
 
             var responce = await _api.ApiV1AccountLoginAsync(request);
 
-            if (responce == null || string.IsNullOrEmpty(responce.Tokens.AccessToken)) {
+            if (responce == null ||
+                string.IsNullOrEmpty(responce.Tokens.AccessToken) ||
+                string.IsNullOrEmpty(responce.Tokens.RefreshToken)) {
                 return false;
             }
 
-            var tokenContent = _tokenHandler.ReadJwtToken(responce.Tokens.AccessToken);
-            var claims = ParseClaims(tokenContent);
-
-            var user = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
-            var login = _httpContextAccessor.HttpContext!.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user);
+            await _localStorage.SetAsync(TokenKey, responce.Tokens.AccessToken);
+            await _localStorage.SetAsync(RefreshToken, responce.Tokens.RefreshToken);
 
             return true;
         }
         catch (Exception) {
+#if DEBUG
+            throw;
+#else
             return false;
+#endif
         }
     }
 
@@ -74,12 +77,31 @@ internal class AuthenticationService : BaseService, IAuthService {
     }
 
     public async Task Logout() {
-        await _httpContextAccessor.HttpContext!.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await _localStorage.DeleteAsync(TokenKey);
+        await _localStorage.DeleteAsync(RefreshToken);
     }
 
-    private IEnumerable<Claim> ParseClaims(JwtSecurityToken tokenContent) {
-        var claims = tokenContent.Claims.ToList();
-        claims.Add(new Claim(ClaimTypes.Name, tokenContent.Subject));
-        return claims;
+    public async Task<IEnumerable<Claim>> GetClaims() {
+        ProtectedBrowserStorageResult<string?> accessToken = default;
+
+        try {
+            accessToken = await _localStorage.GetAsync<string?>(TokenKey);
+        }
+        catch (CryptographicException) {
+            await Logout();
+            return Enumerable.Empty<Claim>();
+        }
+        catch (Exception) {
+            throw;
+        }
+
+        if (string.IsNullOrEmpty(accessToken.Value)) {
+            return Enumerable.Empty<Claim>();
+        }
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var tokenData = tokenHandler.ReadJwtToken(accessToken.Value);
+
+        return tokenData.Claims;
     }
 }

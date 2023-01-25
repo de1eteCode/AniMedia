@@ -1,9 +1,11 @@
 using AniMedia.Web.Contracts;
 using AniMedia.Web.Data;
+using AniMedia.Web.Providers;
 using AniMedia.Web.Services;
 using AniMedia.Web.Services.Base;
 using AniMedia.Web.Services.Contracts;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace AniMedia.Web;
 
@@ -27,7 +29,9 @@ public class Program {
                 options.LoginPath = "/account/login";
             });
 
-        builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
+        builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+        builder.Services.AddScoped<JwtAuthenticationStateProvider>();
+        builder.Services.AddScoped<AuthenticationStateProvider>(p => p.GetRequiredService<JwtAuthenticationStateProvider>());
 
         builder.Services.AddHttpClient<IApiClient, ApiClient>(e => e.BaseAddress = new Uri(builder.Configuration["ApiServiceUrl"]!));
 

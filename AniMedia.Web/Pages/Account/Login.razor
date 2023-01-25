@@ -2,6 +2,39 @@
 
 <h3>Login</h3>
 
-@code {
+<!-- https://mdbootstrap.com/docs/standard/extended/login/ -->
 
-}
+<div class="col-6 justify-content-center">
+    <form class="align-content-center">
+        <!-- UserName input -->
+        <div class="form-outline mb-4">
+            <input type="text" id="formUserNameInput" class="form-control" @bind=VModel.UserName />
+            <label class="form-label" for="formUserNameInput">Username</label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input type="password" id="formPasswordInput" class="form-control" @bind=VModel.Password />
+            <label class="form-label" for="formPasswordInput">Password</label>
+        </div>
+
+        <!-- 2 column grid layout for inline styling -->
+        <div class="row mb-4">
+            <div class="col d-flex justify-content-center">
+                <!-- Checkbox -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="formRememberMeInput" />
+                    <label class="form-check-label" for="formRememberMeInput"> Remember me </label>
+                </div>
+            </div>
+
+            <div class="col">
+                <!-- Simple link -->
+                <a href="#!">Forgot password?</a>
+            </div>
+        </div>
+
+        <!-- Submit button -->
+        <button type="button" class="btn btn-primary btn-block mb-4" @onclick=Authenticate>Sign in</button>
+    </form>
+</div>
