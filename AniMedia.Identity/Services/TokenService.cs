@@ -31,25 +31,7 @@ internal class TokenService : ITokenService {
 
     /// <inheritdoc/>
     public async Task<TokenPair> GenerateTokenPair(ApplicationUser user) {
-        var userClaims = await _userManager.GetClaimsAsync(user);
-        var roles = await _userManager.GetRolesAsync(user);
-
-        var roleClaims = new List<Claim>();
-
-        foreach (var role in roles) {
-            roleClaims.Add(new Claim(ClaimTypes.Role, role));
-        }
-
-        var claims = new[] {
-            new Claim(ClaimTypes.UserData, user.Id.ToString("N")),
-            new Claim(ClaimTypes.NameIdentifier, user.UserName!),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email!),
-            new Claim(CustomClaimTypes.UID, user.Id.ToString()),
-        }
-            .Union(userClaims)
-            .Union(roleClaims);
-
+        var claims = await GetClaimsUser(user);
         return await GenerateTokenPair(user.UserName!, claims);
     }
 
@@ -84,7 +66,13 @@ internal class TokenService : ITokenService {
             throw new SecurityTokenException("Not found data user in tokens");
         }
 
-        var (isFinded, pair) = await _tokenStorage.TryGetRefreshToken(username, expiredPair.RefreshToken);
+        var user = await _userManager.FindByNameAsync(username);
+
+        if (user == null) {
+            throw new SecurityTokenException("Not found user");
+        }
+
+        var (isFinded, pair) = await _tokenStorage.TryGetRefreshToken(user.UserName!, expiredPair.RefreshToken);
 
         if (isFinded == false || pair.Value < DateTime.UtcNow) {
             throw new SecurityTokenException("Refresh token not found or expired");
@@ -92,7 +80,31 @@ internal class TokenService : ITokenService {
 
         _ = await _tokenStorage.TryRemoveRefreshToken(username, pair.Key);
 
-        return await GenerateTokenPair(username, principal.Claims);
+        var claimsUser = await GetClaimsUser(user);
+
+        return await GenerateTokenPair(username, claimsUser);
+    }
+
+    private async Task<IEnumerable<Claim>> GetClaimsUser(ApplicationUser user) {
+        var userClaims = await _userManager.GetClaimsAsync(user);
+        var roles = await _userManager.GetRolesAsync(user);
+
+        var roleClaims = new List<Claim>();
+
+        foreach (var role in roles) {
+            roleClaims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        var claims = new[] {
+            new Claim(ClaimTypes.NameIdentifier, user.UserName!),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+            new Claim(CustomClaimTypes.UID, user.Id.ToString("N")),
+        }
+            .Union(userClaims)
+            .Union(roleClaims);
+
+        return claims;
     }
 
     private string GenerateRefreshToken() {
