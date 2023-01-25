@@ -76,6 +76,8 @@ internal class AuthenticationService : BaseService, IAuthService {
         return true;
     }
 
+    public async Task<bool> IsSignedIn() => (await GetClaims()).Any();
+
     public async Task Logout() {
         await _localStorage.DeleteAsync(TokenKey);
         await _localStorage.DeleteAsync(RefreshToken);

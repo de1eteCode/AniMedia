@@ -96,7 +96,7 @@ internal class TokenService : ITokenService {
         }
 
         var claims = new[] {
-            new Claim(ClaimTypes.NameIdentifier, user.UserName!),
+            new Claim(ClaimTypes.Name, user.UserName!),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email!),
             new Claim(CustomClaimTypes.UID, user.Id.ToString("N")),

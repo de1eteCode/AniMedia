@@ -27,6 +27,7 @@ public class Program {
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options => {
                 options.LoginPath = "/account/login";
+                options.LogoutPath = "/account/logout";
             });
 
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();

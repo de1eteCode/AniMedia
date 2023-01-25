@@ -9,6 +9,8 @@ internal interface IAuthenticationService {
 
     public Task<bool> Register(RegisterVM viewModel);
 
+    public Task<bool> IsSignedIn();
+
     public Task<IEnumerable<Claim>> GetClaims();
 
     public Task Logout();
