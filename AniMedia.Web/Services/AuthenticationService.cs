@@ -49,6 +49,35 @@ internal class AuthenticationService : BaseService, IAuthService {
         }
     }
 
+    private async Task<bool> GetNewPair(TokenPair oldPair) {
+        try {
+            var request = new UpdateTokenRequest() {
+                Tokens = oldPair
+            };
+
+            var responce = await _api.ApiV1TokenAsync(request);
+
+            if (responce == null ||
+                responce.Tokens == null ||
+                string.IsNullOrEmpty(responce.Tokens.AccessToken) ||
+                string.IsNullOrEmpty(responce.Tokens.RefreshToken)) {
+                return false;
+            }
+
+            await _localStorage.SetAsync(TokenKey, responce.Tokens.AccessToken);
+            await _localStorage.SetAsync(RefreshToken, responce.Tokens.RefreshToken);
+
+            return true;
+        }
+        catch (Exception) {
+#if DEBUG
+            throw;
+#else
+            return false;
+#endif
+        }
+    }
+
     public async Task<bool> Register(RegisterVM viewModel) {
         var request = new RegistrationRequest() {
             UserName = viewModel.UserName,
@@ -76,7 +105,44 @@ internal class AuthenticationService : BaseService, IAuthService {
         return true;
     }
 
-    public async Task<bool> IsSignedIn() => (await GetClaims()).Any();
+    public async Task<bool> IsSignedIn() {
+        /// Verify time expire and try get new token by refresh
+
+        ProtectedBrowserStorageResult<string?> accessToken = default;
+        ProtectedBrowserStorageResult<string?> refreshToken = default;
+
+        try {
+            accessToken = await _localStorage.GetAsync<string?>(TokenKey);
+            refreshToken = await _localStorage.GetAsync<string?>(RefreshToken);
+        }
+        catch (CryptographicException) {
+            await Logout();
+            return false;
+        }
+        catch (Exception) {
+            throw;
+        }
+
+        if (string.IsNullOrEmpty(accessToken.Value) && string.IsNullOrEmpty(refreshToken.Value)) {
+            return false;
+        }
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        if (string.IsNullOrEmpty(accessToken.Value) == false) {
+            var tokenData = tokenHandler.ReadJwtToken(accessToken.Value);
+            if (tokenData != null && tokenData.ValidTo > DateTime.UtcNow) {
+                return true;
+            }
+        }
+
+        var getNewPair = await GetNewPair(new TokenPair() {
+            AccessToken = accessToken.Value!,
+            RefreshToken = refreshToken.Value!
+        });
+
+        return getNewPair;
+    }
 
     public async Task Logout() {
         await _localStorage.DeleteAsync(TokenKey);
@@ -84,6 +150,10 @@ internal class AuthenticationService : BaseService, IAuthService {
     }
 
     public async Task<IEnumerable<Claim>> GetClaims() {
+        if (await IsSignedIn() == false) {
+            return Enumerable.Empty<Claim>();
+        }
+
         ProtectedBrowserStorageResult<string?> accessToken = default;
 
         try {

@@ -1,10 +1,12 @@
 ﻿using AniMedia.Web.Contracts;
 using AniMedia.Web.Models.ViewModels.Identity;
 using AniMedia.Web.Providers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
 namespace AniMedia.Web.Pages.Account;
 
+[AllowAnonymous]
 public partial class Login : ComponentBase {
     private LoginVM VModel { get; } = new LoginVM();
 
