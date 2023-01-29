@@ -1,4 +1,11 @@
+using AniMedia.Web.Contracts;
 using AniMedia.Web.Data;
+using AniMedia.Web.Providers;
+using AniMedia.Web.Services;
+using AniMedia.Web.Services.Base;
+using AniMedia.Web.Services.Contracts;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace AniMedia.Web;
 
@@ -12,6 +19,23 @@ public class Program {
         builder.Services.AddServerSideBlazor();
         builder.Services.AddSingleton<WeatherForecastService>();
 
+        // auth options
+        builder.Services.Configure<CookiePolicyOptions>(options => {
+            options.MinimumSameSitePolicy = SameSiteMode.None;
+        });
+
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options => {
+                options.LoginPath = "/account/login";
+                options.LogoutPath = "/account/logout";
+            });
+
+        builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+        builder.Services.AddScoped<JwtAuthenticationStateProvider>();
+        builder.Services.AddScoped<AuthenticationStateProvider>(p => p.GetRequiredService<JwtAuthenticationStateProvider>());
+
+        builder.Services.AddHttpClient<IApiClient, ApiClient>(e => e.BaseAddress = new Uri(builder.Configuration["ApiServiceUrl"]!));
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -21,11 +45,15 @@ public class Program {
             app.UseHsts();
         }
 
-        app.UseHttpsRedirection();
+        app.UseCookiePolicy();
+        app.UseAuthentication();
 
+        app.UseHttpsRedirection();
         app.UseStaticFiles();
 
         app.UseRouting();
+
+        app.UseAuthorization();
 
         app.MapBlazorHub();
         app.MapFallbackToPage("/_Host");
