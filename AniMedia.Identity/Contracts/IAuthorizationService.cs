@@ -1,4 +1,4 @@
-﻿using AniMedia.Application.Models.Identity;
+﻿using AniMedia.Application.Common.Models.Identity;
 
 namespace AniMedia.Identity.Contracts;
 

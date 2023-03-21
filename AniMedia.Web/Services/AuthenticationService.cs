@@ -1,4 +1,5 @@
-﻿using AniMedia.Application.Models.Identity;
+﻿using AniMedia.Application.Common.Models.Identity;
+using AniMedia.Application.Models.Identity;
 using AniMedia.Web.Models.ViewModels.Identity;
 using AniMedia.Web.Services.Base;
 using AniMedia.Web.Services.Contracts;

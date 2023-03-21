@@ -1,4 +1,4 @@
-using AniMedia.Domain.EntityModels;
+using AniMedia.Domain.Entities;
 
 namespace AniMedia.Web.Data;
 

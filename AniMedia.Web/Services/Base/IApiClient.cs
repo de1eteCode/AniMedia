@@ -24,38 +24,11 @@ namespace AniMedia.Web.Services.Contracts
     public partial interface IApiClient
     {
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        /// <exception cref="BadRequestException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorizationResponce> ApiV1AccountLoginAsync(AuthorizationRequest request);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        /// <exception cref="BadRequestException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorizationResponce> ApiV1AccountLoginAsync(AuthorizationRequest request, System.Threading.CancellationToken cancellationToken);
-
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        /// <exception cref="BadRequestException">A server side error occurred.</exception>
-        /// <exception cref="IdentityException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<RegistrationResponce> ApiV1AccountRegisterAsync(RegistrationRequest request);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        /// <exception cref="BadRequestException">A server side error occurred.</exception>
-        /// <exception cref="IdentityException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<RegistrationResponce> ApiV1AccountRegisterAsync(RegistrationRequest request, System.Threading.CancellationToken cancellationToken);
-
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Guid> ApiV1SecuredAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Guid> ApiV1SecuredAsync(System.Threading.CancellationToken cancellationToken);
-
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UpdateTokenResponce> ApiV1TokenAsync(UpdateTokenRequest request);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UpdateTokenResponce> ApiV1TokenAsync(UpdateTokenRequest request, System.Threading.CancellationToken cancellationToken);
 
     }
 

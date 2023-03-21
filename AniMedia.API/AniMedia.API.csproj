@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AniMedia.Application\AniMedia.Application.csproj" />
-    <ProjectReference Include="..\AniMedia.Identity\AniMedia.Identity.csproj" />
     <ProjectReference Include="..\AniMedia.Infrastructure\AniMedia.Infrastructure.csproj" />
   </ItemGroup>
 

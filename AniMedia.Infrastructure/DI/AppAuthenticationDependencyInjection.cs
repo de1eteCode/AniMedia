@@ -1,37 +1,16 @@
-﻿using AniMedia.Identity.Contracts;
-using AniMedia.Identity;
-using AniMedia.Identity.Models;
-using AniMedia.Identity.Services;
+﻿using AniMedia.Application.Common.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using AniMedia.Application.Common.Models;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace AniMedia.Infrastructure.DI;
 
-public static class IdentityExtensions {
+public static class AppAuthenticationDependencyInjection {
 
-    public static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration) {
-        services.Configure<JwtSettings>(configuration.GetSection(nameof(JwtSettings)));
-
-        /// Добавление контекста с бд для пользователей
-        services.AddDbContext<ApplicationIdentityDbContext>(
-            options => options.UseNpgsql(configuration.GetConnectionString("ApplicationDB"),
-            b => b.MigrationsAssembly(typeof(ApplicationIdentityDbContext).Assembly.FullName)));
-
-        services
-            .AddIdentity<ApplicationUser, IdentityRole<Guid>>()
-            .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
-            .AddDefaultTokenProviders();
-
-        services.AddTransient<IAuthorizationService, AuthorizationService>();
-        services.AddTransient<ITokenService, TokenService>();
-        services.AddTransient<ITokenStorage, TokenDbStorage>();
-
-        services
+    public static IServiceCollection AddAppAuthentication(this IServiceCollection serviceCollection, IConfiguration configuration) {
+        serviceCollection
             .AddAuthentication(options => {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -51,8 +30,21 @@ public static class IdentityExtensions {
                         ValidAudience = configuration[$"{nameof(JwtSettings)}:{nameof(JwtSettings.Audience)}"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[$"{nameof(JwtSettings)}:{nameof(JwtSettings.Key)}"]!))
                     };
+
+                    options.Events = new JwtBearerEvents {
+                        OnMessageReceived = context => {
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.Request.Path;
+
+                            if (path.StartsWithSegments("/notification") && !string.IsNullOrEmpty(accessToken)) {
+                                context.Token = accessToken;
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
-        return services;
+        return serviceCollection;
     }
 }

@@ -1,4 +1,4 @@
-﻿using AniMedia.Application.Models.Identity;
+﻿using AniMedia.Application.Common.Models.Identity;
 using AniMedia.Identity.Models;
 using System.Security.Claims;
 
