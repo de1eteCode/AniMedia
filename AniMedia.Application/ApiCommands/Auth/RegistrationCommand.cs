@@ -24,7 +24,7 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, R
     }
 
     public async Task<Result<AuthorizationResponse>> Handle(RegistrationCommand request, CancellationToken cancellationToken) {
-        var isUserByNicknameExists = await _context.Users.AnyAsync(e => e.Nickname.Equals(request.Nickname, StringComparison.OrdinalIgnoreCase), cancellationToken);
+        var isUserByNicknameExists = await _context.Users.AnyAsync(e => e.Nickname.Equals(request.Nickname), cancellationToken);
 
         if (isUserByNicknameExists) {
             return new Result<AuthorizationResponse>(new RegistrationError("User already exists"));
