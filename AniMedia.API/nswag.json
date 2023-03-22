@@ -97,12 +97,14 @@
       "className": "ApiClient{controller}",
       "operationGenerationMode": "SingleClientFromPathSegments",
       "additionalNamespaceUsages": [
-        "AniMedia.Application.Exceptions",
-        "AniMedia.Application.Models.Identity"
+        "AniMedia.Domain.Models.Dtos",
+        "AniMedia.Domain.Models.Requests",
+        "AniMedia.Domain.Models.Responses"
       ],
       "additionalContractNamespaceUsages": [
-        "AniMedia.Application.Exceptions",
-        "AniMedia.Application.Models.Identity"
+        "AniMedia.Domain.Models.Dtos",
+        "AniMedia.Domain.Models.Requests",
+        "AniMedia.Domain.Models.Responses"
       ],
       "generateOptionalParameters": false,
       "generateJsonMethods": false,

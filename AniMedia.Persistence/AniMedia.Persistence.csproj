@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AniMedia.Application\AniMedia.Application.csproj" />
     <ProjectReference Include="..\AniMedia.Domain\AniMedia.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
   </ItemGroup>
 
 </Project>

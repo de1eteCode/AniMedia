@@ -1,10 +1,11 @@
-﻿using AniMedia.Domain.Entities;
+﻿using AniMedia.Application.Common.Interfaces;
+using AniMedia.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace AniMedia.Persistence;
 
-public class DatabaseContext : DbContext {
+public class DatabaseContext : DbContext, IApplicationDbContext {
 
     public DatabaseContext(DbContextOptions options) : base(options) {
     }

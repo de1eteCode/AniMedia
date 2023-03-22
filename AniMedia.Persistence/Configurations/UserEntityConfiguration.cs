@@ -8,15 +8,17 @@ namespace AniMedia.Persistence.Configurations;
 public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity> {
 
     public void Configure(EntityTypeBuilder<UserEntity> builder) {
+        builder.HasKey(e => e.UID);
+
         builder
-            .HasMany(u => u.Sessions)
-            .WithOne(s => s.User)
-            .HasForeignKey(s => s.UserUid)
+            .HasMany(e => e.Sessions)
+            .WithOne(e => e.User)
+            .HasForeignKey(e => e.UserUid)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Property(x => x.Nickname).IsRequired();
-        builder.Property(x => x.PasswordSalt).IsRequired();
-        builder.Property(x => x.PasswordHash).IsRequired();
+        builder.Property(e => e.Nickname).IsRequired();
+        builder.Property(e => e.PasswordSalt).IsRequired();
+        builder.Property(e => e.PasswordHash).IsRequired();
 
         var de1ete = new UserEntity(
             nickname: "de1ete",

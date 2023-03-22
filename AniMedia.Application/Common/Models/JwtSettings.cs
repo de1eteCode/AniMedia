@@ -11,9 +11,5 @@ public class JwtSettings {
 
     public required double AccessTokenLifeTimeInMinutes { get; init; }
 
-    public required int RefreshTokenBytes { get; init; }
-
-    public required int RefreshTokenLifeTimeInMinutes { get; init; }
-
     public byte[] GetKeyBytes() => Encoding.UTF8.GetBytes(Key);
 }

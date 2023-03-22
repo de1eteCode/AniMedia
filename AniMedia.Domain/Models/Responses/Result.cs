@@ -1,4 +1,4 @@
-﻿namespace AniMedia.Application.Common.Models.Responses;
+﻿namespace AniMedia.Domain.Models.Responses;
 
 public class Result<TValue> {
     public bool IsSuccess { get; set; } = true;

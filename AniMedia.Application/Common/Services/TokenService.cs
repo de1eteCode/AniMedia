@@ -29,7 +29,7 @@ public class TokenService : ITokenService {
     /// <inheritdoc/>
     public string CreateAccessToken(UserEntity user) {
         var claims = new[] {
-            new Claim(ClaimConstants.UID, user.UID.ToString("N")),
+            new Claim(ClaimConstants.UID, user.UID.ToString()),
             new Claim(ClaimConstants.Login, user.Nickname),
             new Claim(ClaimConstants.RandomToken, Guid.NewGuid().ToString()),
         };

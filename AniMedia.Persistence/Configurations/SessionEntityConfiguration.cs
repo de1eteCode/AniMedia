@@ -7,12 +7,13 @@ namespace AniMedia.Persistence.Configurations;
 public class SessionEntityConfiguration : IEntityTypeConfiguration<SessionEntity> {
 
     public void Configure(EntityTypeBuilder<SessionEntity> builder) {
-        builder.Property(x => x.UserUid).IsRequired();
-        builder.Property(x => x.AccessToken).IsRequired();
-        builder.Property(x => x.Ip).IsRequired();
-        builder.Property(x => x.UserAgent).IsRequired();
-        builder.Property(x => x.ExpiresAt).IsRequired();
-        builder.Property(x => x.CreateAt).IsRequired();
-        builder.Property(x => x.RefreshToken).IsRequired();
+        builder.HasKey(e => e.UID);
+        builder.Property(e => e.UserUid).IsRequired();
+        builder.Property(e => e.AccessToken).IsRequired();
+        builder.Property(e => e.Ip).IsRequired();
+        builder.Property(e => e.UserAgent).IsRequired();
+        builder.Property(e => e.ExpiresAt).IsRequired();
+        builder.Property(e => e.CreateAt).IsRequired();
+        builder.Property(e => e.RefreshToken).IsRequired();
     }
 }

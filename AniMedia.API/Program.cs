@@ -1,31 +1,31 @@
-using AniMedia.API.Middleware;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.OpenApi.Models;
+using AniMedia.API.Services;
+using AniMedia.Application.Common.Interfaces;
+using AniMedia.Infrastructure.DI;
+using AniMedia.Infrastructure.Middlewares;
 
 namespace AniMedia.API;
 
 public class Program {
+    public const string CorsPolicy = nameof(CorsPolicy);
 
     public static void Main(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddInfractructure(builder.Configuration);
         builder.Services.AddHttpContextAccessor();
-        AddSwagerDoc(builder.Services);
+
+        builder.Services.AddMediator();
+        builder.Services.AddDatabaseServices(builder.Configuration);
+        builder.Services.AddPasswordHashServices();
+        builder.Services.AddJwtGeneratorServices(builder.Configuration);
+        builder.Services.AddAppAuthentication(builder.Configuration);
+        builder.Services.AddAppAuthorization();
+        builder.Services.ConfigureCors(CorsPolicy, string.Empty);
+        builder.Services.AddSwagger();
+
+        builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+
         builder.Services.AddControllers();
-
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-
-        builder.Services.AddCors(o => {
-            o.AddPolicy("CorsPolicy",
-                builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-        });
 
         var app = builder.Build();
 
@@ -33,49 +33,16 @@ public class Program {
         if (app.Environment.IsDevelopment()) {
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI();
         }
 
-        app.UseMiddleware<ExceptionMiddleware>();
         app.UseHttpsRedirection();
 
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseCors("CorsPolicy");
+        app.UseCors(CorsPolicy);
 
         app.MapControllers();
 
         app.Run();
-    }
-
-    private static void AddSwagerDoc(IServiceCollection services) {
-        services.AddSwaggerGen(c => {
-            c.AddSecurityDefinition(
-                JwtBearerDefaults.AuthenticationScheme,
-                new OpenApiSecurityScheme() {
-                    Description = "JWT Authorization header using the Bearer scheme",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.Http,
-                    Scheme = JwtBearerDefaults.AuthenticationScheme
-                });
-
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement() {
-                {
-                    new OpenApiSecurityScheme() {
-                        Reference = new OpenApiReference() {
-                            Id = JwtBearerDefaults.AuthenticationScheme,
-                            Type = ReferenceType.SecurityScheme
-                        }
-                    },
-                    new List<string>()
-                }
-            });
-
-            c.SwaggerDoc("v1", new OpenApiInfo() {
-                Version = "v1",
-                Title = "AniMedia API"
-            });
-        });
     }
 }

@@ -43,7 +43,7 @@ public class UserEntity : IBaseEntity {
     /// <summary>
     /// Сессии пользователя
     /// </summary>
-    public List<SessionEntity> Sessions { get; set; } = new();
+    public virtual List<SessionEntity> Sessions { get; set; } = new();
 
     public UserEntity(string nickname, string passwordHash, string passwordSalt, string firstName = "", string secondName = "", string avatarLink = "") {
         Nickname = nickname;

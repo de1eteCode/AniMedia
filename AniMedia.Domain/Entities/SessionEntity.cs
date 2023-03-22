@@ -1,4 +1,6 @@
 ﻿using AniMedia.Domain.Abstracts;
+using AniMedia.Domain.Entities.Validations;
+using FluentValidation;
 
 namespace AniMedia.Domain.Entities;
 
@@ -20,7 +22,7 @@ public class SessionEntity : IBaseEntity {
     /// <summary>
     /// Пользователь
     /// </summary>
-    public UserEntity User { get; set; } = default!;
+    public virtual UserEntity User { get; set; } = default!;
 
     /// <summary>
     /// Токен доступа
@@ -51,4 +53,23 @@ public class SessionEntity : IBaseEntity {
     /// Дата создания сессии
     /// </summary>
     public DateTime CreateAt { get; set; } = DateTime.UtcNow;
+
+    public bool IsExpired => DateTime.UtcNow >= ExpiresAt;
+
+    public SessionEntity(Guid userUid, string accessToken, string ip, string userAgent, DateTime expiresAt) {
+        UserUid = userUid;
+        AccessToken = accessToken;
+        Ip = ip;
+        UserAgent = userAgent;
+        ExpiresAt = expiresAt;
+
+        new SessionEntityValidator().ValidateAndThrow(this);
+    }
+
+    public void UpdateAccessToken(string newAccessToken, double accessTokenLifeTimeInMinutes) {
+        AccessToken = newAccessToken;
+        ExpiresAt = DateTime.Now.AddMinutes(accessTokenLifeTimeInMinutes);
+
+        new SessionEntityValidator().ValidateAndThrow(this);
+    }
 }

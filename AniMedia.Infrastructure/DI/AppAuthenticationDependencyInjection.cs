@@ -19,7 +19,6 @@ public static class AppAuthenticationDependencyInjection {
             .AddJwtBearer(
                 JwtBearerDefaults.AuthenticationScheme,
                 options => {
-                    options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters {
                         ValidateIssuer = true,
                         ValidateIssuerSigningKey = true,
@@ -29,19 +28,6 @@ public static class AppAuthenticationDependencyInjection {
                         ValidIssuer = configuration[$"{nameof(JwtSettings)}:{nameof(JwtSettings.Issuer)}"],
                         ValidAudience = configuration[$"{nameof(JwtSettings)}:{nameof(JwtSettings.Audience)}"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[$"{nameof(JwtSettings)}:{nameof(JwtSettings.Key)}"]!))
-                    };
-
-                    options.Events = new JwtBearerEvents {
-                        OnMessageReceived = context => {
-                            var accessToken = context.Request.Query["access_token"];
-                            var path = context.Request.Path;
-
-                            if (path.StartsWithSegments("/notification") && !string.IsNullOrEmpty(accessToken)) {
-                                context.Token = accessToken;
-                            }
-
-                            return Task.CompletedTask;
-                        }
                     };
                 });
 

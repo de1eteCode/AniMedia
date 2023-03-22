@@ -1,6 +1,6 @@
 ﻿using AniMedia.Domain.Entities;
 
-namespace AniMedia.Application.Common.Models.Responses;
+namespace AniMedia.Domain.Models.Responses;
 
 public class AuthorizationResponse {
     public string AccessToken { get; set; }
