@@ -8,6 +8,7 @@ namespace AniMedia.Persistence;
 public class DatabaseContext : DbContext, IApplicationDbContext {
 
     public DatabaseContext(DbContextOptions options) : base(options) {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
     public DbSet<UserEntity> Users { get; set; }
