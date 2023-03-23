@@ -35,7 +35,7 @@ public class AuthController : BaseApiV1Controller {
     }
 
     [Authorize]
-    [HttpGet("sessions/{sessionUid:guid}")]
+    [HttpGet("removesession/{sessionUid:guid}")]
     [ProducesResponseType(typeof(SessionDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> RemoveSession(Guid sessionUid, CancellationToken cancellationToken) {
@@ -59,9 +59,9 @@ public class AuthController : BaseApiV1Controller {
     [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Refresh(
         Guid refreshToken,
-        [FromHeader(Name = "User-Agent")] string userAgent,
         CancellationToken cancellationToken) {
-        var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+        var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
+        var userAgent = HttpContext.Request.Headers.UserAgent.ToString();
 
         var command = new RefreshCommand(refreshToken, ip, userAgent);
 
@@ -73,9 +73,9 @@ public class AuthController : BaseApiV1Controller {
     [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Registration(
         [FromBody] RegistrationRequest request,
-        [FromHeader(Name = "User-Agent")] string userAgent,
         CancellationToken cancellationToken) {
-        var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+        var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
+        var userAgent = HttpContext.Request.Headers.UserAgent.ToString();
 
         var command = new RegistrationCommand(request.Nickname, request.Password, ip, userAgent);
 
@@ -87,9 +87,9 @@ public class AuthController : BaseApiV1Controller {
     [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Login(
         [FromBody] LoginRequest request,
-        [FromHeader(Name = "User-Agent")] string userAgent,
         CancellationToken cancellationToken) {
-        var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+        var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
+        var userAgent = HttpContext.Request.Headers.UserAgent.ToString();
 
         var command = new LoginCommand(request.Nickname, request.Password, ip, userAgent);
 

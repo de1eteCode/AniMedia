@@ -7,6 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace AniMedia.Application.ApiCommands.Auth;
+
+/// <summary>
+/// Авторизация пользователя в системе
+/// </summary>
+/// <param name="Nickname">Никнейм</param>
+/// <param name="Password">Пароль</param>
+/// <param name="Ip">Ip адрес</param>
+/// <param name="UserAgent">Юзер агент</param>
 public record LoginCommand(string Nickname, string Password, string Ip, string UserAgent) : IRequest<Result<AuthorizationResponse>>;
 
 public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthorizationResponse>> {

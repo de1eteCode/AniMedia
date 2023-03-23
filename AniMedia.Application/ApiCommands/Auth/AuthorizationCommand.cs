@@ -7,6 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace AniMedia.Application.ApiCommands.Auth;
+
+/// <summary>
+/// Обновление токена для сессии
+/// </summary>
+/// <param name="AccessToken">Токен активной сессии</param>
 public record AuthorizationCommand(string AccessToken) : IRequest<Result<AuthorizationResponse>>;
 
 public class AuthorizationCommandHandler : IRequestHandler<AuthorizationCommand, Result<AuthorizationResponse>> {

@@ -5,6 +5,11 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiCommands.Auth;
+
+/// <summary>
+/// Удаление сессии
+/// </summary>
+/// <param name="SessionUid">Идентификатор сессии</param>
 public record RemoveSessionCommand(Guid SessionUid) : IRequest<Result<SessionDto>>;
 
 public class RemoveSessionCommandHandler : IRequestHandler<RemoveSessionCommand, Result<SessionDto>> {

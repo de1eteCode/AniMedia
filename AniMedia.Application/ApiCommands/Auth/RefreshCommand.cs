@@ -7,6 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace AniMedia.Application.ApiCommands.Auth;
+
+/// <summary>
+/// Обновление пары токенов и открытие новой сессии, с закрытием старой
+/// </summary>
+/// <param name="RefreshToken">Рефреш токен</param>
+/// <param name="Ip">Ip адрес</param>
+/// <param name="UserAgent">Юзер агент</param>
 public record RefreshCommand(Guid RefreshToken, string Ip, string UserAgent) : IRequest<Result<AuthorizationResponse>>;
 
 public class RefreshCommandHandler : IRequestHandler<RefreshCommand, Result<AuthorizationResponse>> {

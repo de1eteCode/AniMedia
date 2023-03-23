@@ -8,6 +8,13 @@ using Microsoft.Extensions.Options;
 
 namespace AniMedia.Application.ApiCommands.Auth;
 
+/// <summary>
+/// Регистрация нового пользователя с последующей авторизацией (создание сессии)
+/// </summary>
+/// <param name="Nickname">Никнейм</param>
+/// <param name="Password">Пароль</param>
+/// <param name="Ip">Ip адрес</param>
+/// <param name="UserAgent">Юзер агент</param>
 public record RegistrationCommand(string Nickname, string Password, string Ip, string UserAgent) : IRequest<Result<AuthorizationResponse>>;
 
 public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, Result<AuthorizationResponse>> {
