@@ -3,15 +3,39 @@ using System.Security.Claims;
 
 namespace AniMedia.Web.Contracts;
 
-internal interface IAuthenticationService {
+public interface IAuthenticationService {
 
-    public Task<bool> Authenticate(LoginVM viewModel);
+    public Task<bool> Authenticate();
 
+    /// <summary>
+    /// Авторизация пользователя в системе
+    /// </summary>
+    /// <param name="viewModel"></param>
+    /// <returns></returns>
+    public Task<bool> Login(LoginVM viewModel);
+
+    /// <summary>
+    /// Регистрация пользователя в системе
+    /// </summary>
+    /// <param name="viewModel"></param>
+    /// <returns></returns>
     public Task<bool> Register(RegisterVM viewModel);
 
-    public Task<bool> IsSignedIn();
+    /// <summary>
+    /// Выход пользователя из системы
+    /// </summary>
+    /// <returns></returns>
+    public Task Logout();
 
+    /// <summary>
+    /// Список разрешений пользователя
+    /// </summary>
+    /// <returns></returns>
     public Task<IEnumerable<Claim>> GetClaims();
 
-    public Task Logout();
+    /// <summary>
+    /// Выполнен вход в систему
+    /// </summary>
+    /// <returns></returns>
+    public Task<bool> IsSignedIn();
 }

@@ -226,20 +226,20 @@ namespace AniMedia.Web.Services.Base
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SessionDto> ApiV1AuthSessionsGetAsync(System.Guid sessionUid)
+        public virtual System.Threading.Tasks.Task<SessionDto> ApiV1AuthRemovesessionAsync(System.Guid sessionUid)
         {
-            return ApiV1AuthSessionsGetAsync(sessionUid, System.Threading.CancellationToken.None);
+            return ApiV1AuthRemovesessionAsync(sessionUid, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SessionDto> ApiV1AuthSessionsGetAsync(System.Guid sessionUid, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SessionDto> ApiV1AuthRemovesessionAsync(System.Guid sessionUid, System.Threading.CancellationToken cancellationToken)
         {
             if (sessionUid == null)
                 throw new System.ArgumentNullException("sessionUid");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/v1/Auth/sessions/{sessionUid}");
+            urlBuilder_.Append("api/v1/Auth/removesession/{sessionUid}");
             urlBuilder_.Replace("{sessionUid}", System.Uri.EscapeDataString(ConvertToString(sessionUid, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -394,14 +394,14 @@ namespace AniMedia.Web.Services.Base
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRefreshAsync(System.Guid refreshToken, string userAgent)
+        public virtual System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRefreshAsync(System.Guid refreshToken)
         {
-            return ApiV1AuthRefreshAsync(refreshToken, userAgent, System.Threading.CancellationToken.None);
+            return ApiV1AuthRefreshAsync(refreshToken, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRefreshAsync(System.Guid refreshToken, string userAgent, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRefreshAsync(System.Guid refreshToken, System.Threading.CancellationToken cancellationToken)
         {
             if (refreshToken == null)
                 throw new System.ArgumentNullException("refreshToken");
@@ -416,9 +416,6 @@ namespace AniMedia.Web.Services.Base
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-
-                    if (userAgent != null)
-                        request_.Headers.TryAddWithoutValidation("User-Agent", ConvertToString(userAgent, System.Globalization.CultureInfo.InvariantCulture));
                     request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
@@ -484,14 +481,14 @@ namespace AniMedia.Web.Services.Base
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRegistrationAsync(string userAgent, RegistrationRequest request)
+        public virtual System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRegistrationAsync(RegistrationRequest request)
         {
-            return ApiV1AuthRegistrationAsync(userAgent, request, System.Threading.CancellationToken.None);
+            return ApiV1AuthRegistrationAsync(request, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRegistrationAsync(string userAgent, RegistrationRequest request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRegistrationAsync(RegistrationRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -505,9 +502,6 @@ namespace AniMedia.Web.Services.Base
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-
-                    if (userAgent != null)
-                        request_.Headers.TryAddWithoutValidation("User-Agent", ConvertToString(userAgent, System.Globalization.CultureInfo.InvariantCulture));
                     var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
@@ -576,14 +570,14 @@ namespace AniMedia.Web.Services.Base
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthLoginAsync(string userAgent, LoginRequest request)
+        public virtual System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthLoginAsync(LoginRequest request)
         {
-            return ApiV1AuthLoginAsync(userAgent, request, System.Threading.CancellationToken.None);
+            return ApiV1AuthLoginAsync(request, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthLoginAsync(string userAgent, LoginRequest request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthLoginAsync(LoginRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -597,9 +591,6 @@ namespace AniMedia.Web.Services.Base
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-
-                    if (userAgent != null)
-                        request_.Headers.TryAddWithoutValidation("User-Agent", ConvertToString(userAgent, System.Globalization.CultureInfo.InvariantCulture));
                     var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");

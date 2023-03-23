@@ -39,11 +39,11 @@ namespace AniMedia.Web.Services.Contracts
         System.Threading.Tasks.Task<SessionDto> ApiV1AuthSessionsGetAsync(string accessToken, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SessionDto> ApiV1AuthSessionsGetAsync(System.Guid sessionUid);
+        System.Threading.Tasks.Task<SessionDto> ApiV1AuthRemovesessionAsync(System.Guid sessionUid);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SessionDto> ApiV1AuthSessionsGetAsync(System.Guid sessionUid, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<SessionDto> ApiV1AuthRemovesessionAsync(System.Guid sessionUid, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SessionDto>> ApiV1AuthSessionsGetAsync();
@@ -53,25 +53,25 @@ namespace AniMedia.Web.Services.Contracts
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SessionDto>> ApiV1AuthSessionsGetAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRefreshAsync(System.Guid refreshToken, string userAgent);
+        System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRefreshAsync(System.Guid refreshToken);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRefreshAsync(System.Guid refreshToken, string userAgent, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRefreshAsync(System.Guid refreshToken, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRegistrationAsync(string userAgent, RegistrationRequest request);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRegistrationAsync(string userAgent, RegistrationRequest request, System.Threading.CancellationToken cancellationToken);
-
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthLoginAsync(string userAgent, LoginRequest request);
+        System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRegistrationAsync(RegistrationRequest request);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthLoginAsync(string userAgent, LoginRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthRegistrationAsync(RegistrationRequest request, System.Threading.CancellationToken cancellationToken);
+
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthLoginAsync(LoginRequest request);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<AuthorizationResponse> ApiV1AuthLoginAsync(LoginRequest request, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Guid> ApiV1SecuredAsync();

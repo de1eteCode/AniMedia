@@ -2,7 +2,7 @@
 
 namespace AniMedia.Web.Models.ViewModels.Identity;
 
-internal class LoginVM {
+public class LoginVM {
 
     [Required]
     public string UserName { get; set; } = string.Empty;

@@ -22,10 +22,10 @@ public partial class Login : ComponentBase {
     [Inject]
     public NavigationManager NavigationManager { get; set; } = default!;
 
-    private async Task Authenticate() {
+    private async Task UserLogin() {
         VModel.ReturnUrl = ReturnUrl;
 
-        var result = await AuthenticationService.Authenticate(VModel);
+        var result = await AuthenticationService.Login(VModel);
 
         if (result) {
             AuthStateProvider.NotifyAuthenticationStateChanged();

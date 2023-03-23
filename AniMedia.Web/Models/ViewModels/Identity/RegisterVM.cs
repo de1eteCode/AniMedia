@@ -2,7 +2,7 @@
 
 namespace AniMedia.Web.Models.ViewModels.Identity;
 
-internal class RegisterVM {
+public class RegisterVM {
 
     [Required]
     public string UserName { get; set; } = string.Empty;
@@ -20,6 +20,4 @@ internal class RegisterVM {
 
     [Required]
     public string SecondName { get; set; } = string.Empty;
-
-    public bool LogInAfterRegister { get; set; } = true;
 }

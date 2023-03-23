@@ -2,7 +2,7 @@
 
 namespace AniMedia.Web.Services.Base;
 
-internal abstract class BaseService {
+public abstract class BaseService {
     protected readonly IApiClient _api;
 
     protected BaseService(IApiClient api) {

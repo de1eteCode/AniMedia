@@ -47,6 +47,7 @@ public class Program {
 
         app.UseCookiePolicy();
         app.UseAuthentication();
+        app.UseAuthorization();
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
