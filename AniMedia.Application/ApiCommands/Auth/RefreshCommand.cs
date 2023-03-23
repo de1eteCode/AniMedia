@@ -12,16 +12,23 @@ public record RefreshCommand(Guid RefreshToken, string Ip, string UserAgent) : I
 public class RefreshCommandHandler : IRequestHandler<RefreshCommand, Result<AuthorizationResponse>> {
     private readonly IApplicationDbContext _context;
     private readonly ITokenService _tokenService;
+    private readonly ICurrentUserService _currentUserService;
     private readonly JwtSettings _jwtSettings;
 
-    public RefreshCommandHandler(IApplicationDbContext context, ITokenService tokenService, IOptions<JwtSettings> jwtSettings) {
+    public RefreshCommandHandler(IApplicationDbContext context, ITokenService tokenService, ICurrentUserService currentUserService, IOptions<JwtSettings> jwtSettings) {
         _context = context;
         _tokenService = tokenService;
+        _currentUserService = currentUserService;
         _jwtSettings = jwtSettings.Value;
     }
 
     public async Task<Result<AuthorizationResponse>> Handle(RefreshCommand request, CancellationToken cancellationToken) {
-        var session = await _context.Sessions.FirstOrDefaultAsync(e => e.RefreshToken.Equals(request.RefreshToken), cancellationToken);
+        if (_currentUserService.UserUID == null) {
+            return new Result<AuthorizationResponse>(new AuthenticationError("Not auth user"));
+        }
+
+        var session = await _context.Sessions
+            .FirstOrDefaultAsync(e => e.RefreshToken.Equals(request.RefreshToken) && e.UserUid.Equals(_currentUserService.UserUID), cancellationToken);
 
         if (session == null) {
             return new Result<AuthorizationResponse>(new AuthenticationError("Refresh token not found"));
