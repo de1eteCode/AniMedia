@@ -11,6 +11,7 @@ using Xunit;
 
 namespace AniMedia.IntegrationTests;
 
+[Collection("Sequential")]
 public abstract class IntegrationTestBase : IAsyncLifetime {
     private Guid? _currentUserUid = null;
 
@@ -66,6 +67,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime {
     public async Task InitializeAsync() {
         await ApplicationDbContext.Database.MigrateAsync();
         await ApplicationDbContext.Clear();
+        ClearUser();
     }
 
     public Task DisposeAsync() {

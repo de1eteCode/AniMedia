@@ -15,4 +15,7 @@ public static class CommandHelper {
         Password: "edsregtertgert",
         Ip: "212.23.4.243",
         UserAgent: "VisualStudio 2022");
+
+    public static string RandomIpAddress() =>
+        $"{Random.Shared.Next(1, 255)}.{Random.Shared.Next(1, 255)}.{Random.Shared.Next(1, 255)}.{Random.Shared.Next(1, 255)}";
 }
