@@ -27,6 +27,7 @@ public class AuthController : BaseApiV1Controller {
     [Authorize]
     [HttpGet("sessions/{accessToken}")]
     [ProducesResponseType(typeof(SessionDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetSession(string accessToken, CancellationToken cancellationToken) {
         var query = new GetSessionQueryCommand(accessToken);
@@ -37,6 +38,7 @@ public class AuthController : BaseApiV1Controller {
     [Authorize]
     [HttpGet("removesession/{sessionUid:guid}")]
     [ProducesResponseType(typeof(SessionDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> RemoveSession(Guid sessionUid, CancellationToken cancellationToken) {
         var query = new RemoveSessionCommand(sessionUid);
@@ -47,6 +49,7 @@ public class AuthController : BaseApiV1Controller {
     [Authorize]
     [HttpGet("sessions")]
     [ProducesResponseType(typeof(List<SessionDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetSessionList(CancellationToken cancellationToken) {
         var query = new GetSessionListQueryCommand();

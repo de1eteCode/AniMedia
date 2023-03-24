@@ -16,6 +16,12 @@ internal class JwtAuthenticationStateProvider : AuthenticationStateProvider {
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
+        var auth = await _authenticationService.Authenticate();
+
+        if (auth == false) {
+            return new AuthenticationState(new ClaimsPrincipal(_anonymous));
+        }
+
         var claims = await _authenticationService.GetClaims();
 
         ClaimsIdentity identity = default!;

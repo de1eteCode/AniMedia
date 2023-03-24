@@ -32,10 +32,4 @@ public interface IAuthenticationService {
     /// </summary>
     /// <returns></returns>
     public Task<IEnumerable<Claim>> GetClaims();
-
-    /// <summary>
-    /// Выполнен вход в систему
-    /// </summary>
-    /// <returns></returns>
-    public Task<bool> IsSignedIn();
 }

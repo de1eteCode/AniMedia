@@ -19,15 +19,44 @@ public class AuthenticationService : BaseService, IAuthService {
         _localStorage = localStorage;
     }
 
-    public Task<bool> Authenticate() {
+    public async Task<bool> Authenticate() {
         /// Get current token, check on server side and save new access token
+        ProtectedBrowserStorageResult<string?> accessToken = default;
 
         try {
+            accessToken = await _localStorage.GetAsync<string?>(TokenKey);
         }
         catch (Exception) {
+#if DEBUG
+            throw;
+#else
+            return false;
+#endif
         }
 
-        throw new NotImplementedException();
+        if (string.IsNullOrEmpty(accessToken.Value)) {
+            return false;
+        }
+
+        try {
+            var responce = await _api.ApiV1AuthAuthorizationAsync(accessToken.Value);
+
+            if (responce == null || string.IsNullOrEmpty(responce.AccessToken)) {
+                return false;
+            }
+
+            await _localStorage.SetAsync(TokenKey, responce.AccessToken);
+            await _localStorage.SetAsync(RefreshToken, responce.RefreshToken);
+
+            return true;
+        }
+        catch (Exception) {
+#if DEBUG
+            throw;
+#else
+            return false;
+#endif
+        }
     }
 
     public async Task<bool> Register(RegisterVM viewModel) {
@@ -59,7 +88,7 @@ public class AuthenticationService : BaseService, IAuthService {
 
             if (responce == null ||
                 string.IsNullOrEmpty(responce.AccessToken) ||
-                responce.RefreshToken != Guid.Empty) {
+                responce.RefreshToken == Guid.Empty) {
                 return false;
             }
 
@@ -84,7 +113,11 @@ public class AuthenticationService : BaseService, IAuthService {
             accessToken = await _localStorage.GetAsync<string?>(TokenKey);
         }
         catch (Exception) {
+#if DEBUG
             throw;
+#else
+            return false;
+#endif
         }
 
         if (string.IsNullOrEmpty(accessToken.Value)) {
@@ -97,11 +130,6 @@ public class AuthenticationService : BaseService, IAuthService {
         return tokenData.Claims;
     }
 
-    public Task<bool> IsSignedIn() {
-        /// Verify time expire and try get new token by refresh
-        throw new NotImplementedException();
-    }
-
     public async Task Logout() {
         /// Send to server remove session request and delete jwt token on client
 
@@ -111,7 +139,11 @@ public class AuthenticationService : BaseService, IAuthService {
             accessToken = await _localStorage.GetAsync<string?>(TokenKey);
 
             if (string.IsNullOrEmpty(accessToken.Value) == false) {
-                await _api.ApiV1AuthSessionsGetAsync(accessToken.Value);
+                var currentSession = await _api.ApiV1AuthSessionsGetAsync(accessToken.Value);
+
+                if (currentSession != null) {
+                    await _api.ApiV1AuthRemovesessionAsync(currentSession.Uid);
+                }
             }
         }
         catch (Exception) {

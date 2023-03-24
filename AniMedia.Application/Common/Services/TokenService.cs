@@ -31,6 +31,7 @@ public class TokenService : ITokenService {
         var claims = new[] {
             new Claim(ClaimConstants.UID, user.UID.ToString()),
             new Claim(ClaimConstants.Login, user.Nickname),
+            new Claim(ClaimTypes.Name, user.Nickname),
             new Claim(ClaimConstants.RandomToken, Guid.NewGuid().ToString()),
         };
 

@@ -19,10 +19,8 @@ public partial class LogoutComponent : ComponentBase {
     public NavigationManager NavigationManager { get; set; } = default!;
 
     public async Task LogOut() {
-        if (await AuthenticationService.IsSignedIn()) {
-            await AuthenticationService.Logout();
-            AuthStateProvider.NotifyAuthenticationStateChanged();
-        }
+        await AuthenticationService.Logout();
+        AuthStateProvider.NotifyAuthenticationStateChanged();
 
         if (GetReturnUrl != null) {
             var retUrl = GetReturnUrl.Invoke();
