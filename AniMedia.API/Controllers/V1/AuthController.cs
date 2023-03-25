@@ -16,8 +16,8 @@ public class AuthController : BaseApiV1Controller {
 
     [HttpGet("authorization/{token}")]
     [ProducesResponseType(typeof(AuthorizationResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Authorization(string token, CancellationToken cancellationToken) {
         var command = new AuthorizationCommand(token);
 
@@ -27,8 +27,8 @@ public class AuthController : BaseApiV1Controller {
     [Authorize]
     [HttpGet("sessions/{accessToken}")]
     [ProducesResponseType(typeof(SessionDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetSession(string accessToken, CancellationToken cancellationToken) {
         var query = new GetSessionQueryCommand(accessToken);
 
@@ -38,8 +38,8 @@ public class AuthController : BaseApiV1Controller {
     [Authorize]
     [HttpGet("removesession/{sessionUid:guid}")]
     [ProducesResponseType(typeof(SessionDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> RemoveSession(Guid sessionUid, CancellationToken cancellationToken) {
         var query = new RemoveSessionCommand(sessionUid);
 
@@ -49,8 +49,7 @@ public class AuthController : BaseApiV1Controller {
     [Authorize]
     [HttpGet("sessions")]
     [ProducesResponseType(typeof(List<SessionDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> GetSessionList(CancellationToken cancellationToken) {
         var query = new GetSessionListQueryCommand();
 
@@ -59,7 +58,8 @@ public class AuthController : BaseApiV1Controller {
 
     [HttpPost("refresh/{refreshToken:guid}")]
     [ProducesResponseType(typeof(AuthorizationResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Refresh(
         Guid refreshToken,
         CancellationToken cancellationToken) {
@@ -73,7 +73,7 @@ public class AuthController : BaseApiV1Controller {
 
     [HttpPost("registration")]
     [ProducesResponseType(typeof(AuthorizationResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(RegistrationError), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Registration(
         [FromBody] RegistrationRequest request,
         CancellationToken cancellationToken) {
@@ -87,7 +87,7 @@ public class AuthController : BaseApiV1Controller {
 
     [HttpPost("login")]
     [ProducesResponseType(typeof(AuthorizationResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(AuthorizationError), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Login(
         [FromBody] LoginRequest request,
         CancellationToken cancellationToken) {

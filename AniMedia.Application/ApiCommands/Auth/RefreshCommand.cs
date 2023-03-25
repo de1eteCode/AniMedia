@@ -38,7 +38,7 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, Result<Auth
             .FirstOrDefaultAsync(e => e.RefreshToken.Equals(request.RefreshToken) && e.UserUid.Equals(_currentUserService.UserUID), cancellationToken);
 
         if (session == null) {
-            return new Result<AuthorizationResponse>(new AuthenticationError("Refresh token not found"));
+            return new Result<AuthorizationResponse>(new EntityNotFoundError("Refresh token not found"));
         }
 
         if (session.IsExpired) {

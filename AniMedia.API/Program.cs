@@ -1,7 +1,6 @@
 using AniMedia.API.Services;
 using AniMedia.Application.Common.Interfaces;
 using AniMedia.Infrastructure.DI;
-using AniMedia.Infrastructure.Middlewares;
 
 namespace AniMedia.API;
 
@@ -20,7 +19,7 @@ public class Program {
         builder.Services.AddJwtGeneratorServices(builder.Configuration);
         builder.Services.AddAppAuthentication(builder.Configuration);
         builder.Services.AddAppAuthorization();
-        builder.Services.ConfigureCors(CorsPolicy, string.Empty);
+        builder.Services.ConfigureCors(CorsPolicy, "https://localhost:7137");
         builder.Services.AddSwagger();
 
         builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();

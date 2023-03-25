@@ -83,11 +83,11 @@
       "generateSyncMethods": false,
       "generatePrepareRequestAndProcessResponseAsAsyncMethods": false,
       "exposeJsonSerializerSettings": false,
-      "clientClassAccessModifier": "internal",
+      "clientClassAccessModifier": "public",
       "typeAccessModifier": "public",
       "generateContractsOutput": true,
-      "contractsNamespace": "AniMedia.Web.Services.Contracts",
-      "contractsOutputFilePath": "../AniMedia.Web/Services/Base/IApiClient.cs",
+      "contractsNamespace": "AniMedia.WebClient.Common.ApiServices",
+      "contractsOutputFilePath": "../AniMedia.WebClient/Common/ApiServices/IApiClient.cs",
       "parameterDateTimeFormat": "s",
       "parameterDateFormat": "yyyy-MM-dd",
       "generateUpdateJsonSerializerSettingsMethod": true,
@@ -117,7 +117,7 @@
       "wrapResponseMethods": [],
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
-      "namespace": "AniMedia.Web.Services.Base",
+      "namespace": "AniMedia.WebClient.Common.ApiServices",
       "requiredPropertiesMustBeDefined": true,
       "dateType": "System.DateTimeOffset",
       "jsonConverters": null,
@@ -154,7 +154,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../AniMedia.Web/Services/Base/ApiClient.cs",
+      "output": "../AniMedia.WebClient/Common/ApiServices/ApiClient.cs",
       "newLineBehavior": "Auto"
     }
   }
