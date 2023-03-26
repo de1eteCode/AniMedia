@@ -20,7 +20,7 @@ public class AuthenticationService : IAuthenticationService {
             Password = viewModel.Password
         };
 
-        var responce = await _apiClient.ApiV1AuthLoginAsync(request);
+        var responce = await _apiClient.AuthLoginAsync(request);
 
         if (responce == null || string.IsNullOrEmpty(responce.AccessToken)) {
             return false;
@@ -39,10 +39,10 @@ public class AuthenticationService : IAuthenticationService {
             return;
         }
 
-        var currentSession = await _apiClient.ApiV1AuthSessionsGetAsync(currentToken);
+        var currentSession = await _apiClient.SessionAsync(currentToken);
 
         if (currentSession != null) {
-            await _apiClient.ApiV1AuthRemovesessionAsync(currentSession.Uid);
+            await _apiClient.SessionRemoveAsync(currentSession.Uid);
         }
 
         await _tokenService.DeleteTokenAsync();
@@ -55,7 +55,7 @@ public class AuthenticationService : IAuthenticationService {
             Password = viewModel.Password
         };
 
-        var responce = await _apiClient.ApiV1AuthRegistrationAsync(request);
+        var responce = await _apiClient.AuthRegistrationAsync(request);
 
         if (responce == null || string.IsNullOrEmpty(responce.AccessToken)) {
             return false;

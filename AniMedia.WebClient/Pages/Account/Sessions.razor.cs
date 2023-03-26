@@ -14,7 +14,7 @@ public partial class Sessions : ComponentBase {
 
     protected override async Task OnInitializedAsync() {
         try {
-            _sessions = await ApiClient.ApiV1AuthSessionsGetAsync();
+            _sessions = await ApiClient.SessionListAsync();
         }
         catch (Exception ex) {
             _sessions = new List<SessionDto>();
