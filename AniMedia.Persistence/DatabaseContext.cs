@@ -12,7 +12,10 @@ public class DatabaseContext : DbContext, IApplicationDbContext {
     }
 
     public DbSet<UserEntity> Users { get; set; }
+
     public DbSet<SessionEntity> Sessions { get; set; }
+
+    public DbSet<BinaryFileEntity> BinaryFiles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

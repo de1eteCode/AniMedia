@@ -58,6 +58,6 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<Authoriz
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return new Result<AuthorizationResponse>(new AuthorizationResponse(requester, accessToken, session.RefreshToken));
+        return new Result<AuthorizationResponse>(new AuthorizationResponse(requester.UID, accessToken, session.RefreshToken));
     }
 }

@@ -57,6 +57,6 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, R
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return new Result<AuthorizationResponse>(new AuthorizationResponse(newUser, accessToken, session.RefreshToken));
+        return new Result<AuthorizationResponse>(new AuthorizationResponse(newUser.UID, accessToken, session.RefreshToken));
     }
 }

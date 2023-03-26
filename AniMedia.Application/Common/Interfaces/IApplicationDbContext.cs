@@ -9,6 +9,8 @@ public interface IApplicationDbContext {
 
     public DbSet<SessionEntity> Sessions { get; set; }
 
+    public DbSet<BinaryFileEntity> BinaryFiles { get; set; }
+
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
     public EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;

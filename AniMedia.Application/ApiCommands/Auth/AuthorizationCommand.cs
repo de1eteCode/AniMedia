@@ -54,6 +54,6 @@ public class AuthorizationCommandHandler : IRequestHandler<AuthorizationCommand,
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return new Result<AuthorizationResponse>(new AuthorizationResponse(requester, newAccessToken, session.RefreshToken));
+        return new Result<AuthorizationResponse>(new AuthorizationResponse(requester.UID, newAccessToken, session.RefreshToken));
     }
 }

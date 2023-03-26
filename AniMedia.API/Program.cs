@@ -1,4 +1,4 @@
-using AniMedia.API.Services;
+using AniMedia.API.Common.Services;
 using AniMedia.Application.Common.Interfaces;
 using AniMedia.Infrastructure.DI;
 
@@ -13,14 +13,7 @@ public class Program {
         // Add services to the container.
         builder.Services.AddHttpContextAccessor();
 
-        builder.Services.AddMediator();
-        builder.Services.AddDatabaseServices(builder.Configuration);
-        builder.Services.AddPasswordHashServices();
-        builder.Services.AddJwtGeneratorServices(builder.Configuration);
-        builder.Services.AddAppAuthentication(builder.Configuration);
-        builder.Services.AddAppAuthorization();
-        builder.Services.ConfigureCors(CorsPolicy, "https://localhost:7137");
-        builder.Services.AddSwagger();
+        builder.Services.AddInfrastructureServices(builder.Configuration);
 
         builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
@@ -31,14 +24,11 @@ public class Program {
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment()) {
             app.UseDeveloperExceptionPage();
-            app.UseSwagger();
         }
 
-        app.UseHttpsRedirection();
+        app.UseInfrastructureServices(app.Environment.IsDevelopment());
 
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.UseCors(CorsPolicy);
+        app.UseHttpsRedirection();
 
         app.MapControllers();
 

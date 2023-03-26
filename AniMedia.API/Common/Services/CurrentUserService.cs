@@ -2,24 +2,30 @@
 using AniMedia.Domain.Constants;
 using System.Security.Claims;
 
-namespace AniMedia.API.Services;
+namespace AniMedia.API.Common.Services;
 
-public class CurrentUserService : ICurrentUserService {
+public class CurrentUserService : ICurrentUserService
+{
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public CurrentUserService(IHttpContextAccessor httpContextAccessor) {
+    public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+    {
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public Guid? UserUID {
-        get {
+    public Guid? UserUID
+    {
+        get
+        {
             var uidStr = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimConstants.UID);
 
-            if (string.IsNullOrEmpty(uidStr)) {
+            if (string.IsNullOrEmpty(uidStr))
+            {
                 return null;
             }
 
-            if (Guid.TryParse(uidStr, out var uid) == false) {
+            if (Guid.TryParse(uidStr, out var uid) == false)
+            {
                 return null;
             }
 

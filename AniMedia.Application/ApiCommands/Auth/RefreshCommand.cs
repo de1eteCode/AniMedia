@@ -63,6 +63,6 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, Result<Auth
 
         await _context.Entry(newSession).Reference(e => e.User).LoadAsync(cancellationToken);
 
-        return new Result<AuthorizationResponse>(new AuthorizationResponse(newSession.User, accessToken, newSession.RefreshToken));
+        return new Result<AuthorizationResponse>(new AuthorizationResponse(newSession.User.UID, accessToken, newSession.RefreshToken));
     }
 }

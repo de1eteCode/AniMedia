@@ -25,6 +25,27 @@ namespace AniMedia.WebClient.Common.ApiServices
     public partial interface IApiClient
     {
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ProfileResponce> AccountProfileAsync();
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<ProfileResponce> AccountProfileAsync(System.Threading.CancellationToken cancellationToken);
+
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<UpdateProfileResponce> AccountUpdateAsync(UpdateProfileRequest request);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<UpdateProfileResponce> AccountUpdateAsync(UpdateProfileRequest request, System.Threading.CancellationToken cancellationToken);
+
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<UpdateProfileResponce> AccountUpdateavatarAsync(FileParameter newAvatar);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<UpdateProfileResponce> AccountUpdateavatarAsync(FileParameter newAvatar, System.Threading.CancellationToken cancellationToken);
+
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<AuthorizationResponse> AuthAuthorizationAsync(string token);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -76,6 +97,33 @@ namespace AniMedia.WebClient.Common.ApiServices
     }
 
     
+
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class FileParameter
+    {
+        public FileParameter(System.IO.Stream data)
+            : this (data, null, null)
+        {
+        }
+
+        public FileParameter(System.IO.Stream data, string fileName)
+            : this (data, fileName, null)
+        {
+        }
+
+        public FileParameter(System.IO.Stream data, string fileName, string contentType)
+        {
+            Data = data;
+            FileName = fileName;
+            ContentType = contentType;
+        }
+
+        public System.IO.Stream Data { get; private set; }
+
+        public string FileName { get; private set; }
+
+        public string ContentType { get; private set; }
+    }
 
 
 
