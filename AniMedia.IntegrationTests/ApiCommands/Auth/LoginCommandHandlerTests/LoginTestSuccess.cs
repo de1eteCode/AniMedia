@@ -1,25 +1,26 @@
 ﻿using AniMedia.Application.ApiCommands.Auth;
-using AniMedia.Domain.Models.Responses;
 using AniMedia.IntegrationTests.Helpers;
 using FluentAssertions;
 using Xunit;
 
-namespace AniMedia.IntegrationTests.ApiCommands.LoginCommandHandlerTests;
+namespace AniMedia.IntegrationTests.ApiCommands.Auth.LoginCommandHandlerTests;
 
-public class LoginTestThrowAuthentication : IntegrationTestBase {
+public class LoginTestSuccess : IntegrationTestBase
+{
 
     [Fact]
-    public override async Task Test() {
+    public override async Task Test()
+    {
         await RequestAsync(CommandHelper.RegistrationDe1ete());
 
         var loginCommand = new LoginCommand(
             Nickname: CommandHelper.RegistrationDe1ete().Nickname,
-            Password: "wrong password",
-            Ip: "226.28.34.2",
+            Password: CommandHelper.RegistrationDe1ete().Password,
+            Ip: "216.28.34.2",
             UserAgent: "Google Chrome 111");
 
         var loginResult = await RequestAsync(loginCommand);
 
-        loginResult.Error.Should().BeOfType<AuthorizationError>();
+        loginResult.IsSuccess.Should().BeTrue();
     }
 }

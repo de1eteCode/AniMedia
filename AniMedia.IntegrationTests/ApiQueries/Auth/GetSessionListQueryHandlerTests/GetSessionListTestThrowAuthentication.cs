@@ -3,12 +3,14 @@ using AniMedia.Domain.Models.Responses;
 using FluentAssertions;
 using Xunit;
 
-namespace AniMedia.IntegrationTests.ApiQueries.GetSessionListQueryHandlerTests;
+namespace AniMedia.IntegrationTests.ApiQueries.Auth.GetSessionListQueryHandlerTests;
 
-public class GetSessionListTestThrowAuthentication : IntegrationTestBase {
+public class GetSessionListTestThrowAuthentication : IntegrationTestBase
+{
 
     [Fact]
-    public override async Task Test() {
+    public override async Task Test()
+    {
         var getSessionsQuery = new GetSessionListQueryCommand();
 
         var result = await RequestAsync(getSessionsQuery);

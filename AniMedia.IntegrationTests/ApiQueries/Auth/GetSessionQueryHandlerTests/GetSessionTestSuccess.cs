@@ -4,12 +4,14 @@ using AniMedia.IntegrationTests.Helpers;
 using FluentAssertions;
 using Xunit;
 
-namespace AniMedia.IntegrationTests.ApiQueries.GetSessionQueryHandlerTests;
+namespace AniMedia.IntegrationTests.ApiQueries.Auth.GetSessionQueryHandlerTests;
 
-public class GetSessionTestSuccess : IntegrationTestBase {
+public class GetSessionTestSuccess : IntegrationTestBase
+{
 
     [Fact]
-    public override async Task Test() {
+    public override async Task Test()
+    {
         var de1eteUser = await RequestAsync(CommandHelper.RegistrationDe1ete());
 
         var loginIp = CommandHelper.RandomIpAddress();

@@ -3,12 +3,14 @@ using AniMedia.Domain.Models.Responses;
 using FluentAssertions;
 using Xunit;
 
-namespace AniMedia.IntegrationTests.ApiQueries.GetSessionQueryHandlerTests;
+namespace AniMedia.IntegrationTests.ApiQueries.Auth.GetSessionQueryHandlerTests;
 
-public class GetSessionThrowAuthentication : IntegrationTestBase {
+public class GetSessionThrowAuthentication : IntegrationTestBase
+{
 
     [Fact]
-    public override async Task Test() {
+    public override async Task Test()
+    {
         var getSessionsQuery = new GetSessionQueryCommand("wrong_access_token");
 
         var result = await RequestAsync(getSessionsQuery);

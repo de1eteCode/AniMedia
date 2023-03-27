@@ -3,13 +3,13 @@
 namespace AniMedia.Application.Common.Models;
 
 public class JwtSettings {
-    public required string Key { get; init; }
+    public string Key { get; init; } = default!;
 
-    public required string Issuer { get; init; }
+    public string Issuer { get; init; } = default!;
 
-    public required string Audience { get; init; }
+    public string Audience { get; init; } = default!;
 
-    public required double AccessTokenLifeTimeInMinutes { get; init; }
+    public double AccessTokenLifeTimeInMinutes { get; init; }
 
     public byte[] GetKeyBytes() => Encoding.UTF8.GetBytes(Key);
 }

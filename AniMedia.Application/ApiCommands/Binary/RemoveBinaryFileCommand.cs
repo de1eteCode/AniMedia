@@ -23,7 +23,7 @@ public class RemoveBinaryFileCommandHandler : IRequestHandler<RemoveBinaryFileCo
         }
 
         var infoFile = new FileInfo(binFile.PathFile);
-        await Task.Factory.StartNew(infoFile.Delete);
+        await Task.Factory.StartNew(infoFile.Delete, cancellationToken);
 
         _context.BinaryFiles.Remove(binFile);
         await _context.SaveChangesAsync(cancellationToken);

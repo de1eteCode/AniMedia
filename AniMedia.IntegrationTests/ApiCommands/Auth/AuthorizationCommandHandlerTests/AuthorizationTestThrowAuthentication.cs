@@ -3,12 +3,14 @@ using AniMedia.Domain.Models.Responses;
 using FluentAssertions;
 using Xunit;
 
-namespace AniMedia.IntegrationTests.ApiCommands.AuthorizationCommandHandlerTests;
+namespace AniMedia.IntegrationTests.ApiCommands.Auth.AuthorizationCommandHandlerTests;
 
-public class AuthorizationTestThrowAuthentication : IntegrationTestBase {
+public class AuthorizationTestThrowAuthentication : IntegrationTestBase
+{
 
     [Fact]
-    public override async Task Test() {
+    public override async Task Test()
+    {
         var authCommand = new AuthorizationCommand("random_access_token");
 
         var authResult = await RequestAsync(authCommand);

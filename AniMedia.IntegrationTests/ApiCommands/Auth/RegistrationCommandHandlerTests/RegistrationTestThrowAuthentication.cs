@@ -3,12 +3,14 @@ using AniMedia.IntegrationTests.Helpers;
 using FluentAssertions;
 using Xunit;
 
-namespace AniMedia.IntegrationTests.ApiCommands.RegistrationCommandHandlerTests;
+namespace AniMedia.IntegrationTests.ApiCommands.Auth.RegistrationCommandHandlerTests;
 
-public class RegistrationTestThrowAuthentication : IntegrationTestBase {
+public class RegistrationTestThrowAuthentication : IntegrationTestBase
+{
 
     [Fact]
-    public override async Task Test() {
+    public override async Task Test()
+    {
         var reg1Command = CommandHelper.RegistrationDe1ete();
 
         await RequestAsync(reg1Command);

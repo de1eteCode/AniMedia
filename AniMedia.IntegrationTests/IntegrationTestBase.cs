@@ -17,7 +17,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime {
 
     protected DatabaseContext ApplicationDbContext { get; }
 
-    private IServiceProvider ServiceProvider { get; }
+    protected IServiceProvider ServiceProvider { get; }
 
     public IntegrationTestBase() {
         var configuration = new ConfigurationBuilder()
@@ -34,6 +34,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime {
         serviceCollection.AddJwtGeneratorServices(configuration);
         serviceCollection.AddAppAuthentication(configuration);
         serviceCollection.AddAppAuthorization();
+        serviceCollection.AddBinaryFileServices(configuration);
         serviceCollection.AddScoped<ICurrentUserService, MockCurrentUserService>();
 
         ServiceProvider = serviceCollection.BuildServiceProvider();
