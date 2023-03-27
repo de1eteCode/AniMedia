@@ -22,8 +22,8 @@ public class RemoveBinaryFileCommandHandler : IRequestHandler<RemoveBinaryFileCo
             return new Result<BinaryFileDto>(new EntityNotFoundError());
         }
 
-        var infoFile = new FileInfo(binFile.Name);
-        await Task.Run(infoFile.Delete);
+        var infoFile = new FileInfo(binFile.PathFile);
+        await Task.Factory.StartNew(infoFile.Delete);
 
         _context.BinaryFiles.Remove(binFile);
         await _context.SaveChangesAsync(cancellationToken);

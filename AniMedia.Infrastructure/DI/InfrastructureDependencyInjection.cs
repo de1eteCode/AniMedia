@@ -14,6 +14,7 @@ public static class InfrastructureDependencyInjection {
         serviceCollection.AddJwtGeneratorServices(configuration);
         serviceCollection.AddAppAuthentication(configuration);
         serviceCollection.AddAppAuthorization();
+        serviceCollection.AddBinaryFileServices(configuration);
 
         foreach (var address in configuration.GetSection("CORSAllowed").Get<List<string>>() ?? Enumerable.Empty<string>()) {
             serviceCollection.ConfigureCors(CorsPolicy, address);
