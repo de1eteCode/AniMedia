@@ -21,17 +21,17 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity> {
         builder.Property(e => e.PasswordHash).IsRequired();
 
         var de1ete = new UserEntity(
-            nickname: "de1ete",
-            passwordHash: "iDR0tLFtovM0IcDvxocHaCRCZZ6RDO3HVuUx3pIO0vDw3WP5qlLBSjVI3PmaflP5G1dVZEfE3oS4KB8IaUVQwg==",
-            passwordSalt: "wwkDoDuq1buKb/Cca65BVfLEeNkp5axgOpXkd25kDs6uCEkhtpG16z9UXxtvNBC5UnbdfHPPyduPKHjdNNsbFvkBtVR176zu4YHJWqAl9nN9By1VsUZpf+jIR5/H40teb2y+oiATCbM+zhhaBbRK8N+JVf/KxWyfPtbpJCw84X0="
+            "de1ete",
+            "iDR0tLFtovM0IcDvxocHaCRCZZ6RDO3HVuUx3pIO0vDw3WP5qlLBSjVI3PmaflP5G1dVZEfE3oS4KB8IaUVQwg==",
+            "wwkDoDuq1buKb/Cca65BVfLEeNkp5axgOpXkd25kDs6uCEkhtpG16z9UXxtvNBC5UnbdfHPPyduPKHjdNNsbFvkBtVR176zu4YHJWqAl9nN9By1VsUZpf+jIR5/H40teb2y+oiATCbM+zhhaBbRK8N+JVf/KxWyfPtbpJCw84X0="
         ) {
             UID = SeedDataConstants.De1eteUserUid
         };
 
         var common = new UserEntity(
-            nickname: "common",
-            passwordHash: "iDR0tLFtovM0IcDvxocHaCRCZZ6RDO3HVuUx3pIO0vDw3WP5qlLBSjVI3PmaflP5G1dVZEfE3oS4KB8IaUVQwg==",
-            passwordSalt: "wwkDoDuq1buKb/Cca65BVfLEeNkp5axgOpXkd25kDs6uCEkhtpG16z9UXxtvNBC5UnbdfHPPyduPKHjdNNsbFvkBtVR176zu4YHJWqAl9nN9By1VsUZpf+jIR5/H40teb2y+oiATCbM+zhhaBbRK8N+JVf/KxWyfPtbpJCw84X0="
+            "common",
+            "iDR0tLFtovM0IcDvxocHaCRCZZ6RDO3HVuUx3pIO0vDw3WP5qlLBSjVI3PmaflP5G1dVZEfE3oS4KB8IaUVQwg==",
+            "wwkDoDuq1buKb/Cca65BVfLEeNkp5axgOpXkd25kDs6uCEkhtpG16z9UXxtvNBC5UnbdfHPPyduPKHjdNNsbFvkBtVR176zu4YHJWqAl9nN9By1VsUZpf+jIR5/H40teb2y+oiATCbM+zhhaBbRK8N+JVf/KxWyfPtbpJCw84X0="
         ) {
             UID = SeedDataConstants.CommonUserUid
         };

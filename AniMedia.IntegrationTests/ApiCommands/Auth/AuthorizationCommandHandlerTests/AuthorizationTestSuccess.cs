@@ -5,12 +5,10 @@ using Xunit;
 
 namespace AniMedia.IntegrationTests.ApiCommands.Auth.AuthorizationCommandHandlerTests;
 
-public class AuthorizationTestSuccess : IntegrationTestBase
-{
+public class AuthorizationTestSuccess : IntegrationTestBase {
 
     [Fact]
-    public override async Task Test()
-    {
+    public override async Task Test() {
         var de1eteUser = await RequestAsync(CommandHelper.RegistrationDe1ete());
 
         var authCommand = new AuthorizationCommand(de1eteUser.Value!.AccessToken);

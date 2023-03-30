@@ -1,19 +1,19 @@
-﻿using Microsoft.AspNetCore.Authorization.Policy;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using AniMedia.Application.Common.Interfaces;
+﻿using AniMedia.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Policy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Infrastructure.Middlewares;
 
 public class AuthorizationResultMiddleware : IAuthorizationMiddlewareResultHandler {
     private const string BearerWithSpace = JwtBearerDefaults.AuthenticationScheme + " ";
-    private readonly AuthorizationMiddlewareResultHandler _defaultHandler;
     private readonly IApplicationDbContext _context;
+    private readonly AuthorizationMiddlewareResultHandler _defaultHandler;
 
     public AuthorizationResultMiddleware(IApplicationDbContext context) {
-        _defaultHandler = new();
+        _defaultHandler = new AuthorizationMiddlewareResultHandler();
         _context = context;
     }
 
@@ -31,7 +31,7 @@ public class AuthorizationResultMiddleware : IAuthorizationMiddlewareResultHandl
             return;
         }
 
-        /// Check session
+        #region Check session
 
         var jwt = bearerToken.Substring(BearerWithSpace.Length);
 
@@ -41,6 +41,8 @@ public class AuthorizationResultMiddleware : IAuthorizationMiddlewareResultHandl
             await WriteUnauthorized(context);
             return;
         }
+
+        #endregion Check session
 
         await _defaultHandler.HandleAsync(next, context, policy, authorizeResult);
     }

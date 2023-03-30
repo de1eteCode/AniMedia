@@ -1,15 +1,16 @@
-﻿using AniMedia.Application.Common.Models;
+﻿using System.Text;
+using AniMedia.Application.Common.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace AniMedia.Infrastructure.DI;
 
 public static class AppAuthenticationDependencyInjection {
 
-    public static IServiceCollection AddAppAuthentication(this IServiceCollection serviceCollection, IConfiguration configuration) {
+    public static IServiceCollection AddAppAuthentication(this IServiceCollection serviceCollection,
+        IConfiguration configuration) {
         serviceCollection
             .AddAuthentication(options => {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -27,7 +28,8 @@ public static class AppAuthenticationDependencyInjection {
                         ClockSkew = TimeSpan.Zero,
                         ValidIssuer = configuration[$"{nameof(JwtSettings)}:{nameof(JwtSettings.Issuer)}"],
                         ValidAudience = configuration[$"{nameof(JwtSettings)}:{nameof(JwtSettings.Audience)}"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[$"{nameof(JwtSettings)}:{nameof(JwtSettings.Key)}"]!))
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(configuration[$"{nameof(JwtSettings)}:{nameof(JwtSettings.Key)}"]!))
                     };
                 });
 

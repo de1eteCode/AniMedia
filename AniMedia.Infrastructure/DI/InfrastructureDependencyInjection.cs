@@ -7,7 +7,8 @@ namespace AniMedia.Infrastructure.DI;
 public static class InfrastructureDependencyInjection {
     public const string CorsPolicy = nameof(CorsPolicy);
 
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection serviceCollection, IConfiguration configuration) {
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection serviceCollection,
+        IConfiguration configuration) {
         serviceCollection.AddMediator();
         serviceCollection.AddDatabaseServices(configuration);
         serviceCollection.AddPasswordHashServices();
@@ -16,9 +17,8 @@ public static class InfrastructureDependencyInjection {
         serviceCollection.AddAppAuthorization();
         serviceCollection.AddBinaryFileServices(configuration);
 
-        foreach (var address in configuration.GetSection("CORSAllowed").Get<List<string>>() ?? Enumerable.Empty<string>()) {
-            serviceCollection.ConfigureCors(CorsPolicy, address);
-        }
+        foreach (var address in configuration.GetSection("CORSAllowed").Get<List<string>>() ??
+                                Enumerable.Empty<string>()) serviceCollection.ConfigureCors(CorsPolicy, address);
 
         serviceCollection.AddSwagger();
 
@@ -26,9 +26,7 @@ public static class InfrastructureDependencyInjection {
     }
 
     public static IApplicationBuilder UseInfrastructureServices(this IApplicationBuilder app, bool isDev) {
-        if (isDev) {
-            app.UseSwagger();
-        }
+        if (isDev) app.UseSwagger();
 
         app.UseAuthentication();
         app.UseAuthorization();

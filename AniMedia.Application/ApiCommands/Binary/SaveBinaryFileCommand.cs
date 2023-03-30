@@ -1,9 +1,9 @@
-﻿using AniMedia.Application.Common.Interfaces;
+﻿using System.Security.Cryptography;
+using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Entities;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
-using System.Security.Cryptography;
 
 namespace AniMedia.Application.ApiCommands.Binary;
 
@@ -15,7 +15,8 @@ namespace AniMedia.Application.ApiCommands.Binary;
 /// <param name="ContentType">Тип файла</param>
 /// <param name="Md5Hash">MD5 хеш файла</param>
 /// <returns>Информация о файле</returns>
-public record SaveBinaryFileCommand(Stream Stream, string Name, string ContentType, string Md5Hash) : IRequest<Result<BinaryFileDto>>;
+public record SaveBinaryFileCommand
+    (Stream Stream, string Name, string ContentType, string Md5Hash) : IRequest<Result<BinaryFileDto>>;
 
 public class SaveBinaryFileCommandHandler : IRequestHandler<SaveBinaryFileCommand, Result<BinaryFileDto>> {
     private readonly IApplicationDbContext _context;
@@ -26,7 +27,8 @@ public class SaveBinaryFileCommandHandler : IRequestHandler<SaveBinaryFileComman
         _dirService = dirService;
     }
 
-    public async Task<Result<BinaryFileDto>> Handle(SaveBinaryFileCommand request, CancellationToken cancellationToken) {
+    public async Task<Result<BinaryFileDto>>
+        Handle(SaveBinaryFileCommand request, CancellationToken cancellationToken) {
         string hash;
         var pathToFile = _dirService.GetNewRandomPathBinaryFile();
 
@@ -44,7 +46,8 @@ public class SaveBinaryFileCommandHandler : IRequestHandler<SaveBinaryFileComman
         if (hash.Equals(request.Md5Hash) == false) {
             await Task.Factory.StartNew(fInfo.Delete, cancellationToken);
 
-            return new Result<BinaryFileDto>(new BinaryFileError("The result of the MD5 hash function differs from the declared one"));
+            return new Result<BinaryFileDto>(
+                new BinaryFileError("The result of the MD5 hash function differs from the declared one"));
         }
 
         var binFile = new BinaryFileEntity(request.Name, pathToFile, request.ContentType, fInfo.Length, hash);

@@ -5,31 +5,33 @@
 
 
 @if (_sessions == null) {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 else {
     <table class="table">
         <thead>
-            <tr>
-                <th>UID</th>
-                <th>Date at create</th>
-                <th>User agent</th>
-                <th>IP</th>
-            </tr>
+        <tr>
+            <th>UID</th>
+            <th>Date at create</th>
+            <th>User agent</th>
+            <th>IP</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var session in _sessions) {
-                <tr>
-                    <td>@session.Uid.ToString("N")</td>
-                    <td>@session.CreateAt.ToShortDateString()</td>
-                    <td>@session.UserAgent</td>
-                    <td>@session.Ip</td>
-                </tr>
-            }
+        @foreach (var session in _sessions) {
+            <tr>
+                <td>@session.Uid.ToString("N")</td>
+                <td>@session.CreateAt.ToShortDateString()</td>
+                <td>@session.UserAgent</td>
+                <td>@session.Ip</td>
+            </tr>
+        }
         </tbody>
     </table>
 }
 
-@if (string.IsNullOrEmpty(_errorMessage) == false){
+@if (string.IsNullOrEmpty(_errorMessage) == false) {
     <p>@_errorMessage</p>
 }

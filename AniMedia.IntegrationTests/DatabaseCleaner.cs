@@ -1,6 +1,6 @@
-﻿using AniMedia.Persistence;
+﻿using System.Text;
+using AniMedia.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System.Text;
 
 namespace AniMedia.IntegrationTests;
 
@@ -15,9 +15,8 @@ public static class DatabaseCleaner {
 
         var sqlBuilder = new StringBuilder();
 
-        foreach (var table in tableNames) {
+        foreach (var table in tableNames)
             sqlBuilder.AppendLine(string.Format("TRUNCATE TABLE \"{0}\" CASCADE;", table));
-        }
 
         await databaseContext.Database.ExecuteSqlRawAsync(sqlBuilder.ToString());
     }

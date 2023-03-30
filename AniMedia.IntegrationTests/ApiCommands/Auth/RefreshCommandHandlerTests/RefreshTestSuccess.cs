@@ -6,17 +6,14 @@ using Xunit;
 
 namespace AniMedia.IntegrationTests.ApiCommands.Auth.RefreshCommandHandlerTests;
 
-public class RefreshTestSuccess : IntegrationTestBase
-{
+public class RefreshTestSuccess : IntegrationTestBase {
 
     [Fact]
-    public override async Task Test()
-    {
+    public override async Task Test() {
         var de1ete = await RequestAsync(CommandHelper.RegistrationDe1ete());
         var common = await RequestAsync(CommandHelper.RegistrationCommon());
 
-        for (int i = 0; i < 9; i++)
-        {
+        for (var i = 0; i < 9; i++) {
             var commonLoginCommand = new LoginCommand(
                 CommandHelper.RegistrationCommon().Nickname,
                 CommandHelper.RegistrationCommon().Password,

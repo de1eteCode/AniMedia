@@ -15,12 +15,12 @@ public class RemoveBinaryFileCommandHandler : IRequestHandler<RemoveBinaryFileCo
         _context = context;
     }
 
-    public async Task<Result<BinaryFileDto>> Handle(RemoveBinaryFileCommand request, CancellationToken cancellationToken) {
-        var binFile = await _context.BinaryFiles.FirstOrDefaultAsync(e => e.UID.Equals(request.BinaryFileUid), cancellationToken);
+    public async Task<Result<BinaryFileDto>> Handle(RemoveBinaryFileCommand request,
+        CancellationToken cancellationToken) {
+        var binFile =
+            await _context.BinaryFiles.FirstOrDefaultAsync(e => e.UID.Equals(request.BinaryFileUid), cancellationToken);
 
-        if (binFile == null) {
-            return new Result<BinaryFileDto>(new EntityNotFoundError());
-        }
+        if (binFile == null) return new Result<BinaryFileDto>(new EntityNotFoundError());
 
         var infoFile = new FileInfo(binFile.PathFile);
         await Task.Factory.StartNew(infoFile.Delete, cancellationToken);

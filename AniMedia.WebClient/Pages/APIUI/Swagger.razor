@@ -1,9 +1,9 @@
 ﻿@page "/swagger"
-@using Microsoft.Extensions.Configuration
 
-<iframe src="@GetSwagerUrl()" style="width:100%;height:900px;border:none;" />
+<iframe src="@GetSwagerUrl()" style="border: none; height: 900px; width: 100%;"/>
 
 @code {
+
     [Inject]
     public IConfiguration Configuration { get; set; } = default!;
 
@@ -20,4 +20,5 @@
 
         return apiUrl + "/swagger";
     }
+
 }

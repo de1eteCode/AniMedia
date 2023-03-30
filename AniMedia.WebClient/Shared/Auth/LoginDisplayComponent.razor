@@ -2,7 +2,7 @@
     <AuthorizeView>
         <Authorized>
             <a href="#">Hello, @context.User.Identity?.Name</a>
-            <AniMedia.WebClient.Shared.Auth.LogoutComponent GetReturnUrl="@GetCurrentUrl" />
+            <AniMedia.WebClient.Shared.Auth.LogoutComponent GetReturnUrl="@GetCurrentUrl"/>
         </Authorized>
         <NotAuthorized>
             <NavLink class="nav-link" href="account/register">

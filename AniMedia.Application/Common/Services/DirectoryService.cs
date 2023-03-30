@@ -11,33 +11,29 @@ public class DirectoryService : IDirectoryService {
         _settings = settings.Value;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string GetBaseDirectory() {
         return AppContext.BaseDirectory;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string GetBinaryFilesDirectory() {
         /// Todo:
         ///     Add handle incorrect config
 
-        string dir = string.Empty;
+        var dir = string.Empty;
 
-        if (_settings.UseRootDirectory) {
+        if (_settings.UseRootDirectory)
             dir = Path.Combine(GetBaseDirectory(), _settings.Directory);
-        }
-        else {
+        else
             dir = _settings.Directory;
-        }
 
-        if (Directory.Exists(dir) == false) {
-            Directory.CreateDirectory(dir);
-        }
+        if (Directory.Exists(dir) == false) Directory.CreateDirectory(dir);
 
         return dir;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string GetNewRandomPathBinaryFile() {
         var dir = GetBinaryFilesDirectory();
 
@@ -45,12 +41,10 @@ public class DirectoryService : IDirectoryService {
 
         var fullPath = Path.Combine(dir, randomName);
 
-        if (Path.Exists(fullPath)) {
-            /// Todo:
+        if (Path.Exists(fullPath)) /// Todo:
             ///     Recursion warning
 
             fullPath = GetNewRandomPathBinaryFile();
-        }
 
         return fullPath;
     }

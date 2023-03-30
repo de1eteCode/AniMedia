@@ -3,24 +3,24 @@
 <h3>Register</h3>
 
 <EditForm Model="@_vmodel" OnValidSubmit="@RegisterUser">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
 
     <p>
         <label>
             Nickname:
-            <InputText 
-                id="Nickname" 
-                @bind-Value="_vmodel.Nickname" 
-                DisplayName="Nickname" />
+            <InputText
+                id="Nickname"
+                @bind-Value="_vmodel.Nickname"
+                DisplayName="Nickname"/>
         </label>
     </p>
     <p>
         <label>
             Password:
-            <InputText 
-                id="Password" 
-                type="password" 
+            <InputText
+                id="Password"
+                type="password"
                 @bind-Value="_vmodel.Password"
                 DisplayName="Password"/>
         </label>
@@ -28,9 +28,9 @@
     <p>
         <label>
             Confirm password:
-            <InputText 
-                id="ConfirmPassword" 
-                type="password" 
+            <InputText
+                id="ConfirmPassword"
+                type="password"
                 @bind-Value="_vmodel.ConfirmPassword"
                 DisplayName="Confirm password"/>
         </label>

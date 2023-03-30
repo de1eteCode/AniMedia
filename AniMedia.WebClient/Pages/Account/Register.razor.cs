@@ -8,19 +8,15 @@ namespace AniMedia.WebClient.Pages.Account;
 
 [AllowAnonymous]
 public partial class Register : ComponentBase {
-    private RegistrationVM _vmodel = new RegistrationVM();
+    private readonly RegistrationVM _vmodel = new();
 
-    [Parameter]
-    public string ReturnUrl { get; set; } = string.Empty;
+    [Inject] public IAuthenticationService AuthenticationService { get; set; } = default!;
 
-    [Inject]
-    public IAuthenticationService AuthenticationService { get; set; } = default!;
+    [Inject] public JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
 
-    [Inject]
-    public JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
+    [Inject] public NavigationManager NavigationManager { get; set; } = default!;
 
-    [Inject]
-    public NavigationManager NavigationManager { get; set; } = default!;
+    [Parameter] public string ReturnUrl { get; set; } = string.Empty;
 
     private async Task RegisterUser() {
         var result = await AuthenticationService.Registration(_vmodel);
@@ -28,14 +24,10 @@ public partial class Register : ComponentBase {
         if (result) {
             AuthStateProvider.NotifyAuthenticationStateChanged();
 
-            if (string.IsNullOrEmpty(ReturnUrl) == false) {
-                // redirect to url
+            if (string.IsNullOrEmpty(ReturnUrl) == false) // redirect to url
                 NavigationManager.NavigateTo(ReturnUrl);
-            }
-            else {
-                // redirect to home
+            else // redirect to home
                 NavigationManager.NavigateTo("/");
-            }
         }
     }
 }

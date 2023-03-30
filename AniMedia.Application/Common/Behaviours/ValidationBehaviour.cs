@@ -4,14 +4,15 @@ using MediatR;
 namespace AniMedia.Application.Common.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-     where TRequest : notnull {
+    where TRequest : notnull {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
     public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators) {
         _validators = validators;
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken) {
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken) {
         if (_validators.Any()) {
             var context = new ValidationContext<TRequest>(request);
 
@@ -27,6 +28,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
             if (failures.Any())
                 throw new ValidationException(failures);
         }
+
         return await next();
     }
 }

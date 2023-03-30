@@ -1,6 +1,5 @@
 ﻿using AniMedia.Application.ApiCommands.Binary;
 using FluentAssertions;
-
 using Xunit;
 
 namespace AniMedia.IntegrationTests.ApiCommands.Binary.SaveBinaryFileCommandHandlerTests;

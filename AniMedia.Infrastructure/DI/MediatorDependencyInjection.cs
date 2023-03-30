@@ -2,7 +2,6 @@
 using AniMedia.Application.Common.Behaviours;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace AniMedia.Infrastructure.DI;
 

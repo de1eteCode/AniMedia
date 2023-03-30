@@ -3,25 +3,20 @@ using AniMedia.WebClient.Common.Providers;
 using AniMedia.WebClient.Common.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 
 namespace AniMedia.WebClient.Pages.Account;
 
 [AllowAnonymous]
 public partial class Login : ComponentBase {
-    private LoginVM VModel { get; } = new LoginVM();
+    private LoginVM VModel { get; } = new();
 
-    [Parameter]
-    public string ReturnUrl { get; set; } = string.Empty;
+    [Inject] public IAuthenticationService AuthenticationService { get; set; } = default!;
 
-    [Inject]
-    public IAuthenticationService AuthenticationService { get; set; } = default!;
+    [Inject] public JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
 
-    [Inject]
-    public JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
+    [Inject] public NavigationManager NavigationManager { get; set; } = default!;
 
-    [Inject]
-    public NavigationManager NavigationManager { get; set; } = default!;
+    [Parameter] public string ReturnUrl { get; set; } = string.Empty;
 
     private async Task UserLogin() {
         VModel.ReturnUrl = ReturnUrl;
@@ -31,14 +26,10 @@ public partial class Login : ComponentBase {
         if (result) {
             AuthStateProvider.NotifyAuthenticationStateChanged();
 
-            if (string.IsNullOrEmpty(VModel.ReturnUrl) == false) {
-                // redirect to url
+            if (string.IsNullOrEmpty(VModel.ReturnUrl) == false) // redirect to url
                 NavigationManager.NavigateTo(ReturnUrl);
-            }
-            else {
-                // redirect to home
+            else // redirect to home
                 NavigationManager.NavigateTo("/");
-            }
         }
     }
 }

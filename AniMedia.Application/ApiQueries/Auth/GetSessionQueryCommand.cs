@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiQueries.Auth;
+
 public record GetSessionQueryCommand(string AccessToken) : IRequest<Result<SessionDto>>;
 
 public class GetSessionQueryCommandHandler : IRequestHandler<GetSessionQueryCommand, Result<SessionDto>> {
@@ -17,16 +18,15 @@ public class GetSessionQueryCommandHandler : IRequestHandler<GetSessionQueryComm
     }
 
     public async Task<Result<SessionDto>> Handle(GetSessionQueryCommand request, CancellationToken cancellationToken) {
-        if (_currentUserService.UserUID == null) {
+        if (_currentUserService.UserUID == null)
             return new Result<SessionDto>(new AuthenticationError("Not auth user"));
-        }
 
         var session = await _context.Sessions
-            .FirstOrDefaultAsync(e => e.AccessToken.Equals(request.AccessToken) && e.UserUid.Equals(_currentUserService.UserUID), cancellationToken);
+            .FirstOrDefaultAsync(
+                e => e.AccessToken.Equals(request.AccessToken) && e.UserUid.Equals(_currentUserService.UserUID),
+                cancellationToken);
 
-        if (session == null) {
-            return new Result<SessionDto>(new EntityNotFoundError("Session not found"));
-        }
+        if (session == null) return new Result<SessionDto>(new EntityNotFoundError("Session not found"));
 
         return new Result<SessionDto>(new SessionDto(session));
     }

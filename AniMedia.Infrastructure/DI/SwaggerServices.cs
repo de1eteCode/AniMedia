@@ -11,7 +11,7 @@ public static class SwaggerServices {
         serviceCollection.AddSwaggerGen(c => {
             c.AddSecurityDefinition(
                 JwtBearerDefaults.AuthenticationScheme,
-                new OpenApiSecurityScheme() {
+                new OpenApiSecurityScheme {
                     Description = "JWT Authorization header using the Bearer scheme",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
@@ -19,10 +19,10 @@ public static class SwaggerServices {
                     Scheme = JwtBearerDefaults.AuthenticationScheme
                 });
 
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement() {
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement {
                 {
-                    new OpenApiSecurityScheme() {
-                        Reference = new OpenApiReference() {
+                    new OpenApiSecurityScheme {
+                        Reference = new OpenApiReference {
                             Id = JwtBearerDefaults.AuthenticationScheme,
                             Type = ReferenceType.SecurityScheme
                         }
@@ -31,7 +31,7 @@ public static class SwaggerServices {
                 }
             });
 
-            c.SwaggerDoc("v1", new OpenApiInfo() {
+            c.SwaggerDoc("v1", new OpenApiInfo {
                 Version = "v1",
                 Title = "AniMedia API"
             });

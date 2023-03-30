@@ -5,19 +5,17 @@ using Xunit;
 
 namespace AniMedia.IntegrationTests.ApiCommands.Auth.LoginCommandHandlerTests;
 
-public class LoginTestSuccess : IntegrationTestBase
-{
+public class LoginTestSuccess : IntegrationTestBase {
 
     [Fact]
-    public override async Task Test()
-    {
+    public override async Task Test() {
         await RequestAsync(CommandHelper.RegistrationDe1ete());
 
         var loginCommand = new LoginCommand(
-            Nickname: CommandHelper.RegistrationDe1ete().Nickname,
-            Password: CommandHelper.RegistrationDe1ete().Password,
-            Ip: "216.28.34.2",
-            UserAgent: "Google Chrome 111");
+            CommandHelper.RegistrationDe1ete().Nickname,
+            CommandHelper.RegistrationDe1ete().Password,
+            "216.28.34.2",
+            "Google Chrome 111");
 
         var loginResult = await RequestAsync(loginCommand);
 

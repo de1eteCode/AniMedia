@@ -1,6 +1,6 @@
-﻿using AniMedia.WebClient.Common.Contracts;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using AniMedia.WebClient.Common.Contracts;
 
 namespace AniMedia.WebClient.Common.Services;
 
@@ -12,25 +12,19 @@ public class JwtReadService : IJwtTokenReadService {
     }
 
     public IEnumerable<string> GetAudiences(string token) {
-        if (TryParseJwtToken(token, out var securityToken)) {
-            return securityToken!.Audiences;
-        }
+        if (TryParseJwtToken(token, out var securityToken)) return securityToken!.Audiences;
 
         return Enumerable.Empty<string>();
     }
 
     public IEnumerable<Claim> GetClaims(string token) {
-        if (TryParseJwtToken(token, out var securityToken)) {
-            return securityToken!.Claims;
-        }
+        if (TryParseJwtToken(token, out var securityToken)) return securityToken!.Claims;
 
         return Enumerable.Empty<Claim>();
     }
 
     public DateTime GetExpirationDate(string token) {
-        if (TryParseJwtToken(token, out var securityToken)) {
-            return securityToken!.ValidTo;
-        }
+        if (TryParseJwtToken(token, out var securityToken)) return securityToken!.ValidTo;
 
         return DateTime.MinValue;
     }

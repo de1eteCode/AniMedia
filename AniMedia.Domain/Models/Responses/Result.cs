@@ -1,11 +1,6 @@
 ﻿namespace AniMedia.Domain.Models.Responses;
 
 public class Result<TValue> {
-    public bool IsSuccess { get; set; } = true;
-
-    public TValue? Value { get; set; }
-
-    public Error? Error { get; set; }
 
     public Result(TValue value) {
         Value = value;
@@ -15,4 +10,10 @@ public class Result<TValue> {
         Error = error;
         IsSuccess = false;
     }
+
+    public Error? Error { get; set; }
+
+    public bool IsSuccess { get; set; } = true;
+
+    public TValue? Value { get; set; }
 }

@@ -1,5 +1,5 @@
-﻿using AniMedia.Domain.Entities;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
+using AniMedia.Domain.Entities;
 
 namespace AniMedia.Application.Common.Interfaces;
 
@@ -9,7 +9,7 @@ public interface ITokenService {
     /// Создание токена доступа
     /// </summary>
     /// <param name="user">Пользователь</param>
-    /// <returns>Токен доступа для <paramref name="user"/></returns>
+    /// <returns>Токен доступа для <paramref name="user" /></returns>
     public string CreateAccessToken(UserEntity user);
 
     /// <summary>

@@ -1,28 +1,64 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.Diagnostics.CodeAnalysis;
 
 namespace AniMedia.Components.Player;
 
 public partial class VideoPlayer : IAsyncDisposable {
 
-    [Inject]
+    /// <summary>
+    /// Автоматическое воспроизведение, значение по умолчанию: false
+    /// </summary>
+    [Parameter]
+    public bool Autoplay { get; set; }
+
+    /// <summary>
+    /// Отобразите панель управления, значение по умолчанию: true
+    /// </summary>
+    [Parameter]
+    public bool Controls { get; set; } = true;
+
+    /// <summary>
+    /// Отображение отладочной информации
+    /// </summary>
+    [Parameter]
+    public bool Debug { get; set; }
+
+    /// <summary>
+    /// Высота
+    /// </summary>
+    [Parameter]
+    public int Height { get; set; } = 200;
+
+    /// <summary>
+    /// Тип ресурса
+    /// <para>video/mp4</para>
+    /// <para>application/x-mpegURL</para>
+    /// <para>video/ogg</para>
+    /// <para>video/x-matroska</para>
+    /// <para>Обратитесь к <see cref="EnumVideoType" /> для получения дополнительной информации</para>
+    /// </summary>
+    [Parameter]
     [NotNull]
-    private IJSRuntime? JSRuntime { get; set; }
+    public string? MineType { get; set; } = "application/x-mpegURL";
 
-    [NotNull]
-    private IJSObjectReference? Module { get; set; }
+    /// <summary>
+    /// Метод обратного вызова Get/set error
+    /// </summary>
+    [Parameter]
+    public Func<string, Task>? OnError { get; set; }
 
-    private DotNetObjectReference<VideoPlayer>? Instance { get; set; }
+    /// <summary>
+    /// Задайте ресурс обложки, относительный или абсолютный путь
+    /// </summary>
+    [Parameter]
+    public string? Poster { get; set; }
 
-    private ElementReference Element { get; set; }
-
-    private bool IsInitialized { get; set; }
-
-    private string? DebugInfo { get; set; }
-
-    [NotNull]
-    private string? Id { get; set; }
+    /// <summary>
+    /// Предварительная загрузка, по умолчанию: auto
+    /// </summary>
+    [Parameter]
+    public string Preload { get; set; } = "auto";
 
     /// <summary>
     /// Адрес ресурса
@@ -33,67 +69,40 @@ public partial class VideoPlayer : IAsyncDisposable {
     public string? Url { get; set; }
 
     /// <summary>
-    /// Тип ресурса
-    /// <para>video/mp4</para>
-    /// <para>application/x-mpegURL</para>
-    /// <para>video/ogg</para>
-    /// <para>video/x-matroska</para>
-    /// <para>Обратитесь к <see cref="EnumVideoType"/> для получения дополнительной информации</para>
-    /// </summary>
-    [Parameter]
-    [NotNull]
-    public string? MineType { get; set; } = "application/x-mpegURL";
-
-    /// <summary>
     /// Ширина
     /// </summary>
     [Parameter]
     public int Width { get; set; } = 300;
 
-    /// <summary>
-    /// Высота
-    /// </summary>
-    [Parameter]
-    public int Height { get; set; } = 200;
+    private string? DebugInfo { get; set; }
+
+    private ElementReference Element { get; set; }
+
+    [NotNull] private string? Id { get; set; }
+
+    private DotNetObjectReference<VideoPlayer>? Instance { get; set; }
+
+    private bool IsInitialized { get; set; }
+
+    [Inject] [NotNull] private IJSRuntime? JSRuntime { get; set; }
+
+    [NotNull] private IJSObjectReference? Module { get; set; }
 
     /// <summary>
-    /// Отобразите панель управления, значение по умолчанию: true
+    /// <inheritdoc />
     /// </summary>
-    [Parameter]
-    public bool Controls { get; set; } = true;
+    /// <returns></returns>
+    public async ValueTask DisposeAsync() {
+        if (Module is not null) {
+            await Module.InvokeVoidAsync("destroy", Id);
+            await Module.DisposeAsync();
+        }
+
+        GC.SuppressFinalize(this);
+    }
 
     /// <summary>
-    /// Автоматическое воспроизведение, значение по умолчанию: false
-    /// </summary>
-    [Parameter]
-    public bool Autoplay { get; set; } = false;
-
-    /// <summary>
-    /// Предварительная загрузка, по умолчанию: auto
-    /// </summary>
-    [Parameter]
-    public string Preload { get; set; } = "auto";
-
-    /// <summary>
-    /// Задайте ресурс обложки, относительный или абсолютный путь
-    /// </summary>
-    [Parameter]
-    public string? Poster { get; set; }
-
-    /// <summary>
-    /// Отображение отладочной информации
-    /// </summary>
-    [Parameter]
-    public bool Debug { get; set; }
-
-    /// <summary>
-    /// Метод обратного вызова Get/set error
-    /// </summary>
-    [Parameter]
-    public Func<string, Task>? OnError { get; set; }
-
-    /// <summary>
-    /// <inheritdoc/>
+    /// <inheritdoc />
     /// </summary>
     protected override void OnInitialized() {
         base.OnInitialized();
@@ -102,19 +111,22 @@ public partial class VideoPlayer : IAsyncDisposable {
     }
 
     /// <summary>
-    /// <inheritdoc/>
+    /// <inheritdoc />
     /// </summary>
     /// <param name="firstRender"></param>
     /// <returns></returns>
     protected override async Task OnAfterRenderAsync(bool firstRender) {
         if (firstRender) {
-            Module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{GetProjectName()}/videoplayerapp.js");
+            Module = await JSRuntime.InvokeAsync<IJSObjectReference>("import",
+                $"./_content/{GetProjectName()}/videoplayerapp.js");
             Instance = DotNetObjectReference.Create(this);
             await MakesurePlayerReady();
         }
     }
 
-    protected string GetProjectName() => GetType().Assembly.FullName!.Split(',').First();
+    protected string GetProjectName() {
+        return GetType().Assembly.FullName!.Split(',').First();
+    }
 
     /// <summary>
     /// Инициализация, никакие юридические параметры Url не инициализированы, перезагрузка обнаружит и повторно инициализирует
@@ -123,10 +135,10 @@ public partial class VideoPlayer : IAsyncDisposable {
     private async Task MakesurePlayerReady() {
         if (!IsInitialized) {
             if (string.IsNullOrEmpty(Url)) {
-                await Logger($"Url is empty");
+                await Logger("Url is empty");
             }
             else {
-                var option = new VideoPlayerOption() {
+                var option = new VideoPlayerOption {
                     Width = Width,
                     Height = Height,
                     Controls = Controls,
@@ -168,7 +180,9 @@ public partial class VideoPlayer : IAsyncDisposable {
     /// </summary>
     /// <returns></returns>
     [JSInvokable]
-    public void GetInit() => IsInitialized = true;
+    public void GetInit() {
+        IsInitialized = true;
+    }
 
     /// <summary>
     /// Метод обратного вызова JS
@@ -178,25 +192,9 @@ public partial class VideoPlayer : IAsyncDisposable {
     [JSInvokable]
     public async Task Logger(string message) {
         DebugInfo = message;
-        if (Debug) {
-            StateHasChanged();
-        }
+        if (Debug) StateHasChanged();
 
         Console.WriteLine(DebugInfo);
-        if (OnError != null) {
-            await OnError.Invoke(DebugInfo);
-        }
-    }
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    /// <returns></returns>
-    public async ValueTask DisposeAsync() {
-        if (Module is not null) {
-            await Module.InvokeVoidAsync("destroy", Id);
-            await Module.DisposeAsync();
-        }
-        GC.SuppressFinalize(this);
+        if (OnError != null) await OnError.Invoke(DebugInfo);
     }
 }

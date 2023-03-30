@@ -19,7 +19,8 @@ public class Program {
 
         /// http client
         builder.Services.AddScoped<JwtAuthorizationMessageHandler>();
-        builder.Services.AddHttpClient<IApiClient, ApiClient>("AniMedia.API", client => client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("ApiServiceUrl")!))
+        builder.Services.AddHttpClient<IApiClient, ApiClient>("AniMedia.API",
+                client => client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("ApiServiceUrl")!))
             .AddHttpMessageHandler<JwtAuthorizationMessageHandler>();
         //.AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
@@ -28,7 +29,8 @@ public class Program {
         /// auth jwt handler
         builder.Services.AddAuthorizationCore();
         builder.Services.AddScoped<JwtAuthenticationStateProvider>();
-        builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<JwtAuthenticationStateProvider>());
+        builder.Services.AddScoped<AuthenticationStateProvider>(sp =>
+            sp.GetRequiredService<JwtAuthenticationStateProvider>());
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
         /// services

@@ -3,10 +3,6 @@
 namespace AniMedia.Domain.Models.Dtos;
 
 public class SessionDto {
-    public Guid Uid { get; set; } = default!;
-    public string Ip { get; set; } = default!;
-    public string UserAgent { get; set; } = default!;
-    public DateTime CreateAt { get; set; } = default!;
 
     public SessionDto() {
     }
@@ -17,4 +13,12 @@ public class SessionDto {
         UserAgent = session.UserAgent;
         CreateAt = session.CreateAt;
     }
+
+    public DateTime CreateAt { get; set; }
+
+    public string Ip { get; set; } = default!;
+
+    public Guid Uid { get; set; }
+
+    public string UserAgent { get; set; } = default!;
 }

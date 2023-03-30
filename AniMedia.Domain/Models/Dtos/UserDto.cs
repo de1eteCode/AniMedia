@@ -3,15 +3,6 @@
 namespace AniMedia.Domain.Models.Dtos;
 
 public class UserDto {
-    public Guid UID { get; set; } = default!;
-
-    public string NickName { get; set; } = default!;
-
-    public string? FirstName { get; set; }
-
-    public string? SecondName { get; set; }
-
-    public string? AvatarLink { get; set; }
 
     public UserDto() {
     }
@@ -23,4 +14,14 @@ public class UserDto {
         FirstName = user.FirstName;
         SecondName = user.SecondName;
     }
+
+    public string? AvatarLink { get; set; }
+
+    public string? FirstName { get; set; }
+
+    public string NickName { get; set; } = default!;
+
+    public string? SecondName { get; set; }
+
+    public Guid UID { get; set; }
 }

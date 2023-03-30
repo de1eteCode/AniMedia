@@ -3,9 +3,6 @@
 namespace AniMedia.Domain.Models.Dtos;
 
 public class BinaryFileDto {
-    public Guid UID { get; set; } = default!;
-    public string Name { get; set; } = default!;
-    public string ContentType { get; set; } = default!;
 
     public BinaryFileDto() {
     }
@@ -15,4 +12,10 @@ public class BinaryFileDto {
         Name = binaryFile.Name;
         ContentType = binaryFile.ContentType;
     }
+
+    public string ContentType { get; set; } = default!;
+
+    public string Name { get; set; } = default!;
+
+    public Guid UID { get; set; }
 }

@@ -3,14 +3,9 @@
 public class VideoPlayerOption {
 
     /// <summary>
-    /// 宽度
+    /// 自动播放,默认 true
     /// </summary>
-    public int Width { get; set; } = 300;
-
-    /// <summary>
-    /// 高度
-    /// </summary>
-    public int Height { get; set; } = 200;
+    public bool Autoplay { get; set; } = true;
 
     /// <summary>
     /// 显示控制条,默认 true
@@ -18,9 +13,14 @@ public class VideoPlayerOption {
     public bool Controls { get; set; } = true;
 
     /// <summary>
-    /// 自动播放,默认 true
+    /// 高度
     /// </summary>
-    public bool Autoplay { get; set; } = true;
+    public int Height { get; set; } = 200;
+
+    /// <summary>
+    /// 设置封面资源,相对或者绝对路径
+    /// </summary>
+    public string? Poster { get; set; }
 
     /// <summary>
     /// 预载,默认 auto
@@ -30,10 +30,10 @@ public class VideoPlayerOption {
     /// <summary>
     /// 播放资源
     /// </summary>
-    public List<VideoSources> Sources { get; set; } = new List<VideoSources>();
+    public List<VideoSources> Sources { get; set; } = new();
 
     /// <summary>
-    /// 设置封面资源,相对或者绝对路径
+    /// 宽度
     /// </summary>
-    public string? Poster { get; set; }
+    public int Width { get; set; } = 300;
 }

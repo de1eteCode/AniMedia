@@ -4,18 +4,24 @@ namespace AniMedia.IntegrationTests.Helpers;
 
 public static class CommandHelper {
 
-    public static RegistrationCommand RegistrationDe1ete() => new RegistrationCommand(
-        Nickname: "de1ete",
-        Password: "password",
-        Ip: "127.0.0.1",
-        UserAgent: "VisualStudio 2022");
+    public static RegistrationCommand RegistrationDe1ete() {
+        return new RegistrationCommand(
+            "de1ete",
+            "password",
+            "127.0.0.1",
+            "VisualStudio 2022");
+    }
 
-    public static RegistrationCommand RegistrationCommon() => new RegistrationCommand(
-        Nickname: "common",
-        Password: "edsregtertgert",
-        Ip: "212.23.4.243",
-        UserAgent: "VisualStudio 2022");
+    public static RegistrationCommand RegistrationCommon() {
+        return new RegistrationCommand(
+            "common",
+            "edsregtertgert",
+            "212.23.4.243",
+            "VisualStudio 2022");
+    }
 
-    public static string RandomIpAddress() =>
-        $"{Random.Shared.Next(1, 255)}.{Random.Shared.Next(1, 255)}.{Random.Shared.Next(1, 255)}.{Random.Shared.Next(1, 255)}";
+    public static string RandomIpAddress() {
+        return
+            $"{Random.Shared.Next(1, 255)}.{Random.Shared.Next(1, 255)}.{Random.Shared.Next(1, 255)}.{Random.Shared.Next(1, 255)}";
+    }
 }

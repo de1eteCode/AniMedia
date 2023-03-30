@@ -13,6 +13,11 @@ public class VideoSources {
     }
 
     /// <summary>
+    /// 资源地址
+    /// </summary>
+    public string Src { get; set; }
+
+    /// <summary>
     /// 资源类型
     /// <para>video/mp4</para>
     /// <para>application/x-mpegURL</para>
@@ -21,9 +26,4 @@ public class VideoSources {
     /// <para>更多参考 EnumVideoType</para>
     /// </summary>
     public string Type { get; set; } = "application/x-mpegURL";
-
-    /// <summary>
-    /// 资源地址
-    /// </summary>
-    public string Src { get; set; }
 }

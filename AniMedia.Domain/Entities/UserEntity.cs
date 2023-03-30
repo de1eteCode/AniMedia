@@ -8,12 +8,24 @@ namespace AniMedia.Domain.Entities;
 /// Пользователь
 /// </summary>
 public class UserEntity : IBaseEntity {
-    public Guid UID { get; set; } = Guid.NewGuid();
+
+    public UserEntity(string nickname, string passwordHash, string passwordSalt, string firstName = "",
+        string secondName = "", string avatarLink = "") {
+        Nickname = nickname;
+        AvatarLink = avatarLink;
+        PasswordHash = passwordHash;
+        PasswordSalt = passwordSalt;
+
+        FirstName = firstName;
+        SecondName = secondName;
+
+        new UserEntityValidator().ValidateAndThrow(this);
+    }
 
     /// <summary>
-    /// Никнейм
+    /// Ссылка на аватар
     /// </summary>
-    public string Nickname { get; set; } = default!;
+    public string? AvatarLink { get; set; }
 
     /// <summary>
     /// Имя
@@ -21,14 +33,9 @@ public class UserEntity : IBaseEntity {
     public string? FirstName { get; set; }
 
     /// <summary>
-    /// Фамилия
+    /// Никнейм
     /// </summary>
-    public string? SecondName { get; set; }
-
-    /// <summary>
-    /// Ссылка на аватар
-    /// </summary>
-    public string? AvatarLink { get; set; }
+    public string Nickname { get; set; } = default!;
 
     /// <summary>
     /// Хеш пароля
@@ -41,19 +48,14 @@ public class UserEntity : IBaseEntity {
     public string PasswordSalt { get; set; } = default!;
 
     /// <summary>
+    /// Фамилия
+    /// </summary>
+    public string? SecondName { get; set; }
+
+    /// <summary>
     /// Сессии пользователя
     /// </summary>
     public virtual List<SessionEntity> Sessions { get; set; } = new();
 
-    public UserEntity(string nickname, string passwordHash, string passwordSalt, string firstName = "", string secondName = "", string avatarLink = "") {
-        Nickname = nickname;
-        AvatarLink = avatarLink;
-        PasswordHash = passwordHash;
-        PasswordSalt = passwordSalt;
-
-        FirstName = firstName;
-        SecondName = secondName;
-
-        new UserEntityValidator().ValidateAndThrow(this);
-    }
+    public Guid UID { get; set; } = Guid.NewGuid();
 }

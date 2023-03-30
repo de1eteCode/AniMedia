@@ -6,12 +6,10 @@ using Xunit;
 
 namespace AniMedia.IntegrationTests.ApiCommands.Auth.RemoveSessionCommandHandlerTests;
 
-public class RemoveSessionTestSuccess : IntegrationTestBase
-{
+public class RemoveSessionTestSuccess : IntegrationTestBase {
 
     [Fact]
-    public override async Task Test()
-    {
+    public override async Task Test() {
         var de1eteUser = await RequestAsync(CommandHelper.RegistrationDe1ete());
 
         var loginIp = CommandHelper.RandomIpAddress();

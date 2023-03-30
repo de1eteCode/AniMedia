@@ -2,21 +2,14 @@
 using AniMedia.Application.ApiQueries.Auth;
 using AniMedia.IntegrationTests.Helpers;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AniMedia.IntegrationTests.ApiQueries.Auth.GetSessionListQueryHandlerTests;
 
-public class GetSessionListTestSuccess : IntegrationTestBase
-{
+public class GetSessionListTestSuccess : IntegrationTestBase {
 
     [Fact]
-    public override async Task Test()
-    {
+    public override async Task Test() {
         var de1eteUser = await RequestAsync(CommandHelper.RegistrationDe1ete());
 
         var loginCommand = new LoginCommand(

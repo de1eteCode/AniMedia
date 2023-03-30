@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiQueries.Auth;
 
-public record GetSessionListQueryCommand() : IRequest<Result<List<SessionDto>>>;
+public record GetSessionListQueryCommand : IRequest<Result<List<SessionDto>>>;
 
 public class GetSessionListQueryCommandHandler : IRequestHandler<GetSessionListQueryCommand, Result<List<SessionDto>>> {
     private readonly IApplicationDbContext _context;
@@ -17,10 +17,10 @@ public class GetSessionListQueryCommandHandler : IRequestHandler<GetSessionListQ
         _currentUserService = currentUserService;
     }
 
-    public async Task<Result<List<SessionDto>>> Handle(GetSessionListQueryCommand request, CancellationToken cancellationToken) {
-        if (_currentUserService.UserUID == null) {
+    public async Task<Result<List<SessionDto>>> Handle(GetSessionListQueryCommand request,
+        CancellationToken cancellationToken) {
+        if (_currentUserService.UserUID == null)
             return new Result<List<SessionDto>>(new AuthenticationError("Not auth user"));
-        }
 
         var sessions = await _context.Sessions
             .Where(e => e.UserUid.Equals(_currentUserService.UserUID))

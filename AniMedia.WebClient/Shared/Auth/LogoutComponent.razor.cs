@@ -6,17 +6,13 @@ namespace AniMedia.WebClient.Shared.Auth;
 
 public partial class LogoutComponent : ComponentBase {
 
-    [Parameter]
-    public Func<string> GetReturnUrl { get; set; } = default!;
+    [Parameter] public Func<string> GetReturnUrl { get; set; } = default!;
 
-    [Inject]
-    internal IAuthenticationService AuthenticationService { get; set; } = default!;
+    [Inject] public NavigationManager NavigationManager { get; set; } = default!;
 
-    [Inject]
-    internal JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
+    [Inject] internal IAuthenticationService AuthenticationService { get; set; } = default!;
 
-    [Inject]
-    public NavigationManager NavigationManager { get; set; } = default!;
+    [Inject] internal JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
 
     public async Task LogOut() {
         await AuthenticationService.Logout();
@@ -24,12 +20,10 @@ public partial class LogoutComponent : ComponentBase {
 
         if (GetReturnUrl != null) {
             var retUrl = GetReturnUrl.Invoke();
-            if (string.IsNullOrEmpty(retUrl) == false) {
+            if (string.IsNullOrEmpty(retUrl) == false)
                 NavigationManager.NavigateTo(retUrl);
-            }
-            else {
+            else
                 RedirectToHome();
-            }
         }
         else {
             RedirectToHome();

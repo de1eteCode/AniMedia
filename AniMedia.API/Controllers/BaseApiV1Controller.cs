@@ -14,7 +14,8 @@ public abstract class BaseApiV1Controller : ControllerBase {
     }
 
     [NonAction]
-    protected async Task<IActionResult> RequestAsync<TValue>(IRequest<Result<TValue>> request, CancellationToken cancellationToken) {
+    protected async Task<IActionResult> RequestAsync<TValue>(IRequest<Result<TValue>> request,
+        CancellationToken cancellationToken) {
         var result = await _mediator.Send(request, cancellationToken);
 
         return result.Error switch {

@@ -1,25 +1,25 @@
-﻿import '/_content/AniMedia.Components.Player/video.min.js';
-import '/_content/AniMedia.Components.Player/videojs-http-streaming.min.js';
+﻿import "/_content/AniMedia.Components.Player/video.min.js";
+import "/_content/AniMedia.Components.Player/videojs-http-streaming.min.js";
 
 var player = null;
 
 export function loadPlayer(instance, id, options) {
-    console.log('player id', id);
+    console.log("player id", id);
     player = videojs(id, options);
 
-    player.ready(function () {
-        console.log('player.ready');
+    player.ready(function() {
+        console.log("player.ready");
         var promise = player.play();
 
         if (promise !== undefined) {
-            promise.then(function () {
-                console.log('Autoplay started!');
-            }).catch(function (error) {
-                console.log('Autoplay was prevented.', error);
-                instance.invokeMethodAsync('Logger', 'Autoplay was prevented.' + error);
+            promise.then(function() {
+                console.log("Autoplay started!");
+            }).catch(function(error) {
+                console.log("Autoplay was prevented.", error);
+                instance.invokeMethodAsync("Logger", "Autoplay was prevented." + error);
             });
         }
-        instance.invokeMethodAsync('GetInit');
+        instance.invokeMethodAsync("GetInit");
     });
 
     return false;
@@ -45,6 +45,6 @@ export function reloadPlayer(videoSource, type) {
 export function destroy(id) {
     if (undefined !== player && null !== player) {
         player = null;
-        console.log('destroy');
+        console.log("destroy");
     }
 }

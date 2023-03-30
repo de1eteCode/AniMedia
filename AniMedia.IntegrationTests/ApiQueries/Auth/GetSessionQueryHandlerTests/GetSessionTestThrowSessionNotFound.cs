@@ -6,12 +6,10 @@ using Xunit;
 
 namespace AniMedia.IntegrationTests.ApiQueries.Auth.GetSessionQueryHandlerTests;
 
-public class GetSessionTestThrowSessionNotFound : IntegrationTestBase
-{
+public class GetSessionTestThrowSessionNotFound : IntegrationTestBase {
 
     [Fact]
-    public override async Task Test()
-    {
+    public override async Task Test() {
         var de1eteUser = await RequestAsync(CommandHelper.RegistrationDe1ete());
 
         SetUser(de1eteUser.Value!.UID);

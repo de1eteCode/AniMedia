@@ -1,5 +1,5 @@
-﻿using AniMedia.WebClient.Common.Contracts;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
+using AniMedia.WebClient.Common.Contracts;
 
 namespace AniMedia.WebClient.Common.Handlers;
 
@@ -10,7 +10,8 @@ public class JwtAuthorizationMessageHandler : DelegatingHandler {
         _tokenService = tokenService;
     }
 
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) {
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+        CancellationToken cancellationToken) {
         var currentToken = await _tokenService.GetTokenAsync(cancellationToken);
 
         if (string.IsNullOrEmpty(currentToken) == false) {

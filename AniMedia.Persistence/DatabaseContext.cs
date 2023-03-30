@@ -1,7 +1,7 @@
-﻿using AniMedia.Application.Common.Interfaces;
+﻿using System.Reflection;
+using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace AniMedia.Persistence;
 
@@ -11,11 +11,11 @@ public class DatabaseContext : DbContext, IApplicationDbContext {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
-    public DbSet<UserEntity> Users { get; set; }
+    public DbSet<BinaryFileEntity> BinaryFiles { get; set; }
 
     public DbSet<SessionEntity> Sessions { get; set; }
 
-    public DbSet<BinaryFileEntity> BinaryFiles { get; set; }
+    public DbSet<UserEntity> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
