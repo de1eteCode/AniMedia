@@ -8,8 +8,7 @@ namespace AniMedia.Infrastructure.DI;
 
 public static class BinaryFileDependencyInjection {
 
-    public static IServiceCollection AddBinaryFileServices(this IServiceCollection serviceCollection,
-        IConfiguration configuration) {
+    public static IServiceCollection AddBinaryFileServices(this IServiceCollection serviceCollection, IConfiguration configuration) {
         serviceCollection.Configure<BinaryFileSettings>(configuration.GetSection(nameof(BinaryFileSettings)));
 
         serviceCollection.AddScoped<IDirectoryService, DirectoryService>();

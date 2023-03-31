@@ -78,15 +78,19 @@ public partial class VideoPlayer : IAsyncDisposable {
 
     private ElementReference Element { get; set; }
 
-    [NotNull] private string? Id { get; set; }
+    [NotNull]
+    private string? Id { get; set; }
 
     private DotNetObjectReference<VideoPlayer>? Instance { get; set; }
 
     private bool IsInitialized { get; set; }
 
-    [Inject] [NotNull] private IJSRuntime? JSRuntime { get; set; }
+    [Inject]
+    [NotNull]
+    private IJSRuntime? JSRuntime { get; set; }
 
-    [NotNull] private IJSObjectReference? Module { get; set; }
+    [NotNull]
+    private IJSObjectReference? Module { get; set; }
 
     /// <summary>
     /// <inheritdoc />
@@ -192,9 +196,15 @@ public partial class VideoPlayer : IAsyncDisposable {
     [JSInvokable]
     public async Task Logger(string message) {
         DebugInfo = message;
-        if (Debug) StateHasChanged();
+
+        if (Debug) {
+            StateHasChanged();
+        }
 
         Console.WriteLine(DebugInfo);
-        if (OnError != null) await OnError.Invoke(DebugInfo);
+
+        if (OnError != null) {
+            await OnError.Invoke(DebugInfo);
+        }
     }
 }

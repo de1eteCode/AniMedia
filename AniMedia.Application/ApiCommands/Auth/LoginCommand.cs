@@ -15,8 +15,7 @@ namespace AniMedia.Application.ApiCommands.Auth;
 /// <param name="Password">Пароль</param>
 /// <param name="Ip">Ip адрес</param>
 /// <param name="UserAgent">Юзер агент</param>
-public record LoginCommand
-    (string Nickname, string Password, string Ip, string UserAgent) : IRequest<Result<AuthorizationResponse>>;
+public record LoginCommand(string Nickname, string Password, string Ip, string UserAgent) : IRequest<Result<AuthorizationResponse>>;
 
 public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<AuthorizationResponse>> {
     private readonly IApplicationDbContext _context;
@@ -24,7 +23,10 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<Authoriz
     private readonly JwtSettings _jwtSettings;
     private readonly ITokenService _tokenService;
 
-    public LoginCommandHandler(IApplicationDbContext context, ITokenService tokenService, IHashService hashService,
+    public LoginCommandHandler(
+        IApplicationDbContext context,
+        ITokenService tokenService,
+        IHashService hashService,
         IOptions<JwtSettings> jwtSettings) {
         _context = context;
         _tokenService = tokenService;
@@ -33,15 +35,17 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<Authoriz
     }
 
     public async Task<Result<AuthorizationResponse>> Handle(LoginCommand request, CancellationToken cancellationToken) {
-        var requester =
-            await _context.Users.FirstOrDefaultAsync(e => e.Nickname.Equals(request.Nickname), cancellationToken);
+        var requester = await _context.Users.FirstOrDefaultAsync(e => e.Nickname.Equals(request.Nickname), cancellationToken);
 
-        if (requester == null) return new Result<AuthorizationResponse>(new AuthorizationError("User does not exists"));
+        if (requester == null) {
+            return new Result<AuthorizationResponse>(new AuthorizationError("User does not exists"));
+        }
 
         var passHash = _hashService.Hmacsha512CryptoHashWithSalt(request.Password, requester.PasswordSalt);
 
-        if (requester.PasswordHash.Equals(passHash) == false)
+        if (requester.PasswordHash.Equals(passHash) == false) {
             return new Result<AuthorizationResponse>(new AuthorizationError("Password is wrong"));
+        }
 
         var accessToken = _tokenService.CreateAccessToken(requester);
 
@@ -58,7 +62,6 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<Authoriz
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return new Result<AuthorizationResponse>(new AuthorizationResponse(requester.UID, accessToken,
-            session.RefreshToken));
+        return new Result<AuthorizationResponse>(new AuthorizationResponse(requester.UID, accessToken, session.RefreshToken));
     }
 }

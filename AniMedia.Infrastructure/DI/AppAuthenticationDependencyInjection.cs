@@ -9,8 +9,7 @@ namespace AniMedia.Infrastructure.DI;
 
 public static class AppAuthenticationDependencyInjection {
 
-    public static IServiceCollection AddAppAuthentication(this IServiceCollection serviceCollection,
-        IConfiguration configuration) {
+    public static IServiceCollection AddAppAuthentication(this IServiceCollection serviceCollection, IConfiguration configuration) {
         serviceCollection
             .AddAuthentication(options => {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;

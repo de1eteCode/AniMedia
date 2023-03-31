@@ -1,5 +1,4 @@
 ﻿using AniMedia.Application.Common.Interfaces;
-using AniMedia.Domain.Entities;
 using AniMedia.Infrastructure.DI;
 using AniMedia.IntegrationTests.Mocks;
 using AniMedia.Persistence;
@@ -36,8 +35,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime {
         ServiceProvider = serviceCollection.BuildServiceProvider();
 
         ApplicationDbContext = ServiceProvider.GetRequiredService<DatabaseContext>() ??
-                               throw new InvalidOperationException(
-                                   "DatabaseContext service is not registered in the DI");
+                               throw new InvalidOperationException("DatabaseContext service is not registered in the DI");
     }
 
     protected DatabaseContext ApplicationDbContext { get; }
@@ -62,8 +60,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime {
         using var scope = ServiceProvider.CreateScope();
 
         var currentUserService = scope.ServiceProvider.GetService<ICurrentUserService>() as MockCurrentUserService ??
-                                 throw new InvalidOperationException(
-                                     "ICurrentUserService is not expected MockCurrentUserService");
+                                 throw new InvalidOperationException("ICurrentUserService is not expected MockCurrentUserService");
 
         currentUserService.SetUid(_currentUserUid);
 
@@ -74,10 +71,6 @@ public abstract class IntegrationTestBase : IAsyncLifetime {
 
     protected void SetUser(Guid uid) {
         _currentUserUid = uid;
-    }
-
-    protected void SetUser(UserEntity user) {
-        _currentUserUid = user.UID;
     }
 
     protected void ClearUser() {

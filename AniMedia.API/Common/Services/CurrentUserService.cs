@@ -15,9 +15,13 @@ public class CurrentUserService : ICurrentUserService {
         get {
             var uidStr = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimConstants.UID);
 
-            if (string.IsNullOrEmpty(uidStr)) return null;
+            if (string.IsNullOrEmpty(uidStr)) {
+                return null;
+            }
 
-            if (Guid.TryParse(uidStr, out var uid) == false) return null;
+            if (Guid.TryParse(uidStr, out var uid) == false) {
+                return null;
+            }
 
             return uid;
         }

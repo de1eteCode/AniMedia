@@ -2,9 +2,10 @@
 
 namespace AniMedia.WebClient.Shared.Auth;
 
-public partial class LoginDisplayComponent : ComponentBase {
+public class LoginDisplayComponent : ComponentBase {
 
-    [Inject] public NavigationManager NavigationManager { get; set; } = default!;
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = default!;
 
     private string GetCurrentUrl() {
         return NavigationManager.Uri;

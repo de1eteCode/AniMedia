@@ -22,7 +22,9 @@ public class AuthenticationService : IAuthenticationService {
 
         var responce = await _apiClient.AuthLoginAsync(request);
 
-        if (responce == null || string.IsNullOrEmpty(responce.AccessToken)) return false;
+        if (responce == null || string.IsNullOrEmpty(responce.AccessToken)) {
+            return false;
+        }
 
         await _tokenService.SetTokenAsync(responce.AccessToken);
         await _tokenService.SetRefreshTokenAsync(responce.RefreshToken);
@@ -33,11 +35,15 @@ public class AuthenticationService : IAuthenticationService {
     public async Task Logout() {
         var currentToken = await _tokenService.GetTokenAsync();
 
-        if (string.IsNullOrEmpty(currentToken)) return;
+        if (string.IsNullOrEmpty(currentToken)) {
+            return;
+        }
 
         var currentSession = await _apiClient.SessionAsync(currentToken);
 
-        if (currentSession != null) await _apiClient.SessionRemoveAsync(currentSession.Uid);
+        if (currentSession != null) {
+            await _apiClient.SessionRemoveAsync(currentSession.Uid);
+        }
 
         await _tokenService.DeleteTokenAsync();
         await _tokenService.DeleteRefreshTokenAsync();
@@ -51,7 +57,9 @@ public class AuthenticationService : IAuthenticationService {
 
         var responce = await _apiClient.AuthRegistrationAsync(request);
 
-        if (responce == null || string.IsNullOrEmpty(responce.AccessToken)) return false;
+        if (responce == null || string.IsNullOrEmpty(responce.AccessToken)) {
+            return false;
+        }
 
         await _tokenService.SetTokenAsync(responce.AccessToken);
         await _tokenService.SetRefreshTokenAsync(responce.RefreshToken);

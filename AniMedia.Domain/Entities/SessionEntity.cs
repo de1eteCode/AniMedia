@@ -19,7 +19,11 @@ public class SessionEntity : IBaseEntity {
         new SessionEntityValidator().ValidateAndThrow(this);
     }
 
-    public bool IsExpired => DateTime.UtcNow >= ExpiresAt;
+    public bool IsExpired {
+        get {
+            return DateTime.UtcNow >= ExpiresAt;
+        }
+    }
 
     /// <summary>
     /// Токен доступа

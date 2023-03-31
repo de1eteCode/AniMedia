@@ -15,8 +15,9 @@ public static class DatabaseCleaner {
 
         var sqlBuilder = new StringBuilder();
 
-        foreach (var table in tableNames)
-            sqlBuilder.AppendLine(string.Format("TRUNCATE TABLE \"{0}\" CASCADE;", table));
+        foreach (var table in tableNames) {
+            sqlBuilder.AppendLine($"TRUNCATE TABLE \"{table}\" CASCADE;");
+        }
 
         await databaseContext.Database.ExecuteSqlRawAsync(sqlBuilder.ToString());
     }

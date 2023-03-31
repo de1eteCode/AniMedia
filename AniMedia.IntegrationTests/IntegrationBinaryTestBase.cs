@@ -14,7 +14,9 @@ public abstract class IntegrationBinaryTestBase : IntegrationTestBase, IDisposab
         foreach (var filePath in Directory.GetFiles(pathContent, "*.*")) {
             var fInfo = new FileInfo(filePath);
 
-            if (fInfo.Exists) fInfo.Delete();
+            if (fInfo.Exists) {
+                fInfo.Delete();
+            }
         }
     }
 

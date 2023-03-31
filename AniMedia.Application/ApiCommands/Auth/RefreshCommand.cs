@@ -22,29 +22,32 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, Result<Auth
     private readonly JwtSettings _jwtSettings;
     private readonly ITokenService _tokenService;
 
-    public RefreshCommandHandler(IApplicationDbContext context, ITokenService tokenService,
-        ICurrentUserService currentUserService, IOptions<JwtSettings> jwtSettings) {
+    public RefreshCommandHandler(
+        IApplicationDbContext context,
+        ITokenService tokenService,
+        ICurrentUserService currentUserService,
+        IOptions<JwtSettings> jwtSettings) {
         _context = context;
         _tokenService = tokenService;
         _currentUserService = currentUserService;
         _jwtSettings = jwtSettings.Value;
     }
 
-    public async Task<Result<AuthorizationResponse>>
-        Handle(RefreshCommand request, CancellationToken cancellationToken) {
-        if (_currentUserService.UserUID == null)
+    public async Task<Result<AuthorizationResponse>> Handle(RefreshCommand request, CancellationToken cancellationToken) {
+        if (_currentUserService.UserUID == null) {
             return new Result<AuthorizationResponse>(new AuthenticationError("Not auth user"));
+        }
 
         var session = await _context.Sessions
-            .FirstOrDefaultAsync(
-                e => e.RefreshToken.Equals(request.RefreshToken) && e.UserUid.Equals(_currentUserService.UserUID),
-                cancellationToken);
+            .FirstOrDefaultAsync(e => e.RefreshToken.Equals(request.RefreshToken) && e.UserUid.Equals(_currentUserService.UserUID), cancellationToken);
 
-        if (session == null)
+        if (session == null) {
             return new Result<AuthorizationResponse>(new EntityNotFoundError("Refresh token not found"));
+        }
 
-        if (session.IsExpired)
+        if (session.IsExpired) {
             return new Result<AuthorizationResponse>(new AuthenticationError("Refresh token is expired"));
+        }
 
         var accessToken = _tokenService.CreateAccessToken(session.User);
 
@@ -64,7 +67,6 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, Result<Auth
 
         await _context.Entry(newSession).Reference(e => e.User).LoadAsync(cancellationToken);
 
-        return new Result<AuthorizationResponse>(new AuthorizationResponse(newSession.User.UID, accessToken,
-            newSession.RefreshToken));
+        return new Result<AuthorizationResponse>(new AuthorizationResponse(newSession.User.UID, accessToken, newSession.RefreshToken));
     }
 }

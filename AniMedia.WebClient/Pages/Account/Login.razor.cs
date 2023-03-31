@@ -10,13 +10,17 @@ namespace AniMedia.WebClient.Pages.Account;
 public partial class Login : ComponentBase {
     private LoginVM VModel { get; } = new();
 
-    [Inject] public IAuthenticationService AuthenticationService { get; set; } = default!;
+    [Inject]
+    public IAuthenticationService AuthenticationService { get; set; } = default!;
 
-    [Inject] public JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
+    [Inject]
+    public JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
 
-    [Inject] public NavigationManager NavigationManager { get; set; } = default!;
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = default!;
 
-    [Parameter] public string ReturnUrl { get; set; } = string.Empty;
+    [Parameter]
+    public string ReturnUrl { get; set; } = string.Empty;
 
     private async Task UserLogin() {
         VModel.ReturnUrl = ReturnUrl;
@@ -27,9 +31,13 @@ public partial class Login : ComponentBase {
             AuthStateProvider.NotifyAuthenticationStateChanged();
 
             if (string.IsNullOrEmpty(VModel.ReturnUrl) == false) // redirect to url
+            {
                 NavigationManager.NavigateTo(ReturnUrl);
+            }
             else // redirect to home
+            {
                 NavigationManager.NavigateTo("/");
+            }
         }
     }
 }

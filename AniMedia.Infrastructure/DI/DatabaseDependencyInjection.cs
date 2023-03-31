@@ -8,8 +8,7 @@ namespace AniMedia.Infrastructure.DI;
 
 public static class DatabaseDependencyInjection {
 
-    public static IServiceCollection AddDatabaseServices(this IServiceCollection serviceCollection,
-        IConfiguration configuration) {
+    public static IServiceCollection AddDatabaseServices(this IServiceCollection serviceCollection, IConfiguration configuration) {
         serviceCollection.AddDbContext<IApplicationDbContext, DatabaseContext>(
             opt => {
                 opt.UseNpgsql(configuration.GetConnectionString("ApplicationDB"));

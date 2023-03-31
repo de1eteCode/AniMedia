@@ -8,8 +8,7 @@ namespace AniMedia.Infrastructure.DI;
 
 public static class JwtGeneratorServicesDependencyInjection {
 
-    public static IServiceCollection AddJwtGeneratorServices(this IServiceCollection serviceCollection,
-        IConfiguration configuration) {
+    public static IServiceCollection AddJwtGeneratorServices(this IServiceCollection serviceCollection, IConfiguration configuration) {
         serviceCollection.Configure<JwtSettings>(configuration.GetSection(nameof(JwtSettings)));
 
         serviceCollection.AddScoped<ITokenService, TokenService>();

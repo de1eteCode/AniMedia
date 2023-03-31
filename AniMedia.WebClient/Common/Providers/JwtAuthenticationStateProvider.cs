@@ -16,11 +16,15 @@ public class JwtAuthenticationStateProvider : AuthenticationStateProvider {
     public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
         var currentToken = await _tokenService.GetTokenAsync();
 
-        if (string.IsNullOrEmpty(currentToken)) return AnonymusState();
+        if (string.IsNullOrEmpty(currentToken)) {
+            return AnonymusState();
+        }
 
         var expiredAt = _jwtTokenReadService.GetExpirationDate(currentToken);
 
-        if (expiredAt < DateTime.UtcNow) return AnonymusState();
+        if (expiredAt < DateTime.UtcNow) {
+            return AnonymusState();
+        }
 
         return new AuthenticationState(
             new ClaimsPrincipal(new ClaimsIdentity(_jwtTokenReadService.GetClaims(currentToken), "Bearer")));

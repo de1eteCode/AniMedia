@@ -11,11 +11,11 @@ public class DatabaseContext : DbContext, IApplicationDbContext {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
-    public DbSet<BinaryFileEntity> BinaryFiles { get; set; }
+    public virtual DbSet<BinaryFileEntity> BinaryFiles { get; set; }
 
-    public DbSet<SessionEntity> Sessions { get; set; }
+    public virtual DbSet<SessionEntity> Sessions { get; set; }
 
-    public DbSet<UserEntity> Users { get; set; }
+    public virtual DbSet<UserEntity> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

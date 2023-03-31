@@ -4,7 +4,11 @@ namespace AniMedia.Domain.Entities;
 
 public class WeatherForecast : IBaseEntity {
 
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    public int TemperatureF {
+        get {
+            return 32 + (int)(TemperatureC / 0.5556);
+        }
+    }
 
     public DateTime Date { get; set; }
 

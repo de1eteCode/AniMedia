@@ -9,7 +9,8 @@ public partial class Sessions : ComponentBase {
     private string? _errorMessage;
     private IEnumerable<SessionDto>? _sessions;
 
-    [Inject] public IApiClient ApiClient { get; set; } = default!;
+    [Inject]
+    public IApiClient ApiClient { get; set; } = default!;
 
     protected override async Task OnInitializedAsync() {
         try {

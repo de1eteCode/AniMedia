@@ -12,21 +12,19 @@ public class JwtReadService : IJwtTokenReadService {
     }
 
     public IEnumerable<string> GetAudiences(string token) {
-        if (TryParseJwtToken(token, out var securityToken)) return securityToken!.Audiences;
+        if (TryParseJwtToken(token, out var securityToken)) {
+            return securityToken!.Audiences;
+        }
 
         return Enumerable.Empty<string>();
     }
 
     public IEnumerable<Claim> GetClaims(string token) {
-        if (TryParseJwtToken(token, out var securityToken)) return securityToken!.Claims;
-
-        return Enumerable.Empty<Claim>();
+        return TryParseJwtToken(token, out var securityToken) ? securityToken!.Claims : Enumerable.Empty<Claim>();
     }
 
     public DateTime GetExpirationDate(string token) {
-        if (TryParseJwtToken(token, out var securityToken)) return securityToken!.ValidTo;
-
-        return DateTime.MinValue;
+        return TryParseJwtToken(token, out var securityToken) ? securityToken!.ValidTo : DateTime.MinValue;
     }
 
     private bool TryParseJwtToken(string token, out JwtSecurityToken? securityToken) {
