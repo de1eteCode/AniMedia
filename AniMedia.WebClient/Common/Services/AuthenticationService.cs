@@ -39,10 +39,10 @@ public class AuthenticationService : IAuthenticationService {
             return;
         }
 
-        var currentSession = await _apiClient.SessionAsync(currentToken);
+        var currentSession = await _apiClient.ApiV1SessionAsync(currentToken);
 
         if (currentSession != null) {
-            await _apiClient.SessionRemoveAsync(currentSession.Uid);
+            await _apiClient.ApiV1SessionRemoveAsync(currentSession.Uid);
         }
 
         await _tokenService.DeleteTokenAsync();

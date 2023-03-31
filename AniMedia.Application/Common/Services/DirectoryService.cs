@@ -31,10 +31,10 @@ public class DirectoryService : IDirectoryService {
     }
 
     /// <inheritdoc />
-    public string GetNewRandomPathBinaryFile() {
+    public string GetNewRandomPathBinaryFile(string extension) {
         var dir = GetBinaryFilesDirectory();
 
-        var randomName = Guid.NewGuid().ToString("N") + Path.GetRandomFileName();
+        var randomName = GenerateRandomName() + (extension.StartsWith('.') ? extension : '.' + extension);
 
         var fullPath = Path.Combine(dir, randomName);
 
@@ -42,9 +42,23 @@ public class DirectoryService : IDirectoryService {
             // Todo:
             //     Recursion warning
 
-            fullPath = GetNewRandomPathBinaryFile();
+            fullPath = GetNewRandomPathBinaryFile(extension);
         }
 
         return fullPath;
+    }
+
+    private string GenerateRandomName() {
+        int lengthGuid = Guid.Empty.ToString("N").Length;
+
+        var cycle = (int)Math.Floor((float)_settings.MaxLengthName / (float)lengthGuid);
+
+        var str = string.Empty;
+
+        for (int i = 0; i < cycle; i++) {
+            str += Guid.NewGuid().ToString("N");
+        }
+
+        return str.Substring(0, _settings.MaxLengthName);
     }
 }

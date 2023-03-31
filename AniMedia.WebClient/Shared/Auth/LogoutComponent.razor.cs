@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace AniMedia.WebClient.Shared.Auth;
 
-public class LogoutComponent : ComponentBase {
+public partial class LogoutComponent : ComponentBase {
 
     [Parameter]
     public Func<string> GetReturnUrl { get; set; } = default!;

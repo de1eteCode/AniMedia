@@ -7,7 +7,7 @@ namespace AniMedia.API.Controllers;
 [Route("api/v1/[controller]")]
 [ApiController]
 public abstract class BaseApiV1Controller : ControllerBase {
-    private readonly IMediator _mediator;
+    protected readonly IMediator _mediator;
 
     protected BaseApiV1Controller(IMediator mediator) {
         _mediator = mediator;
@@ -18,6 +18,11 @@ public abstract class BaseApiV1Controller : ControllerBase {
         CancellationToken cancellationToken) {
         var result = await _mediator.Send(request, cancellationToken);
 
+        return GenerateResponse(result);
+    }
+
+    [NonAction]
+    protected IActionResult GenerateResponse<TValue>(Result<TValue> result) {
         return result.Error switch {
             AuthenticationError error =>
                 new ObjectResult(new { error.Message }) { StatusCode = 401 },

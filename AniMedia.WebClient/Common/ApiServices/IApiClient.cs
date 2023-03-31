@@ -25,25 +25,25 @@ namespace AniMedia.WebClient.Common.ApiServices
     public partial interface IApiClient
     {
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ProfileResponce> AccountProfileAsync();
+        System.Threading.Tasks.Task<ProfileResponce> ApiV1AccountProfileAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ProfileResponce> AccountProfileAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ProfileResponce> ApiV1AccountProfileAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UpdateProfileResponce> AccountUpdateAsync(UpdateProfileRequest request);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UpdateProfileResponce> AccountUpdateAsync(UpdateProfileRequest request, System.Threading.CancellationToken cancellationToken);
-
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UpdateProfileResponce> AccountUpdateavatarAsync(FileParameter newAvatar);
+        System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateAsync(UpdateProfileRequest request);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UpdateProfileResponce> AccountUpdateavatarAsync(FileParameter newAvatar, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateAsync(UpdateProfileRequest request, System.Threading.CancellationToken cancellationToken);
+
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateavatarAsync(FileParameter newAvatar);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateavatarAsync(FileParameter newAvatar, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<AuthorizationResponse> AuthAuthorizationAsync(string token);
@@ -74,25 +74,46 @@ namespace AniMedia.WebClient.Common.ApiServices
         System.Threading.Tasks.Task<AuthorizationResponse> AuthLoginAsync(LoginRequest request, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SessionDto> SessionRemoveAsync(System.Guid sessionUid);
+        System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaInfoAsync(System.Guid uid);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SessionDto> SessionRemoveAsync(System.Guid sessionUid, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaInfoAsync(System.Guid uid, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SessionDto>> SessionListAsync();
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SessionDto>> SessionListAsync(System.Threading.CancellationToken cancellationToken);
-
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SessionDto> SessionAsync(string accessToken);
+        System.Threading.Tasks.Task<FileResponse> ApiV1MediaFileAsync(System.Guid uid);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SessionDto> SessionAsync(string accessToken, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<FileResponse> ApiV1MediaFileAsync(System.Guid uid, System.Threading.CancellationToken cancellationToken);
+
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaLoadAsync(FileParameter file);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaLoadAsync(FileParameter file, System.Threading.CancellationToken cancellationToken);
+
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<SessionDto> ApiV1SessionRemoveAsync(System.Guid sessionUid);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<SessionDto> ApiV1SessionRemoveAsync(System.Guid sessionUid, System.Threading.CancellationToken cancellationToken);
+
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SessionDto>> ApiV1SessionListAsync();
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SessionDto>> ApiV1SessionListAsync(System.Threading.CancellationToken cancellationToken);
+
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<SessionDto> ApiV1SessionAsync(string accessToken);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<SessionDto> ApiV1SessionAsync(string accessToken, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -125,6 +146,41 @@ namespace AniMedia.WebClient.Common.ApiServices
         public string ContentType { get; private set; }
     }
 
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class FileResponse : System.IDisposable
+    {
+        private System.IDisposable _client;
+        private System.IDisposable _response;
+
+        public int StatusCode { get; private set; }
+
+        public System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> Headers { get; private set; }
+
+        public System.IO.Stream Stream { get; private set; }
+
+        public bool IsPartial
+        {
+            get { return StatusCode == 206; }
+        }
+
+        public FileResponse(int statusCode, System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IEnumerable<string>> headers, System.IO.Stream stream, System.IDisposable client, System.IDisposable response)
+        {
+            StatusCode = statusCode;
+            Headers = headers;
+            Stream = stream;
+            _client = client;
+            _response = response;
+        }
+
+        public void Dispose()
+        {
+            Stream.Dispose();
+            if (_response != null)
+                _response.Dispose();
+            if (_client != null)
+                _client.Dispose();
+        }
+    }
 
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]

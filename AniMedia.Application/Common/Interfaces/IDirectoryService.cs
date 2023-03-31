@@ -18,5 +18,5 @@ public interface IDirectoryService {
     /// Создание пути до несуществующего файла в папке бинарных файлов
     /// </summary>
     /// <returns>Абсолютный путь к несуществующему файлу</returns>
-    public string GetNewRandomPathBinaryFile();
+    public string GetNewRandomPathBinaryFile(string extension);
 }

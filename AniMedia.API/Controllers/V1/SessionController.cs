@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace AniMedia.API.Controllers.V1;
 
 [Authorize]
-[Route("session")]
 public class SessionController : BaseApiV1Controller {
 
     public SessionController(IMediator mediator) : base(mediator) {

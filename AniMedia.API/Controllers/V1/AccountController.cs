@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace AniMedia.API.Controllers.V1;
 
 [Authorize]
-[Route("account")]
 public class AccountController : BaseApiV1Controller {
 
     public AccountController(IMediator mediator) : base(mediator) {
@@ -15,7 +14,7 @@ public class AccountController : BaseApiV1Controller {
 
     [HttpGet("profile")]
     [ProducesResponseType(typeof(ProfileResponce), StatusCodes.Status200OK)]
-    public Task<IActionResult> GetProfile() {
+    public Task<IActionResult> GetProfile(CancellationToken cancellationToken) {
         throw new NotImplementedException();
     }
 

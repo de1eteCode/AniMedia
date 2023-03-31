@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using AniMedia.Application.Common.Interfaces;
+﻿using AniMedia.Application.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AniMedia.IntegrationTests;
@@ -24,11 +23,5 @@ public abstract class IntegrationBinaryTestBase : IntegrationTestBase, IDisposab
         return Enumerable.Repeat(length, length)
             .Select(_ => (byte)Random.Shared.Next(255))
             .ToArray();
-    }
-
-    protected async Task<string> GetHashStream(Stream stream) {
-        using var md5 = MD5.Create();
-        var md5Hash = await md5.ComputeHashAsync(stream);
-        return BitConverter.ToString(md5Hash);
     }
 }

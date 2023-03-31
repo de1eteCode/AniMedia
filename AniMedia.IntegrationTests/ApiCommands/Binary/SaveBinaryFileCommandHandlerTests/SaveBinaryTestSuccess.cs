@@ -13,10 +13,8 @@ public class SaveBinaryTestSuccess : IntegrationBinaryTestBase {
         using var memStream = new MemoryStream();
         await memStream.WriteAsync(data, 0, data.Length);
         memStream.Position = 0;
-        var hashData = await GetHashStream(memStream);
-        memStream.Position = 0;
 
-        var commandSave = new SaveBinaryFileCommand(memStream, nameof(data), "binary bytes", hashData);
+        var commandSave = new SaveBinaryFileCommand(memStream, nameof(data), "binary bytes");
 
         var result = await RequestAsync(commandSave);
 
