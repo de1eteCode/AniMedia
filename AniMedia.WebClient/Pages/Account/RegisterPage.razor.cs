@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 namespace AniMedia.WebClient.Pages.Account;
 
 [AllowAnonymous]
-public partial class Register : ComponentBase {
+public partial class RegisterPage : ComponentBase {
     private readonly RegistrationVM _vmodel = new();
 
     [Inject]

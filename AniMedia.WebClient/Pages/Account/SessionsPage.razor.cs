@@ -1,10 +1,12 @@
 ﻿using AniMedia.Domain.Models.Dtos;
 using AniMedia.WebClient.Common.ApiServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
 namespace AniMedia.WebClient.Pages.Account;
 
-public partial class Sessions : ComponentBase {
+[Authorize]
+public partial class SessionsPage : ComponentBase {
     private string? _errorMessage;
     private IEnumerable<SessionDto>? _sessions;
 

@@ -1,13 +1,13 @@
-﻿@page "/swagger"
+﻿@attribute [Route(PageUrlConstants.SwaggerPageUrl)]
 
-<iframe src="@GetSwagerUrl()" style="border: none; height: 900px; width: 100%;"/>
+<iframe src="@GetSwaggerUrl()" style="border: none; height: 900px; width: 100%;"/>
 
 @code {
 
     [Inject]
     public IConfiguration Configuration { get; set; } = default!;
 
-    private string GetSwagerUrl() {
+    private string GetSwaggerUrl() {
         var apiUrl = Configuration["ApiServiceUrl"];
 
         if (string.IsNullOrEmpty(apiUrl)) {
@@ -18,7 +18,7 @@
             apiUrl = apiUrl.Remove(apiUrl.Length - 1);
         }
 
-        return apiUrl + "/swagger";
+        return apiUrl + PageUrlConstants.SwaggerPageUrl;
     }
 
 }

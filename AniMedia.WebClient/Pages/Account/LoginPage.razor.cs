@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 namespace AniMedia.WebClient.Pages.Account;
 
 [AllowAnonymous]
-public partial class Login : ComponentBase {
+public partial class LoginPage : ComponentBase {
     private LoginVM VModel { get; } = new();
 
     [Inject]
