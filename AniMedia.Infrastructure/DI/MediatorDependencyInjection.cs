@@ -8,6 +8,7 @@ namespace AniMedia.Infrastructure.DI;
 public static class MediatorDependencyInjection {
 
     public static IServiceCollection AddMediator(this IServiceCollection serviceCollection) {
+        serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ApplicationAuthorizeBehaviour<,>));
         serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         serviceCollection.AddMediatR(e => e.RegisterServicesFromAssembly(typeof(AuthorizationCommand).Assembly));
 

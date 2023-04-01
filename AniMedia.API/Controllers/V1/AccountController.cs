@@ -1,4 +1,5 @@
-﻿using AniMedia.Domain.Models.Requests;
+﻿using AniMedia.Domain.Models.Dtos;
+using AniMedia.Domain.Models.Requests;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +14,7 @@ public class AccountController : BaseApiV1Controller {
     }
 
     [HttpGet("profile")]
-    [ProducesResponseType(typeof(ProfileResponce), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProfileUserDto), StatusCodes.Status200OK)]
     public Task<IActionResult> GetProfile(CancellationToken cancellationToken) {
         throw new NotImplementedException();
     }

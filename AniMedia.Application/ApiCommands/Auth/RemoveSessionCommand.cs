@@ -1,4 +1,5 @@
-﻿using AniMedia.Application.Common.Interfaces;
+﻿using AniMedia.Application.Common.Attributes;
+using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
@@ -10,6 +11,7 @@ namespace AniMedia.Application.ApiCommands.Auth;
 /// Удаление сессии
 /// </summary>
 /// <param name="SessionUid">Идентификатор сессии</param>
+[ApplicationAuthorize]
 public record RemoveSessionCommand(Guid SessionUid) : IRequest<Result<SessionDto>>;
 
 public class RemoveSessionCommandHandler : IRequestHandler<RemoveSessionCommand, Result<SessionDto>> {
@@ -22,10 +24,6 @@ public class RemoveSessionCommandHandler : IRequestHandler<RemoveSessionCommand,
     }
 
     public async Task<Result<SessionDto>> Handle(RemoveSessionCommand request, CancellationToken cancellationToken) {
-        if (_currentUserService.UserUID == null) {
-            return new Result<SessionDto>(new AuthenticationError("Not auth user"));
-        }
-
         var session = await _context.Sessions.FirstOrDefaultAsync(e => e.UserUid.Equals(_currentUserService.UserUID) && e.UID.Equals(request.SessionUid), cancellationToken);
 
         if (session == null) {

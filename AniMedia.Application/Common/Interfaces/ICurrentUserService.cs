@@ -2,4 +2,10 @@
 
 public interface ICurrentUserService {
     public Guid? UserUID { get; }
+
+    public bool IsAuthenticated {
+        get {
+            return UserUID != null && UserUID != Guid.Empty;
+        }
+    }
 }

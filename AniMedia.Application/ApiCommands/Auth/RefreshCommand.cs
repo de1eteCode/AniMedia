@@ -1,4 +1,5 @@
-﻿using AniMedia.Application.Common.Interfaces;
+﻿using AniMedia.Application.Common.Attributes;
+using AniMedia.Application.Common.Interfaces;
 using AniMedia.Application.Common.Models;
 using AniMedia.Domain.Entities;
 using AniMedia.Domain.Models.Responses;
@@ -14,6 +15,7 @@ namespace AniMedia.Application.ApiCommands.Auth;
 /// <param name="RefreshToken">Рефреш токен</param>
 /// <param name="Ip">Ip адрес</param>
 /// <param name="UserAgent">Юзер агент</param>
+[ApplicationAuthorize]
 public record RefreshCommand(Guid RefreshToken, string Ip, string UserAgent) : IRequest<Result<AuthorizationResponse>>;
 
 public class RefreshCommandHandler : IRequestHandler<RefreshCommand, Result<AuthorizationResponse>> {
@@ -34,10 +36,6 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, Result<Auth
     }
 
     public async Task<Result<AuthorizationResponse>> Handle(RefreshCommand request, CancellationToken cancellationToken) {
-        if (_currentUserService.UserUID == null) {
-            return new Result<AuthorizationResponse>(new AuthenticationError("Not auth user"));
-        }
-
         var session = await _context.Sessions
             .FirstOrDefaultAsync(e => e.RefreshToken.Equals(request.RefreshToken) && e.UserUid.Equals(_currentUserService.UserUID), cancellationToken);
 

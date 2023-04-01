@@ -25,11 +25,11 @@ namespace AniMedia.WebClient.Common.ApiServices
     public partial interface IApiClient
     {
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ProfileResponce> ApiV1AccountProfileAsync();
+        System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountProfileAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ProfileResponce> ApiV1AccountProfileAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountProfileAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateAsync(UpdateProfileRequest request);

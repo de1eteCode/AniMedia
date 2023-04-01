@@ -2,12 +2,12 @@
 
 namespace AniMedia.Domain.Models.Dtos;
 
-public class UserDto {
+public class ProfileUserDto {
 
-    public UserDto() {
+    public ProfileUserDto() {
     }
 
-    public UserDto(UserEntity user) {
+    public ProfileUserDto(UserEntity user) {
         UID = user.UID;
         NickName = user.Nickname;
         AvatarLink = user.AvatarLink;

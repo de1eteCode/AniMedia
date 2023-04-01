@@ -1,4 +1,5 @@
-﻿using AniMedia.Application.Common.Interfaces;
+﻿using AniMedia.Application.Common.Attributes;
+using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiQueries.Auth;
 
+[ApplicationAuthorize]
 public record GetSessionListQueryCommand : IRequest<Result<List<SessionDto>>>;
 
 public class GetSessionListQueryCommandHandler : IRequestHandler<GetSessionListQueryCommand, Result<List<SessionDto>>> {
@@ -18,10 +20,6 @@ public class GetSessionListQueryCommandHandler : IRequestHandler<GetSessionListQ
     }
 
     public async Task<Result<List<SessionDto>>> Handle(GetSessionListQueryCommand request, CancellationToken cancellationToken) {
-        if (_currentUserService.UserUID == null) {
-            return new Result<List<SessionDto>>(new AuthenticationError("Not auth user"));
-        }
-
         var sessions = await _context.Sessions
             .Where(e => e.UserUid.Equals(_currentUserService.UserUID))
             .Select(e => new SessionDto(e))
