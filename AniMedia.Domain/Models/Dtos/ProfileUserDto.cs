@@ -10,12 +10,12 @@ public class ProfileUserDto {
     public ProfileUserDto(UserEntity user) {
         UID = user.UID;
         NickName = user.Nickname;
-        AvatarLink = user.AvatarLink;
+        //AvatarLink = user.AvatarLink;
         FirstName = user.FirstName;
         SecondName = user.SecondName;
     }
 
-    public string? AvatarLink { get; set; }
+    //public string? AvatarLink { get; set; }
 
     public string? FirstName { get; set; }
 

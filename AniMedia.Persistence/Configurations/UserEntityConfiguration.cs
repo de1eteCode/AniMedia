@@ -16,6 +16,13 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity> {
             .HasForeignKey(e => e.UserUid)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder
+            .HasOne(e => e.Avatar)
+            .WithOne()
+            .HasForeignKey<UserEntity>(e => e.AvatarFileUID)
+            .OnDelete(DeleteBehavior.SetNull)
+            .IsRequired(false);
+
         builder.Property(e => e.Nickname).IsRequired();
         builder.Property(e => e.PasswordSalt).IsRequired();
         builder.Property(e => e.PasswordHash).IsRequired();

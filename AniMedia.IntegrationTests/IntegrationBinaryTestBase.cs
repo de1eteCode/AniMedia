@@ -19,7 +19,7 @@ public abstract class IntegrationBinaryTestBase : IntegrationTestBase, IDisposab
         }
     }
 
-    protected byte[] GetRandomData(int length) {
+    public static byte[] GetRandomData(int length) {
         return Enumerable.Repeat(length, length)
             .Select(_ => (byte)Random.Shared.Next(255))
             .ToArray();

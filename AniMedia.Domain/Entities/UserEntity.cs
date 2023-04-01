@@ -10,9 +10,8 @@ namespace AniMedia.Domain.Entities;
 public class UserEntity : IBaseEntity {
 
     public UserEntity(string nickname, string passwordHash, string passwordSalt, string firstName = "",
-        string secondName = "", string avatarLink = "") {
+        string secondName = "") {
         Nickname = nickname;
-        AvatarLink = avatarLink;
         PasswordHash = passwordHash;
         PasswordSalt = passwordSalt;
 
@@ -23,9 +22,14 @@ public class UserEntity : IBaseEntity {
     }
 
     /// <summary>
-    /// Ссылка на аватар
+    /// Аватар
     /// </summary>
-    public string? AvatarLink { get; set; }
+    public virtual BinaryFileEntity? Avatar { get; set; }
+
+    /// <summary>
+    /// Идентификатор аватарки
+    /// </summary>
+    public Guid? AvatarFileUID { get; set; }
 
     /// <summary>
     /// Имя

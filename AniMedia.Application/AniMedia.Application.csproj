@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApiCommands\Account\" />
     <Folder Include="Common\Exceptions\" />
   </ItemGroup>
 

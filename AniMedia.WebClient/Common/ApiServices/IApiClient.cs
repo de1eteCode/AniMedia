@@ -32,11 +32,11 @@ namespace AniMedia.WebClient.Common.ApiServices
         System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountProfileAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateAsync(UpdateProfileRequest request);
+        System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateAsync(UpdateProfileRequest profile);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateAsync(UpdateProfileRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateAsync(UpdateProfileRequest profile, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateavatarAsync(FileParameter newAvatar);

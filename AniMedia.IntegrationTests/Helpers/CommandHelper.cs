@@ -23,4 +23,10 @@ public static class CommandHelper {
     public static string RandomIpAddress() {
         return $"{Random.Shared.Next(1, 255)}.{Random.Shared.Next(1, 255)}.{Random.Shared.Next(1, 255)}.{Random.Shared.Next(1, 255)}";
     }
+
+    public static string GetRandomString() {
+        var rnd = Random.Shared;
+        var repeat = rnd.Next(3, 20);
+        return new string(Enumerable.Repeat(1, repeat).Select(_ => (char)rnd.Next('A', 'z')).ToArray());
+    }
 }
