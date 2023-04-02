@@ -8,6 +8,8 @@ public class BinaryFileDto {
     }
 
     public BinaryFileDto(BinaryFileEntity binaryFile) {
+        ArgumentNullException.ThrowIfNull(binaryFile);
+
         UID = binaryFile.UID;
         Name = binaryFile.Name;
         ContentType = binaryFile.ContentType;

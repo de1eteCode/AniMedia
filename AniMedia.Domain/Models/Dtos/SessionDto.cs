@@ -8,6 +8,8 @@ public class SessionDto {
     }
 
     public SessionDto(SessionEntity session) {
+        ArgumentNullException.ThrowIfNull(session);
+
         Uid = session.UID;
         Ip = session.Ip;
         UserAgent = session.UserAgent;

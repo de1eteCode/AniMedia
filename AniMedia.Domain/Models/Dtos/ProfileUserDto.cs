@@ -8,14 +8,16 @@ public class ProfileUserDto {
     }
 
     public ProfileUserDto(UserEntity user) {
+        ArgumentNullException.ThrowIfNull(user);
+
         UID = user.UID;
         NickName = user.Nickname;
-        //AvatarLink = user.AvatarLink;
+        Avatar = user.Avatar != null ? new BinaryFileDto(user.Avatar) : default;
         FirstName = user.FirstName;
         SecondName = user.SecondName;
     }
 
-    //public string? AvatarLink { get; set; }
+    public BinaryFileDto? Avatar { get; set; }
 
     public string? FirstName { get; set; }
 

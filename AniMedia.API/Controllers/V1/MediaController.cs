@@ -42,7 +42,6 @@ public class MediaController : BaseApiV1Controller {
 
     [HttpPost("load")]
     [ProducesResponseType(typeof(BinaryFileDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(BinaryFileError), StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Load(IFormFile file, CancellationToken cancellationToken) {
         var stream = file.OpenReadStream();
 

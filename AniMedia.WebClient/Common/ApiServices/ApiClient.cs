@@ -132,14 +132,14 @@ namespace AniMedia.WebClient.Common.ApiServices
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateAsync(UpdateProfileRequest profile)
+        public virtual System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountUpdateAsync(UpdateProfileRequest profile)
         {
             return ApiV1AccountUpdateAsync(profile, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateAsync(UpdateProfileRequest profile, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountUpdateAsync(UpdateProfileRequest profile, System.Threading.CancellationToken cancellationToken)
         {
             if (profile == null)
                 throw new System.ArgumentNullException("profile");
@@ -183,7 +183,7 @@ namespace AniMedia.WebClient.Common.ApiServices
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<UpdateProfileResponce>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ProfileUserDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -221,14 +221,14 @@ namespace AniMedia.WebClient.Common.ApiServices
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateavatarAsync(FileParameter newAvatar)
+        public virtual System.Threading.Tasks.Task<BinaryFileDto> ApiV1AccountUpdateavatarAsync(FileParameter newAvatar)
         {
             return ApiV1AccountUpdateavatarAsync(newAvatar, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<UpdateProfileResponce> ApiV1AccountUpdateavatarAsync(FileParameter newAvatar, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<BinaryFileDto> ApiV1AccountUpdateavatarAsync(FileParameter newAvatar, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/v1/Account/updateavatar");
@@ -278,7 +278,7 @@ namespace AniMedia.WebClient.Common.ApiServices
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<UpdateProfileResponce>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<BinaryFileDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -917,16 +917,6 @@ namespace AniMedia.WebClient.Common.ApiServices
                                 throw new ApiClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
-                        }
-                        else
-                        if (status_ == 409)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<BinaryFileError>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiClientException<BinaryFileError>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
