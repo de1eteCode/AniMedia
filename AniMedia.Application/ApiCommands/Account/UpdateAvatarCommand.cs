@@ -1,4 +1,5 @@
-﻿using AniMedia.Application.ApiCommands.Binary;
+﻿using System.Transactions;
+using AniMedia.Application.ApiCommands.Binary;
 using AniMedia.Application.Common.Attributes;
 using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Dtos;
@@ -30,6 +31,8 @@ public class UpdateAvatarCommandHandler : IRequestHandler<UpdateAvatarCommand, R
             return new Result<BinaryFileDto>(new EntityNotFoundError());
         }
 
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
         // remove old avatar
         if (user.Avatar != null && user.AvatarFileUID != null) {
             var removeAvatarCommand = new RemoveBinaryFileCommand((Guid)user.AvatarFileUID);
@@ -55,6 +58,8 @@ public class UpdateAvatarCommandHandler : IRequestHandler<UpdateAvatarCommand, R
 
         await _context.SaveChangesAsync(cancellationToken);
         await _context.Entry(user).ReloadAsync(cancellationToken);
+
+        transaction.Complete();
 
         return new Result<BinaryFileDto>(new BinaryFileDto(user.Avatar!));
     }

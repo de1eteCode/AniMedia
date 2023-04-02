@@ -1,4 +1,5 @@
-﻿using AniMedia.Application.Common.Interfaces;
+﻿using System.Transactions;
+using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
@@ -22,11 +23,15 @@ public class RemoveBinaryFileCommandHandler : IRequestHandler<RemoveBinaryFileCo
             return new Result<BinaryFileDto>(new EntityNotFoundError());
         }
 
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
         var infoFile = new FileInfo(binFile.PathFile);
         await Task.Factory.StartNew(infoFile.Delete, cancellationToken);
 
         _context.BinaryFiles.Remove(binFile);
         await _context.SaveChangesAsync(cancellationToken);
+
+        transaction.Complete();
 
         return new Result<BinaryFileDto>(new BinaryFileDto(binFile));
     }

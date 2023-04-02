@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography;
+using System.Transactions;
 using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Entities;
 using AniMedia.Domain.Models.Dtos;
@@ -32,6 +33,8 @@ public class SaveBinaryFileCommandHandler : IRequestHandler<SaveBinaryFileComman
 
         var pathToFile = _dirService.GetNewRandomPathBinaryFile(string.IsNullOrEmpty(extension) ? "bin" : extension);
 
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
         await using (var stream = File.Open(pathToFile, FileMode.CreateNew, FileAccess.ReadWrite)) {
             await request.Stream.CopyToAsync(stream, cancellationToken);
             stream.Seek(0, SeekOrigin.Begin);
@@ -47,6 +50,8 @@ public class SaveBinaryFileCommandHandler : IRequestHandler<SaveBinaryFileComman
 
         _context.BinaryFiles.Add(binFile);
         await _context.SaveChangesAsync(cancellationToken);
+
+        transaction.Complete();
 
         return new Result<BinaryFileDto>(new BinaryFileDto(binFile));
     }
