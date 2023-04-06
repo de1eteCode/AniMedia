@@ -2,6 +2,6 @@
 
 public class RegistrationError : Error {
 
-    public RegistrationError(string message) : base(message) {
+    public RegistrationError(string message, int? code = default) : base(message, code) {
     }
 }

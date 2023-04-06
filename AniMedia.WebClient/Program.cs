@@ -1,3 +1,5 @@
+using AniMedia.Domain.Interfaces;
+using AniMedia.Domain.Services;
 using AniMedia.WebClient.Common.ApiServices;
 using AniMedia.WebClient.Common.Contracts;
 using AniMedia.WebClient.Common.Handlers;
@@ -31,11 +33,11 @@ public class Program {
         builder.Services.AddScoped<JwtAuthenticationStateProvider>();
         builder.Services.AddScoped<AuthenticationStateProvider>(sp =>
             sp.GetRequiredService<JwtAuthenticationStateProvider>());
-        builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
         /// services
         builder.Services.AddBlazoredLocalStorage();
         builder.Services.AddScoped<ITokenService, LocalStorageTokenService>();
+        builder.Services.AddSingleton<IDateTimeService, DateTimeService>();
         builder.Services.AddSingleton<IJwtTokenReadService, JwtReadService>();
 
         await builder.Build().RunAsync();

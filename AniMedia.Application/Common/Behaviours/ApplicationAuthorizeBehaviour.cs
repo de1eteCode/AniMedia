@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using AniMedia.Application.Common.Attributes;
 using AniMedia.Application.Common.Interfaces;
+using AniMedia.Domain.Constants;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
 
@@ -23,7 +24,7 @@ public class ApplicationAuthorizeBehaviour<TRequest, TResponse> : IPipelineBehav
         }
 
         var res = (TResponse?)Activator.CreateInstance(typeof(TResponse), args: new object?[] {
-            new AuthenticationError("Non authorized")
+            new AuthenticationError("Non authorized", ErrorCodesConstants.AuthInvalidToken)
         });
 
         if (res == null) {

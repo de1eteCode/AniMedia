@@ -16,6 +16,7 @@ else {
             <th>Date at create</th>
             <th>User agent</th>
             <th>IP</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -25,6 +26,10 @@ else {
                 <td>@session.CreateAt.ToShortDateString()</td>
                 <td>@session.UserAgent</td>
                 <td>@session.Ip</td>
+
+                <td>
+                    <button type="button" class="btn-close" aria-label="Close" @onclick='() => CloseSession(session.Uid)'></button>
+                </td>
             </tr>
         }
         </tbody>

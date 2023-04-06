@@ -11,9 +11,6 @@ public partial class RegisterPage : ComponentBase {
     private readonly RegistrationVM _vmodel = new();
 
     [Inject]
-    public IAuthenticationService AuthenticationService { get; set; } = default!;
-
-    [Inject]
     public JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
 
     [Inject]
@@ -23,11 +20,9 @@ public partial class RegisterPage : ComponentBase {
     public string ReturnUrl { get; set; } = string.Empty;
 
     private async Task RegisterUser() {
-        var result = await AuthenticationService.Registration(_vmodel);
+        var result = await AuthStateProvider.Registration(_vmodel);
 
         if (result) {
-            AuthStateProvider.NotifyAuthenticationStateChanged();
-
             if (string.IsNullOrEmpty(ReturnUrl) == false) // redirect to url
             {
                 NavigationManager.NavigateTo(ReturnUrl);

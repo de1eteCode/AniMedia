@@ -1,6 +1,8 @@
 ﻿using AniMedia.Application.Common.Interfaces;
 using AniMedia.Application.Common.Models;
+using AniMedia.Domain.Constants;
 using AniMedia.Domain.Entities;
+using AniMedia.Domain.Interfaces;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,15 +24,18 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, R
     private readonly IHashService _hashService;
     private readonly JwtSettings _jwtSettings;
     private readonly ITokenService _tokenService;
+    private readonly IDateTimeService _timeService;
 
     public RegistrationCommandHandler(
         IApplicationDbContext context,
         ITokenService tokenService,
         IHashService hashService,
-        IOptions<JwtSettings> jwtSettings) {
+        IOptions<JwtSettings> jwtSettings, 
+        IDateTimeService timeService) {
         _context = context;
         _tokenService = tokenService;
         _hashService = hashService;
+        _timeService = timeService;
         _jwtSettings = jwtSettings.Value;
     }
 
@@ -38,7 +43,7 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, R
         var isUserByNicknameExists = await _context.Users.AnyAsync(e => e.Nickname.Equals(request.Nickname), cancellationToken);
 
         if (isUserByNicknameExists) {
-            return new Result<AuthorizationResponse>(new RegistrationError("User already exists"));
+            return new Result<AuthorizationResponse>(new RegistrationError("User already exists", ErrorCodesConstants.Exist));
         }
 
         var passHash = _hashService.Hmacsha512CryptoHash(request.Password, out var passSalt);
@@ -47,7 +52,7 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, R
 
         var accessToken = _tokenService.CreateAccessToken(newUser);
 
-        var sessionExpiresAt = DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenLifeTimeInMinutes);
+        var sessionExpiresAt = _timeService.Now.AddMinutes(_jwtSettings.AccessTokenLifeTimeInMinutes);
 
         var session = new SessionEntity(
             newUser.UID,

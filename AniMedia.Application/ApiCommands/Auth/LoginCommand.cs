@@ -1,6 +1,8 @@
 ﻿using AniMedia.Application.Common.Interfaces;
 using AniMedia.Application.Common.Models;
+using AniMedia.Domain.Constants;
 using AniMedia.Domain.Entities;
+using AniMedia.Domain.Interfaces;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,15 +24,18 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<Authoriz
     private readonly IHashService _hashService;
     private readonly JwtSettings _jwtSettings;
     private readonly ITokenService _tokenService;
+    private readonly IDateTimeService _timeService;
 
     public LoginCommandHandler(
         IApplicationDbContext context,
         ITokenService tokenService,
         IHashService hashService,
-        IOptions<JwtSettings> jwtSettings) {
+        IOptions<JwtSettings> jwtSettings, 
+        IDateTimeService timeService) {
         _context = context;
         _tokenService = tokenService;
         _hashService = hashService;
+        _timeService = timeService;
         _jwtSettings = jwtSettings.Value;
     }
 
@@ -38,18 +43,18 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, Result<Authoriz
         var requester = await _context.Users.FirstOrDefaultAsync(e => e.Nickname.Equals(request.Nickname), cancellationToken);
 
         if (requester == null) {
-            return new Result<AuthorizationResponse>(new AuthorizationError("User does not exists"));
+            return new Result<AuthorizationResponse>(new AuthorizationError("User does not exists", ErrorCodesConstants.NotFoundUser));
         }
 
         var passHash = _hashService.Hmacsha512CryptoHashWithSalt(request.Password, requester.PasswordSalt);
 
         if (requester.PasswordHash.Equals(passHash) == false) {
-            return new Result<AuthorizationResponse>(new AuthorizationError("Password is wrong"));
+            return new Result<AuthorizationResponse>(new AuthorizationError("Password is wrong", ErrorCodesConstants.AuthInvalidPassword));
         }
 
         var accessToken = _tokenService.CreateAccessToken(requester);
 
-        var sessionExpiresAt = DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenLifeTimeInMinutes);
+        var sessionExpiresAt = _timeService.Now.AddMinutes(_jwtSettings.AccessTokenLifeTimeInMinutes);
 
         var session = new SessionEntity(
             requester.UID,

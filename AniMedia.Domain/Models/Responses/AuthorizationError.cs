@@ -2,6 +2,9 @@
 
 public class AuthorizationError : Error {
 
-    public AuthorizationError(string message) : base(message) {
+    public AuthorizationError() {
+    }
+
+    public AuthorizationError(string message, int? code = default) : base(message, code) {
     }
 }

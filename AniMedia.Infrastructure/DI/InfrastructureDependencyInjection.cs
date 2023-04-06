@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AniMedia.Domain.Interfaces;
+using AniMedia.Domain.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +23,8 @@ public static class InfrastructureDependencyInjection {
         }
 
         serviceCollection.AddSwagger();
+
+        serviceCollection.AddSingleton<IDateTimeService, DateTimeService>();
 
         return serviceCollection;
     }

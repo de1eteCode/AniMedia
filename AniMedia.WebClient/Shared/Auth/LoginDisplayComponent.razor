@@ -1,18 +1,16 @@
-﻿<CascadingAuthenticationState>
-    <AuthorizeView>
-        <Authorized>
-            <NavLink href="@PageUrlConstants.ProfilePageUrl">
-                <span>Hello, @context.User.Identity?.Name</span>
-            </NavLink>
-            <AniMedia.WebClient.Shared.Auth.LogoutComponent GetReturnUrl="@GetCurrentUrl"/>
-        </Authorized>
-        <NotAuthorized>
-            <NavLink class="nav-link" href="@PageUrlConstants.RegisterPageUrl">
-                Register
-            </NavLink>
-            <NavLink class="nav-link" href="@PageUrlConstants.LoginPageUrl">
-                Login
-            </NavLink>
-        </NotAuthorized>
-    </AuthorizeView>
-</CascadingAuthenticationState>
+﻿<AuthorizeView>
+    <Authorized>
+        <NavLink href="@PageUrlConstants.ProfilePageUrl">
+            <span>Hello, @context.User.Identity?.Name</span>
+        </NavLink>
+        <AniMedia.WebClient.Shared.Auth.LogoutComponent GetReturnUrl="@GetCurrentUrl" />
+    </Authorized>
+    <NotAuthorized>
+        <NavLink class="nav-link" href="@PageUrlConstants.RegisterPageUrl">
+            Register
+        </NavLink>
+        <NavLink class="nav-link" href="@PageUrlConstants.LoginPageUrl">
+            Login
+        </NavLink>
+    </NotAuthorized>
+</AuthorizeView>

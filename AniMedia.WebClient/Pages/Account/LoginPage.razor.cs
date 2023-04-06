@@ -11,9 +11,6 @@ public partial class LoginPage : ComponentBase {
     private LoginVM VModel { get; } = new();
 
     [Inject]
-    public IAuthenticationService AuthenticationService { get; set; } = default!;
-
-    [Inject]
     public JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
 
     [Inject]
@@ -25,11 +22,9 @@ public partial class LoginPage : ComponentBase {
     private async Task UserLogin() {
         VModel.ReturnUrl = ReturnUrl;
 
-        var result = await AuthenticationService.Login(VModel);
+        var result = await AuthStateProvider.Login(VModel);
 
         if (result) {
-            AuthStateProvider.NotifyAuthenticationStateChanged();
-
             if (string.IsNullOrEmpty(VModel.ReturnUrl) == false) // redirect to url
             {
                 NavigationManager.NavigateTo(ReturnUrl);

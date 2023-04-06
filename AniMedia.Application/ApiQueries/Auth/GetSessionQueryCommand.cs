@@ -24,7 +24,7 @@ public class GetSessionQueryCommandHandler : IRequestHandler<GetSessionQueryComm
             .FirstOrDefaultAsync(e => e.AccessToken.Equals(request.AccessToken) && e.UserUid.Equals(_currentUserService.UserUID), cancellationToken);
 
         if (session == null) {
-            return new Result<SessionDto>(new EntityNotFoundError("Session not found"));
+            return new Result<SessionDto>(new EntityNotFoundError());
         }
 
         return new Result<SessionDto>(new SessionDto(session));

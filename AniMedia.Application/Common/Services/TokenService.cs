@@ -4,6 +4,7 @@ using AniMedia.Application.Common.Interfaces;
 using AniMedia.Application.Common.Models;
 using AniMedia.Domain.Constants;
 using AniMedia.Domain.Entities;
+using AniMedia.Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -15,12 +16,14 @@ public class TokenService : ITokenService {
     private const string _algoritm = SecurityAlgorithms.HmacSha256;
     private readonly JwtBearerOptions _jwtBearerOptions;
     private readonly JwtSettings _jwtSettings;
-
+    private readonly IDateTimeService _timeService;
     private readonly JwtSecurityTokenHandler _tokenHandler;
 
     public TokenService(
         IOptions<JwtSettings> jwtSettings,
-        IOptionsMonitor<JwtBearerOptions> jwtBearerOptionsMonitor) {
+        IOptionsMonitor<JwtBearerOptions> jwtBearerOptionsMonitor, 
+        IDateTimeService timeService) {
+        _timeService = timeService;
         _jwtSettings = jwtSettings.Value;
         _jwtBearerOptions = jwtBearerOptionsMonitor.Get(JwtBearerDefaults.AuthenticationScheme);
         _tokenHandler = new JwtSecurityTokenHandler();
@@ -42,7 +45,7 @@ public class TokenService : ITokenService {
             _jwtSettings.Issuer,
             _jwtSettings.Audience,
             claims,
-            expires: DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenLifeTimeInMinutes),
+            expires: _timeService.Now.AddMinutes(_jwtSettings.AccessTokenLifeTimeInMinutes),
             signingCredentials: signingCredentials);
 
         return _tokenHandler.WriteToken(jwtToken);

@@ -2,6 +2,6 @@
 
 public class AuthenticationError : Error {
 
-    public AuthenticationError(string message) : base(message) {
+    public AuthenticationError(string message, int? code = default) : base(message, code) {
     }
 }

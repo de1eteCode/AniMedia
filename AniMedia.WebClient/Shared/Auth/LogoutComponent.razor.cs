@@ -13,14 +13,10 @@ public partial class LogoutComponent : ComponentBase {
     public NavigationManager NavigationManager { get; set; } = default!;
 
     [Inject]
-    internal IAuthenticationService AuthenticationService { get; set; } = default!;
-
-    [Inject]
     internal JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
 
     public async Task LogOut() {
-        await AuthenticationService.Logout();
-        AuthStateProvider.NotifyAuthenticationStateChanged();
+        await AuthStateProvider.Logout();
 
         if (GetReturnUrl != null) {
             var retUrl = GetReturnUrl.Invoke();
