@@ -23,8 +23,6 @@ public class RefreshTestSuccess : IntegrationTestBase {
             await RequestAsync(commonLoginCommand);
         }
 
-        SetUser(de1ete.Value!.UID);
-
         var refreshDe1eteCommand = new RefreshCommand(
             de1ete.Value!.RefreshToken,
             CommandHelper.RandomIpAddress(),
@@ -32,6 +30,8 @@ public class RefreshTestSuccess : IntegrationTestBase {
 
         var refreshDe1eteResult = await RequestAsync(refreshDe1eteCommand);
 
+        SetUser(de1ete.Value!.UID);
+        
         var getSessionDe1eteCommand = new GetSessionListQueryCommand();
 
         var resultSessionDe1ete = await RequestAsync(getSessionDe1eteCommand);
