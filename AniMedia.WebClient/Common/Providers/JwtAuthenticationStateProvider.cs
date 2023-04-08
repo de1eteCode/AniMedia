@@ -80,7 +80,6 @@ public class JwtAuthenticationStateProvider : AuthenticationStateProvider {
         catch (ApiClientException<AuthenticationError> ex) {
             _logger.LogError(ex, "Ошибка при аутентификации по токену");
             await _tokenService.DeleteTokenAsync();
-            await _tokenService.DeleteRefreshTokenAsync();
         }
 
         return false;
