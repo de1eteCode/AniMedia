@@ -1,5 +1,6 @@
 ﻿using AniMedia.Domain.Models.Dtos;
 using AniMedia.WebClient.Common.ApiServices;
+using AniMedia.WebClient.Common.Contracts;
 using AniMedia.WebClient.Common.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -10,6 +11,7 @@ namespace AniMedia.WebClient.Pages.Account;
 public partial class SessionsPage : ComponentBase {
     private string? _errorMessage;
     private ICollection<SessionDto>? _sessions;
+    private SessionDto? _currentSession;
 
     [Inject]
     public IApiClient ApiClient { get; set; } = default!;
@@ -17,8 +19,12 @@ public partial class SessionsPage : ComponentBase {
     [Inject]
     public JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
 
+    [Inject]
+    public ITokenService TokenService { get; set; } = default!;
+    
     protected override async Task OnInitializedAsync() {
         try {
+            _currentSession = await ApiClient.ApiV1SessionAsync(await TokenService.GetTokenAsync());
             _sessions = await ApiClient.ApiV1SessionListAsync();
         }
         catch (Exception ex) {

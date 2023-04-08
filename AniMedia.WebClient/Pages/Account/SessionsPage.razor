@@ -1,9 +1,4 @@
-﻿@attribute [Route(PageUrlConstants.SessionsPageUrl)]
-
-<h3>Sessions</h3>
-
-
-@if (_sessions == null) {
+﻿@if (_sessions == null) {
     <p>
         <em>Loading...</em>
     </p>
@@ -27,9 +22,11 @@ else {
                 <td>@session.UserAgent</td>
                 <td>@session.Ip</td>
 
-                <td>
-                    <button type="button" class="btn-close" aria-label="Close" @onclick='() => CloseSession(session.Uid)'></button>
-                </td>
+                @if (session.Uid.Equals(_currentSession?.Uid ?? Guid.Empty) == false) {
+                    <td>
+                        <button type="button" class="btn-close" aria-label="Close" @onclick='() => CloseSession(session.Uid)'></button>
+                    </td>
+                }
             </tr>
         }
         </tbody>

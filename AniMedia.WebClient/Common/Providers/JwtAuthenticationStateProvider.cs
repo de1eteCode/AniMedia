@@ -44,17 +44,14 @@ public class JwtAuthenticationStateProvider : AuthenticationStateProvider {
 
         var expiredAt = _jwtTokenReadService.GetExpirationDate(currentToken);
 
-        if (expiredAt.Add(_futureTime) > _timeService.Now) {
-            if (expiredAt.Add(_deliveryCompensation) < _timeService.Now && await Auth(currentToken)) {
-                // токен действителен
-            }
-            else {
-                var currentRefreshToken = await _tokenService.GetRefreshTokenAsync();
+        var authResult = await Auth(currentToken);
 
-                if (currentRefreshToken == default ||
-                    await AuthRefresh(currentRefreshToken) == false) {
-                    return AnonymusState();
-                }
+        if (authResult == false) {
+            var currentRefreshToken = await _tokenService.GetRefreshTokenAsync();
+
+            if (currentRefreshToken == default ||
+                await AuthRefresh(currentRefreshToken) == false) {
+                return AnonymusState();
             }
         }
 
@@ -82,6 +79,8 @@ public class JwtAuthenticationStateProvider : AuthenticationStateProvider {
         }
         catch (ApiClientException<AuthenticationError> ex) {
             _logger.LogError(ex, "Ошибка при аутентификации по токену");
+            await _tokenService.DeleteTokenAsync();
+            await _tokenService.DeleteRefreshTokenAsync();
         }
 
         return false;
@@ -106,9 +105,13 @@ public class JwtAuthenticationStateProvider : AuthenticationStateProvider {
             return true;
         }
         catch (ApiClientException<EntityNotFoundError> ex) {
+            await _tokenService.DeleteTokenAsync();
+            await _tokenService.DeleteRefreshTokenAsync();
         }
         catch (Exception ex) {
             _logger.LogError(ex, "Ошибка при аутентификации по рефреш токену");
+            await _tokenService.DeleteTokenAsync();
+            await _tokenService.DeleteRefreshTokenAsync();
         }
 
         return false;

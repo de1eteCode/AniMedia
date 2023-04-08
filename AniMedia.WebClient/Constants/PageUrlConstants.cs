@@ -7,7 +7,6 @@ public static class PageUrlConstants {
     public const string LoginPageUrl = "/account/login";
     public const string RegisterPageUrl = "/account/register";
     public const string ProfilePageUrl = "/account/profile";
-    public const string SessionsPageUrl = "/account/sessions";
 
     #endregion Account
 
