@@ -1,0 +1,16 @@
+﻿<div class="container">
+    <h2 class="text-danger">@Title</h2>
+    @if (string.IsNullOrEmpty(Description) == false) {
+        <h4 class="text-danger">@Description</h4>
+    }
+</div>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; } = "Error";
+    
+    [Parameter]
+    public string Description { get; set; } = string.Empty;
+
+}

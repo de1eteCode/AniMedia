@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using AniMedia.Domain.Interfaces;
 using AniMedia.Domain.Services;
 using AniMedia.WebClient.Common.ApiServices;
@@ -5,6 +6,7 @@ using AniMedia.WebClient.Common.Contracts;
 using AniMedia.WebClient.Common.Handlers;
 using AniMedia.WebClient.Common.Providers;
 using AniMedia.WebClient.Common.Services;
+using AniMedia.WebClient.Pages.Account.Components;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -40,6 +42,16 @@ public class Program {
         builder.Services.AddSingleton<IDateTimeService, DateTimeService>();
         builder.Services.AddSingleton<IJwtTokenReadService, JwtReadService>();
 
+        await LoadJsIsolated();
+        
         await builder.Build().RunAsync();
+    }
+
+    private static async Task LoadJsIsolated() {
+        if (!OperatingSystem.IsBrowser()) {
+            throw new PlatformNotSupportedException("Supported only browsers");
+        }
+
+        await JSHost.ImportAsync(nameof(EditProfileComponent), $"../Pages/Account/Components/{nameof(EditProfileComponent)}.razor.js");
     }
 }

@@ -5,4 +5,5 @@ namespace AniMedia.WebClient.Pages.Account;
 
 [Authorize]
 public partial class ProfilePage : ComponentBase {
+    
 }

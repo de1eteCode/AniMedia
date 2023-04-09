@@ -1,0 +1,59 @@
+﻿<div class="container-md">
+    <h3>Активные сессии</h3>
+
+    @if (_sessions == null) {
+        <LoadComponent/>
+    }
+    else {
+        <table class="table">
+            <thead>
+            <tr>
+                <th>UID</th>
+                <th>Дата создания</th>
+                <th>Юзер агент</th>
+                <th>IP</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var session in _sessions) {
+                <tr>
+                    <td>@session.Uid.ToString("N")</td>
+                    <td>@session.CreateAt.ToShortDateString()</td>
+                    <td>@session.UserAgent</td>
+                    <td>@session.Ip</td>
+
+                    <td>
+                        @{
+                            var allowedToRemove = session.Uid.Equals(_currentSession?.Uid ?? Guid.Empty) == false;
+
+                            if (allowedToRemove) {
+                                <button
+                                    type="button"
+                                    class="btn-close btn-close-danger"
+                                    aria-label="Close"
+                                    @onclick='() => CloseSession(session.Uid)'>
+                                </button>
+                            }
+                            else {
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    aria-label="Close"
+                                    disabled>
+                                </button>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+
+    @if (string.IsNullOrEmpty(_errorMessage) == false) {
+        <hr/>
+        
+        <ErrorLabelComponent Title="Ошибка" Description=@($"Не получилось получить данные. Ошибка: {_errorMessage}")/>
+    }
+</div>

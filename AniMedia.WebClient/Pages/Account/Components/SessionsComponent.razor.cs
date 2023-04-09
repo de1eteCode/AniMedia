@@ -5,10 +5,10 @@ using AniMedia.WebClient.Common.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
-namespace AniMedia.WebClient.Pages.Account;
+namespace AniMedia.WebClient.Pages.Account.Components;
 
 [Authorize]
-public partial class SessionsPage : ComponentBase {
+public partial class SessionsComponent : ComponentBase {
     private string? _errorMessage;
     private ICollection<SessionDto>? _sessions;
     private SessionDto? _currentSession;

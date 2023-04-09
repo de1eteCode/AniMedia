@@ -1,0 +1,40 @@
+﻿<div class="container-md">
+    <div class="container col-2">
+        <div class="row">
+            <div class="container col">
+                @if (AvatarIsLoaded) {
+                    <img id="@_idImageAvatar" width="150"/>
+                }
+                else {
+                    <img id="@_idImageAvatar" width="150" src="resources/default_avatar.jpg"/>
+                }
+            </div>
+            <div class="container col col-2">
+                <div class="col">
+                    <InputFile OnChange="LoadNewAvatarEvent"/>
+                </div>
+                <div class="col">
+                    @if (AvatarIsLoaded) {
+                        <button
+                            class="btn btn-primary"
+                            @onclick='() => UpdateAvatar()'>
+                            Обновить
+                        </button>
+                    }
+                    else {
+                        <button
+                            class="btn btn-primary"
+                            disabled>
+                            Обновить
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <EditForm Model="_vmUpdateProfile" OnValidSubmit="@UpdateProfile">
+        <DataAnnotationsValidator/>
+
+    </EditForm>
+</div>

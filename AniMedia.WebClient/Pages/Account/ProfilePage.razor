@@ -1,10 +1,10 @@
 ﻿@attribute [Route(PageUrlConstants.ProfilePageUrl)]
+@using AniMedia.WebClient.Pages.Account.Components
 
 <h3>ProfilePage</h3>
 
-<p>Will be soon</p>
-
-<div>
-    <h3>Sessions</h3>
-    <SessionsPage/>
+<div class="container-md">
+    <EditProfileComponent/>
+    <hr/>
+    <SessionsComponent/>
 </div>

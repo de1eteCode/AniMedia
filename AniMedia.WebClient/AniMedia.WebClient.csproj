@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,4 +26,15 @@
     <ProjectReference Include="..\AniMedia.Domain\AniMedia.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Pages\Account\Components\SessionsComponent.razor.css.map">
+      <DependentUpon>SessionsComponent.razor.css</DependentUpon>
+    </None>
+  </ItemGroup>
+  
 </Project>

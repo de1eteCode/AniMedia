@@ -103,7 +103,7 @@ public class JwtAuthenticationStateProvider : AuthenticationStateProvider {
 
             return true;
         }
-        catch (ApiClientException<EntityNotFoundError> ex) {
+        catch (ApiClientException<EntityNotFoundError>) {
             await _tokenService.DeleteTokenAsync();
             await _tokenService.DeleteRefreshTokenAsync();
         }
