@@ -1,5 +1,8 @@
 using AniMedia.API.Common.Services;
+using AniMedia.Application;
 using AniMedia.Application.Common.Interfaces;
+using AniMedia.Application.Common.Services;
+using AniMedia.Domain;
 using AniMedia.Infrastructure.DI;
 
 namespace AniMedia.API;
@@ -12,7 +15,9 @@ public class Program {
 
         // Add services to the container.
         builder.Services.AddHttpContextAccessor();
-
+        
+        builder.Services.AddDomainServices();
+        builder.Services.AddApplicationServices(builder.Configuration);
         builder.Services.AddInfrastructureServices(builder.Configuration);
 
         builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();

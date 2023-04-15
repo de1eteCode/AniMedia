@@ -1,6 +1,6 @@
-﻿using AniMedia.Application.Common.Interfaces;
-using AniMedia.Domain.Interfaces;
-using AniMedia.Domain.Services;
+﻿using AniMedia.Application;
+using AniMedia.Application.Common.Interfaces;
+using AniMedia.Domain;
 using AniMedia.Infrastructure.DI;
 using AniMedia.IntegrationTests.Mocks;
 using AniMedia.Persistence;
@@ -25,15 +25,13 @@ public abstract class IntegrationTestBase : IAsyncLifetime {
 
         serviceCollection.AddSingleton<IConfiguration>(configuration);
 
-        serviceCollection.AddMediator();
+        serviceCollection.AddDomainServices();
+        serviceCollection.AddApplicationServices(configuration);
         serviceCollection.AddDatabaseServices(configuration);
-        serviceCollection.AddPasswordHashServices();
-        serviceCollection.AddJwtGeneratorServices(configuration);
         serviceCollection.AddAppAuthentication(configuration);
         serviceCollection.AddAppAuthorization();
-        serviceCollection.AddBinaryFileServices(configuration);
+        
         serviceCollection.AddScoped<ICurrentUserService, MockCurrentUserService>();
-        serviceCollection.AddSingleton<IDateTimeService, DateTimeService>();
 
         ServiceProvider = serviceCollection.BuildServiceProvider();
 

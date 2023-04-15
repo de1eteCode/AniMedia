@@ -3,7 +3,10 @@
         <div class="row">
             <div class="container col">
                 @if (AvatarIsLoaded) {
-                    <img id="@_idImageAvatar" width="150"/>
+                    <img 
+                        id="@_idImageAvatar"
+                        width="150"
+                        src="@GetImageInBase64()"/>
                 }
                 else {
                     <img id="@_idImageAvatar" width="150" src="resources/default_avatar.jpg"/>
