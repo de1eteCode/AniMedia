@@ -1,19 +1,29 @@
-﻿@attribute [Route(PageUrlConstants.CounterPageUrl)]
+﻿@using Fluxor
+@using AniMedia.WebClient.Common.Store
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@attribute [Route(PageUrlConstants.CounterPageUrl)]
 @attribute [Authorize]
 
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
 
-<p role="status">Current count: @_currentCount</p>
+<p role="status">Current count: @CounterState.Value.Count</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
-    private int _currentCount = 0;
 
+    [Inject]
+    private IState<CounterState> CounterState { get; set; } = default!;
+
+    [Inject]
+    private IDispatcher Dispatcher { get; init; } = default!;
+    
     private void IncrementCount() {
-        _currentCount++;
+        Dispatcher.Dispatch(new IncrementCounterAction {
+            IncrementSize = 1
+        });
     }
-
 }

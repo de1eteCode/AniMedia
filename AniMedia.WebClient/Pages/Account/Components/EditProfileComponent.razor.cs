@@ -1,76 +1,108 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Versioning;
 using AniMedia.Domain.Interfaces;
+using AniMedia.Domain.Models.Requests;
+using AniMedia.WebClient.Common.ApiServices;
 using AniMedia.WebClient.Common.Contracts;
+using AniMedia.WebClient.Common.Models;
+using AniMedia.WebClient.Common.Store;
 using AniMedia.WebClient.Common.ViewModels;
+using Blazored.Toast.Services;
+using Fluxor;
+using Fluxor.Blazor.Web.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
 
 namespace AniMedia.WebClient.Pages.Account.Components;
 
-public partial class EditProfileComponent : ComponentBase {
+public partial class EditProfileComponent : FluxorComponent {
     private readonly string _idImageAvatar = "avatarImage";
     private readonly UpdateProfileVM _vmUpdateProfile = new();
     private IBrowserFile? _newAvatar = default;
-    private string? _newAvatarB64 = default;
+    
+    //https://github.com/SteveSandersonMS/BlazorInputFile/issues/2
+    private bool DoubleBuffer { get; set; }
 
     [Inject]
-    public IJSRuntime JsRuntime { get; init; } = default!;
+    public IApiClient ApiClient { get; init; } = default!;
 
-    /// <summary>
-    /// Загружен ли новый аватар пользователем
-    /// </summary>
-    private bool AvatarIsLoaded {
-        get {
-            return _newAvatar is not null;
-        }
-    }
+    [Inject]
+    public IOptionsMonitor<UploadSettings> Settings { get; init; } = default!;
 
-    /// <summary>
-    /// Максимальный размер загружаемого изображения
-    /// </summary>
-    // Todo: Изменить хардкод на конфигурацию
-    private const int MaxSizeImageUploadMB = 2;
+    [Inject]
+    public IState<UserInfoState> UserState { get; init; } = default!;
 
-    private long MaxAllowedSize => MaxSizeImageUploadMB * 1048576; // 1024*1024
+    [Inject]
+    public IConfiguration Configuration { get; init; } = default!;
+
+    [Inject]
+    public IDispatcher Dispatcher { get; init; } = default!;
+
+    [Inject]
+    public IToastService ToastService { get; init; } = default!;
 
     /// <summary>
     /// Обновления профиля, текстового содержания
     /// </summary>
-    private Task UpdateProfile() {
-        throw new NotImplementedException();
+    private async Task UpdateProfile() {
+        // todo: track change
+
+        var res = await ApiClient.ApiV1AccountUpdateAsync(new UpdateProfileRequest() {
+            FirstName = _vmUpdateProfile.FirstName,
+            SecondName = _vmUpdateProfile.SecondName
+        });
     }
 
     /// <summary>
     /// Обновление автара профиля
     /// </summary>
-    private Task UpdateAvatar() {
-        throw new NotImplementedException();
+    private async Task UpdateAvatar() {
+        if (_newAvatar == null) {
+            return;
+        }
+
+        var allowedSize = UploadSettings.ConvertMbToBytes(Settings.CurrentValue.MaxImageSizeMb);
+        var result = await ApiClient.ApiV1AccountUpdateavatarAsync(new FileParameter(
+            _newAvatar.OpenReadStream(allowedSize),
+            _newAvatar.Name,
+            _newAvatar.ContentType));
+
+        if (result != null) {
+            var action = new UserInfoActions.SetNewAvatar {
+                Uid = result.UID
+            };
+
+            Dispatcher.Dispatch(action);
+
+            // убрать выбранный файл
+            _newAvatar = null;
+
+            ToastService.ShowInfo("Аватар успешно обновлен");
+        }
     }
 
-    private string GetImageInBase64() {
-        if (string.IsNullOrEmpty(_newAvatarB64) || _newAvatar == null) {
-            return string.Empty;
-        }
-        
-        return $"data:{_newAvatar.ContentType};base64, {_newAvatarB64}";
-    }
-    
     /// <summary>
     /// Загрузка нового аватара
     /// </summary>
-    private async Task LoadNewAvatarEvent(InputFileChangeEventArgs e) {
-        if (e.File.Size > MaxAllowedSize) {
-            throw new NotImplementedException("Large file. Handle exception");
+    private void LoadNewAvatarEvent(InputFileChangeEventArgs e) {
+        var allowedSize = UploadSettings.ConvertMbToBytes(Settings.CurrentValue.MaxImageSizeMb);
+
+        if (e.File.Size > allowedSize) {
+            ToastService.ShowError($"Размер файла не может превышать {Settings.CurrentValue.MaxImageSizeMb} МБ");
+            _newAvatar = null;
+            DoubleBuffer = !DoubleBuffer;
+            return;
         }
 
-        if (e.File.ContentType.StartsWith("image") && MimeKit.MimeTypes.TryGetExtension(e.File.ContentType, out _)) {
-            _newAvatar = e.File;
-            
-            await using var ms = new MemoryStream();
-            await _newAvatar.OpenReadStream(MaxAllowedSize).CopyToAsync(ms);
-            _newAvatarB64 = Convert.ToBase64String(ms.ToArray());
+        if (e.File.ContentType.StartsWith("image") == false) {
+            ToastService.ShowError($"Выбранный файл не поддерживается");
+            _newAvatar = null;
+            DoubleBuffer = !DoubleBuffer;
+            return;
         }
+
+        _newAvatar = e.File;
     }
 }

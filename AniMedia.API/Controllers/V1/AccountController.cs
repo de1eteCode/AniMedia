@@ -24,7 +24,7 @@ public class AccountController : BaseApiV1Controller {
         return await RequestAsync(query, cancellationToken);
     }
 
-    [HttpGet("update")]
+    [HttpPost("update")]
     [ProducesResponseType(typeof(ProfileUserDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> UpdateProfile(UpdateProfileRequest profile, CancellationToken cancellationToken) {
@@ -33,7 +33,7 @@ public class AccountController : BaseApiV1Controller {
         return await RequestAsync(request, cancellationToken);
     }
 
-    [HttpGet("updateavatar")]
+    [HttpPost("updateavatar")]
     [ProducesResponseType(typeof(BinaryFileDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> UpdateAvatar(IFormFile newAvatar, CancellationToken cancellationToken) {

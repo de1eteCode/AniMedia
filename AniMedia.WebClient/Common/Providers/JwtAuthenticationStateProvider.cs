@@ -5,33 +5,33 @@ using AniMedia.Domain.Models.Requests;
 using AniMedia.Domain.Models.Responses;
 using AniMedia.WebClient.Common.ApiServices;
 using AniMedia.WebClient.Common.Contracts;
+using AniMedia.WebClient.Common.Store;
 using AniMedia.WebClient.Common.ViewModels;
+using Fluxor;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace AniMedia.WebClient.Common.Providers;
 
 public class JwtAuthenticationStateProvider : AuthenticationStateProvider {
     private const string Bearer = nameof(Bearer);
-    private readonly TimeSpan _futureTime = new(0, 0, 0, 30);
-    private readonly TimeSpan _deliveryCompensation = new(0, 0, 0, 10);
 
     private readonly IJwtTokenReadService _jwtTokenReadService;
     private readonly ITokenService _tokenService;
     private readonly IApiClient _apiClient;
-    private readonly IDateTimeService _timeService;
     private readonly ILogger<JwtAuthenticationStateProvider> _logger;
+    private readonly IDispatcher _dispatcher;
 
     public JwtAuthenticationStateProvider(
         IJwtTokenReadService jwtTokenReadService,
         ITokenService tokenService,
         IApiClient apiClient,
-        IDateTimeService timeService,
-        ILogger<JwtAuthenticationStateProvider> logger) {
+        ILogger<JwtAuthenticationStateProvider> logger,
+        IDispatcher dispatcher) {
         _jwtTokenReadService = jwtTokenReadService;
         _tokenService = tokenService;
         _apiClient = apiClient;
-        _timeService = timeService;
         _logger = logger;
+        _dispatcher = dispatcher;
     }
 
     /// <inheritdoc/>
@@ -41,8 +41,6 @@ public class JwtAuthenticationStateProvider : AuthenticationStateProvider {
         if (string.IsNullOrEmpty(currentToken)) {
             return AnonymusState();
         }
-
-        var expiredAt = _jwtTokenReadService.GetExpirationDate(currentToken);
 
         var authResult = await Auth(currentToken);
 
@@ -54,6 +52,9 @@ public class JwtAuthenticationStateProvider : AuthenticationStateProvider {
                 return AnonymusState();
             }
         }
+        
+        // load user state
+        _dispatcher.Dispatch(new UserInfoActions.LoadUserInfo());
 
         return new AuthenticationState(
             new ClaimsPrincipal(new ClaimsIdentity(_jwtTokenReadService.GetClaims(currentToken), Bearer)));

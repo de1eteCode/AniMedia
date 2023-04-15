@@ -157,7 +157,7 @@ namespace AniMedia.WebClient.Common.ApiServices
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -252,7 +252,7 @@ namespace AniMedia.WebClient.Common.ApiServices
                         content_.Add(content_newAvatar_, "newAvatar", newAvatar.FileName ?? "newAvatar");
                     }
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
