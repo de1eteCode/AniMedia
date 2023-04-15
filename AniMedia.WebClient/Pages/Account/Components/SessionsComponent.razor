@@ -1,59 +1,53 @@
-﻿<div class="container-md">
+﻿@using Blazorise.DataGrid
+@using AniMedia.Domain.Models.Dtos
+
+<div class="container">
     <h3>Активные сессии</h3>
 
     @if (_sessions == null) {
         <LoadComponent/>
     }
     else {
-        <table class="table">
-            <thead>
-            <tr>
-                <th>UID</th>
-                <th>Дата создания</th>
-                <th>Юзер агент</th>
-                <th>IP</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var session in _sessions) {
-                <tr>
-                    <td>@session.Uid.ToString("N")</td>
-                    <td>@session.CreateAt.ToShortDateString()</td>
-                    <td>@session.UserAgent</td>
-                    <td>@session.Ip</td>
+        <DataGrid
+            TItem="SessionDto"
+            Data="@_sessions"
+            ShowPager
+            PageSize="10"
+            RowSelectable="@(_ => false)"
+            RowHoverCursor="@(_ => Cursor.Default)"
+            PagerPosition="DataGridPagerPosition.Bottom"
+            PagerOptions="new DataGridPagerOptions { ButtonSize = Size.Small }">
+            <DataGridCommandColumn/>
 
-                    <td>
-                        @{
-                            var allowedToRemove = session.Uid.Equals(_currentSession?.Uid ?? Guid.Empty) == false;
+            <DataGridColumn Field="@nameof(SessionDto.Uid)" Sortable="false" Caption="Uid"/>
+            <DataGridColumn Field="@nameof(SessionDto.UserAgent)" Caption="Юзер агент"/>
+            <DataGridColumn Field="@nameof(SessionDto.CreateAt)" Caption="Дата создания"/>
+            <DataGridColumn Field="@nameof(SessionDto.Ip)" Caption="Ip адрес"/>
+            <DataGridColumn
+                TItem="SessionDto">
+                <DisplayTemplate>
+                    @{
+                        var allowedToRemove = context.Uid.Equals(_currentSession?.Uid ?? Guid.Empty) == false;
 
-                            if (allowedToRemove) {
-                                <button
-                                    type="button"
-                                    class="btn-close btn-close-danger"
-                                    aria-label="Close"
-                                    @onclick='() => CloseSession(session.Uid)'>
-                                </button>
-                            }
-                            else {
-                                <button
-                                    type="button"
-                                    class="btn-close"
-                                    aria-label="Close"
-                                    disabled>
-                                </button>
-                            }
+                        if (allowedToRemove) {
+                            <button
+                                type="button"
+                                class="btn-close btn-close-danger"
+                                aria-label="Close"
+                                @onclick='() => CloseSession(context.Uid)'>
+                            </button>
                         }
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    }
-
-    @if (string.IsNullOrEmpty(_errorMessage) == false) {
-        <hr/>
-        
-        <ErrorLabelComponent Title="Ошибка" Description=@($"Не получилось получить данные. Ошибка: {_errorMessage}")/>
+                        else {
+                            <button
+                                type="button"
+                                class="btn-close"
+                                aria-label="Close"
+                                disabled>
+                            </button>
+                        }
+                    }
+                </DisplayTemplate>
+            </DataGridColumn>
+        </DataGrid>
     }
 </div>

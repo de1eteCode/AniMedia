@@ -1,7 +1,14 @@
-﻿namespace AniMedia.WebClient.Common.ViewModels; 
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AniMedia.WebClient.Common.ViewModels; 
 
 public class UpdateProfileVM {
-    public string FirstName { get; set; }
 
-    public string SecondName { get; set; }
+    [Required]
+    [StringLength(25, MinimumLength = 0, ErrorMessage = "Lenght: 0-25")]
+    public string FirstName { get; set; } = string.Empty;
+
+    [Required]
+    [StringLength(25, MinimumLength = 0, ErrorMessage = "Lenght: 0-25")]
+    public string SecondName { get; set; } = string.Empty;
 }

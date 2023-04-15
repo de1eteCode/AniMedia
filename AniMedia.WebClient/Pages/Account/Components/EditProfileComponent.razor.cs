@@ -18,7 +18,6 @@ using Microsoft.JSInterop;
 namespace AniMedia.WebClient.Pages.Account.Components;
 
 public partial class EditProfileComponent : FluxorComponent {
-    private readonly string _idImageAvatar = "avatarImage";
     private readonly UpdateProfileVM _vmUpdateProfile = new();
     private IBrowserFile? _newAvatar = default;
     

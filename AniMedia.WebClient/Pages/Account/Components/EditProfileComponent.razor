@@ -1,24 +1,28 @@
 ﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-<div class="container-md">
-    <div class="container col-2">
-        <div class="row">
-            <div class="container col">
-                @{
-                    var avUid = UserState.Value.AvatarUid;
-                    if (avUid is not null && avUid != Guid.Empty) {
-                        // Todo: Hardcode fix
-                        <img
-                            id="@_idImageAvatar"
-                            width="150"
-                            src=@($"{Configuration["ApiServiceUrl"]}/api/v1/media/file/{avUid}")/>
-                    }
-                    else {
-                        <img id="@_idImageAvatar" width="150" src="resources/default_avatar.jpg"/>
-                    }
+<div class="container">
+    <div class="row">
+        @* Аватарка *@
+        <div class="container">
+            @{
+                var avUid = UserState.Value.AvatarUid;
+                if (avUid is not null && avUid != Guid.Empty) {
+                    <img
+                        width="150"
+                        src=@($"{Configuration["ApiServiceUrl"]}/api/v1/media/file/{avUid}")/>
                 }
-            </div>
-            <div class="container col col-2">
+                else {
+                    <img
+                        width="150"
+                        src="resources/default_avatar.jpg"/>
+                }
+            }
+        </div>
+
+        @* Кнопки смены аватарки *@
+        <div class="container">
+            <div class="row">
+                @* Кнопка выбора файла *@
                 <div class="col">
                     @if (DoubleBuffer) {
                         <InputFile
@@ -31,6 +35,8 @@
                             OnChange="LoadNewAvatarEvent"/>
                     }
                 </div>
+                
+                @* Кнопка загрузки файла *@
                 <div class="col">
                     @if (_newAvatar != null) {
                         <button
@@ -49,10 +55,37 @@
                 </div>
             </div>
         </div>
+
+        @* Форма профиля *@
+        <div class="col">
+            <EditForm
+                Model="_vmUpdateProfile"
+                OnValidSubmit="@UpdateProfile">
+                <DataAnnotationsValidator/>
+
+                <p>
+                    <label>
+                        Firstsss name:
+                        <InputText
+                            id="firstName"
+                            @bind-Value="_vmUpdateProfile.FirstName"
+                            DisplayName="First name"/>
+                    </label>
+                    <ValidationMessage For="() => _vmUpdateProfile.FirstName"/>
+                </p>
+
+                <p>
+                    <label>
+                        Second namess:
+                        <InputText
+                            id="secondName"
+                            @bind-Value="_vmUpdateProfile.SecondName"
+                            DisplayName="Second name"/>
+                    </label>
+                    <ValidationMessage For="() => _vmUpdateProfile.SecondName"/>
+                </p>
+
+            </EditForm>
+        </div>
     </div>
-
-    <EditForm Model="_vmUpdateProfile" OnValidSubmit="@UpdateProfile">
-        <DataAnnotationsValidator/>
-
-    </EditForm>
 </div>

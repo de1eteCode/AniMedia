@@ -7,6 +7,9 @@ using AniMedia.WebClient.Common.Providers;
 using AniMedia.WebClient.Common.Services;
 using Blazored.LocalStorage;
 using Blazored.Toast;
+using Blazorise;
+using Blazorise.Bootstrap5;
+using Blazorise.Icons.FontAwesome;
 using Fluxor;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -20,11 +23,11 @@ public class Program {
         if (!OperatingSystem.IsBrowser()) {
             throw new PlatformNotSupportedException("Supported only browsers");
         }
-        
+
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
         builder.Services.Configure<UploadSettings>(builder.Configuration.GetSection(nameof(UploadSettings)));
-        
+
         builder.RootComponents.Add<App>("#app");
         builder.RootComponents.Add<HeadOutlet>("head::after");
 
@@ -53,6 +56,13 @@ public class Program {
         
         // ui
         builder.Services.AddBlazoredToast();
+        builder.Services
+            .AddBlazorise( options =>
+            {
+                options.Immediate = true;
+            } )
+            .AddBootstrap5Providers()
+            .AddFontAwesomeIcons();
         
         await builder.Build().RunAsync();
     }
