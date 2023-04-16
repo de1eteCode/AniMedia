@@ -10,7 +10,7 @@ public class GetProfileTestSuccess : IntegrationTestBase {
     [Fact]
     public override async Task Test() {
         // set user
-        var de1eteUser = await RequestAsync(CommandHelper.RegistrationDe1ete());
+        var de1eteUser = await RequestAsync(CommandHelper.RegistrationCommandDe1ete());
 
         SetUser(de1eteUser.Value!.UID);
 
@@ -21,7 +21,7 @@ public class GetProfileTestSuccess : IntegrationTestBase {
 
         // assert
         result.IsSuccess.Should().BeTrue();
-        result.Value!.NickName.Should().Be(CommandHelper.RegistrationDe1ete().Nickname);
+        result.Value!.NickName.Should().Be(CommandHelper.LoginRequestDe1ete().Nickname);
         result.Value!.UID.Should().Be(de1eteUser.Value!.UID);
     }
 }

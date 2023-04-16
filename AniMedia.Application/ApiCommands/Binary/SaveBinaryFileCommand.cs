@@ -2,7 +2,7 @@
 using System.Transactions;
 using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Entities;
-using AniMedia.Domain.Models.Dtos;
+using AniMedia.Domain.Models.BinaryFiles.Dtos;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
 

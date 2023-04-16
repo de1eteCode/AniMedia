@@ -1,5 +1,5 @@
 ﻿using AniMedia.Application.ApiCommands.Auth;
-using AniMedia.Domain.Models.Requests;
+using AniMedia.Domain.Models.Auth.Requests;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -46,7 +46,7 @@ public class AuthController : BaseApiV1Controller {
         var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
         var userAgent = HttpContext.Request.Headers.UserAgent.ToString();
 
-        var command = new RegistrationCommand(request.Nickname, request.Password, ip, userAgent);
+        var command = new RegistrationCommand(request, ip, userAgent);
 
         return await RequestAsync(command, cancellationToken);
     }
@@ -60,7 +60,7 @@ public class AuthController : BaseApiV1Controller {
         var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
         var userAgent = HttpContext.Request.Headers.UserAgent.ToString();
 
-        var command = new LoginCommand(request.Nickname, request.Password, ip, userAgent);
+        var command = new LoginCommand(request, ip, userAgent);
 
         return await RequestAsync(command, cancellationToken);
     }

@@ -4,9 +4,16 @@
 // </auto-generated>
 //----------------------
 
-using AniMedia.Domain.Models.Dtos;
-using AniMedia.Domain.Models.Requests;
+using AniMedia.Domain.Models.AnimeSeries.Dtos;
+using AniMedia.Domain.Models.AnimeSeries.Requests;
+using AniMedia.Domain.Models.Auth.Requests;
+using AniMedia.Domain.Models.BinaryFiles.Dtos;
+using AniMedia.Domain.Models.Genres.Dtos;
+using AniMedia.Domain.Models.Genres.Requests;
+using AniMedia.Domain.Models.Profiles.Dtos;
+using AniMedia.Domain.Models.Profiles.Requests;
 using AniMedia.Domain.Models.Responses;
+using AniMedia.Domain.Models.Sessions.Dtos;
 using AniMedia.WebClient.Common.ApiServices;
 
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."

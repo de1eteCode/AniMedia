@@ -9,7 +9,7 @@ public class AuthorizationTestSuccess : IntegrationTestBase {
 
     [Fact]
     public override async Task Test() {
-        var de1eteUser = await RequestAsync(CommandHelper.RegistrationDe1ete());
+        var de1eteUser = await RequestAsync(CommandHelper.RegistrationCommandDe1ete());
 
         var authCommand = new AuthorizationCommand(de1eteUser.Value!.AccessToken);
 

@@ -3,7 +3,9 @@ using AniMedia.Application.Common.Models;
 using AniMedia.Domain.Constants;
 using AniMedia.Domain.Entities;
 using AniMedia.Domain.Interfaces;
+using AniMedia.Domain.Models.Auth.Requests;
 using AniMedia.Domain.Models.Responses;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -17,7 +19,7 @@ namespace AniMedia.Application.ApiCommands.Auth;
 /// <param name="Password">Пароль</param>
 /// <param name="Ip">Ip адрес</param>
 /// <param name="UserAgent">Юзер агент</param>
-public record RegistrationCommand(string Nickname, string Password, string Ip, string UserAgent) : IRequest<Result<AuthorizationResponse>>;
+public record RegistrationCommand(RegistrationRequest Model, string Ip, string UserAgent) : IRequest<Result<AuthorizationResponse>>;
 
 public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, Result<AuthorizationResponse>> {
     private readonly IApplicationDbContext _context;
@@ -40,15 +42,15 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, R
     }
 
     public async Task<Result<AuthorizationResponse>> Handle(RegistrationCommand request, CancellationToken cancellationToken) {
-        var isUserByNicknameExists = await _context.Users.AnyAsync(e => e.Nickname.Equals(request.Nickname), cancellationToken);
+        var isUserByNicknameExists = await _context.Users.AnyAsync(e => e.Nickname.Equals(request.Model.Nickname), cancellationToken);
 
         if (isUserByNicknameExists) {
             return new Result<AuthorizationResponse>(new RegistrationError("User already exists", ErrorCodesConstants.Exist));
         }
 
-        var passHash = _hashService.Hmacsha512CryptoHash(request.Password, out var passSalt);
+        var passHash = _hashService.Hmacsha512CryptoHash(request.Model.Password, out var passSalt);
 
-        var newUser = new UserEntity(request.Nickname, passHash, passSalt);
+        var newUser = new UserEntity(request.Model.Nickname, passHash, passSalt);
 
         var accessToken = _tokenService.CreateAccessToken(newUser);
 
@@ -67,5 +69,14 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, R
         await _context.SaveChangesAsync(cancellationToken);
 
         return new Result<AuthorizationResponse>(new AuthorizationResponse(newUser.UID, accessToken, session.RefreshToken));
+    }
+}
+
+public class RegistrationCommandValidator : AbstractValidator<RegistrationCommand> {
+
+    public RegistrationCommandValidator() {
+        RuleFor(e => e.Model).NotNull();
+        RuleFor(e => e.Model.Nickname).NotEmpty();
+        RuleFor(e => e.Model.Password).NotEmpty();
     }
 }

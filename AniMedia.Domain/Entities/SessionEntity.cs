@@ -1,6 +1,4 @@
 ﻿using AniMedia.Domain.Abstracts;
-using AniMedia.Domain.Entities.Validations;
-using FluentValidation;
 
 namespace AniMedia.Domain.Entities;
 
@@ -20,8 +18,6 @@ public class SessionEntity : BaseEntity {
         Ip = ip;
         UserAgent = userAgent;
         ExpiresAt = expiresAt;
-
-        new SessionEntityValidator().ValidateAndThrow(this);
     }
 
     public bool IsExpired {
@@ -73,7 +69,5 @@ public class SessionEntity : BaseEntity {
     public void UpdateAccessToken(string newAccessToken, double accessTokenLifeTimeInMinutes) {
         AccessToken = newAccessToken;
         ExpiresAt = DateTime.Now.AddMinutes(accessTokenLifeTimeInMinutes);
-
-        new SessionEntityValidator().ValidateAndThrow(this);
     }
 }

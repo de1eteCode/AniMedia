@@ -9,11 +9,11 @@ public class RegistrationTestThrowAuthentication : IntegrationTestBase {
 
     [Fact]
     public override async Task Test() {
-        var reg1Command = CommandHelper.RegistrationDe1ete();
+        var reg1Command = CommandHelper.RegistrationCommandDe1ete();
 
         await RequestAsync(reg1Command);
 
-        var reg2Command = CommandHelper.RegistrationDe1ete();
+        var reg2Command = CommandHelper.RegistrationCommandDe1ete();
 
         var result = await RequestAsync(reg2Command);
 

@@ -97,14 +97,28 @@
       "className": "ApiClient{controller}",
       "operationGenerationMode": "SingleClientFromPathSegments",
       "additionalNamespaceUsages": [
-        "AniMedia.Domain.Models.Dtos",
-        "AniMedia.Domain.Models.Requests",
-        "AniMedia.Domain.Models.Responses"
+        "AniMedia.Domain.Models.AnimeSeries.Dtos",
+        "AniMedia.Domain.Models.AnimeSeries.Requests",
+        "AniMedia.Domain.Models.Auth.Requests",
+        "AniMedia.Domain.Models.BinaryFiles.Dtos",
+        "AniMedia.Domain.Models.Genres.Dtos",
+        "AniMedia.Domain.Models.Genres.Requests",
+        "AniMedia.Domain.Models.Profiles.Dtos",
+        "AniMedia.Domain.Models.Profiles.Requests",
+        "AniMedia.Domain.Models.Responses",
+        "AniMedia.Domain.Models.Sessions.Dtos"
       ],
       "additionalContractNamespaceUsages": [
-        "AniMedia.Domain.Models.Dtos",
-        "AniMedia.Domain.Models.Requests",
-        "AniMedia.Domain.Models.Responses"
+        "AniMedia.Domain.Models.AnimeSeries.Dtos",
+        "AniMedia.Domain.Models.AnimeSeries.Requests",
+        "AniMedia.Domain.Models.Auth.Requests",
+        "AniMedia.Domain.Models.BinaryFiles.Dtos",
+        "AniMedia.Domain.Models.Genres.Dtos",
+        "AniMedia.Domain.Models.Genres.Requests",
+        "AniMedia.Domain.Models.Profiles.Dtos",
+        "AniMedia.Domain.Models.Profiles.Requests",
+        "AniMedia.Domain.Models.Responses",
+        "AniMedia.Domain.Models.Sessions.Dtos"
       ],
       "generateOptionalParameters": false,
       "generateJsonMethods": false,

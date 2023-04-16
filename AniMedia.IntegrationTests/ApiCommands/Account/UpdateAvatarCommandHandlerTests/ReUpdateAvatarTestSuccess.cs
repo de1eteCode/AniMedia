@@ -1,5 +1,5 @@
 ﻿using AniMedia.Application.ApiCommands.Account;
-using AniMedia.Domain.Models.Dtos;
+using AniMedia.Domain.Models.BinaryFiles.Dtos;
 using AniMedia.Domain.Models.Responses;
 using AniMedia.IntegrationTests.Helpers;
 using FluentAssertions;
@@ -12,7 +12,7 @@ public class ReUpdateAvatarTestSuccess : IntegrationBinaryTestBase {
     [Fact]
     public override async Task Test() {
         // set user
-        var de1eteUser = await RequestAsync(CommandHelper.RegistrationDe1ete());
+        var de1eteUser = await RequestAsync(CommandHelper.RegistrationCommandDe1ete());
 
         SetUser(de1eteUser.Value!.UID);
 

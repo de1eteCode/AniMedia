@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Versioning;
 using AniMedia.Domain.Interfaces;
-using AniMedia.Domain.Models.Requests;
+using AniMedia.Domain.Models.Profiles.Requests;
 using AniMedia.WebClient.Common.ApiServices;
 using AniMedia.WebClient.Common.Contracts;
 using AniMedia.WebClient.Common.Models;

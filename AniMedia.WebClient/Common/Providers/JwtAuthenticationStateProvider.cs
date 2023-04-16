@@ -1,8 +1,7 @@
 ﻿using System.Security.Claims;
-using AniMedia.Domain.Interfaces;
-using AniMedia.Domain.Models.Dtos;
-using AniMedia.Domain.Models.Requests;
+using AniMedia.Domain.Models.Auth.Requests;
 using AniMedia.Domain.Models.Responses;
+using AniMedia.Domain.Models.Sessions.Dtos;
 using AniMedia.WebClient.Common.ApiServices;
 using AniMedia.WebClient.Common.Contracts;
 using AniMedia.WebClient.Common.Store;

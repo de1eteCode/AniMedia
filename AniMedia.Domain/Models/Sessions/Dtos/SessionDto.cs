@@ -1,6 +1,6 @@
 ﻿using AniMedia.Domain.Entities;
 
-namespace AniMedia.Domain.Models.Dtos;
+namespace AniMedia.Domain.Models.Sessions.Dtos;
 
 public class SessionDto {
 

@@ -7,10 +7,15 @@ namespace AniMedia.Domain.Entities;
 /// </summary>
 public class GenreEntity : BaseAuditableEntity {
 
+    public GenreEntity(string name) {
+        Name = name;
+        AnimeSeries = new List<AnimeSeriesGenreEntity>();
+    }
+    
     /// <summary>
     /// Наименование
     /// </summary>
-    public string Name { get; set; } = default!;
+    public string Name { get; set; } 
     
     /// <summary>
     /// Аниме сериалы жанра

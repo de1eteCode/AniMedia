@@ -1,7 +1,8 @@
 ﻿using System.Transactions;
 using AniMedia.Application.Common.Interfaces;
-using AniMedia.Domain.Models.Dtos;
+using AniMedia.Domain.Models.BinaryFiles.Dtos;
 using AniMedia.Domain.Models.Responses;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,5 +35,12 @@ public class RemoveBinaryFileCommandHandler : IRequestHandler<RemoveBinaryFileCo
         transaction.Complete();
 
         return new Result<BinaryFileDto>(new BinaryFileDto(binFile));
+    }
+}
+
+public class RemoveBinaryFileCommandValidator : AbstractValidator<RemoveBinaryFileCommand> {
+
+    public RemoveBinaryFileCommandValidator() {
+        RuleFor(e => e.BinaryFileUid).NotEmpty();
     }
 }

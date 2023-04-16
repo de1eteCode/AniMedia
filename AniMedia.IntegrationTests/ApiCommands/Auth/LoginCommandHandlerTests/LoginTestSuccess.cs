@@ -9,11 +9,10 @@ public class LoginTestSuccess : IntegrationTestBase {
 
     [Fact]
     public override async Task Test() {
-        await RequestAsync(CommandHelper.RegistrationDe1ete());
+        await RequestAsync(CommandHelper.RegistrationCommandDe1ete());
 
         var loginCommand = new LoginCommand(
-            CommandHelper.RegistrationDe1ete().Nickname,
-            CommandHelper.RegistrationDe1ete().Password,
+            CommandHelper.LoginRequestDe1ete(),
             "216.28.34.2",
             "Google Chrome 111");
 

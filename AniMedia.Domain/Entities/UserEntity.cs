@@ -1,6 +1,4 @@
 ﻿using AniMedia.Domain.Abstracts;
-using AniMedia.Domain.Entities.Validations;
-using FluentValidation;
 
 namespace AniMedia.Domain.Entities;
 
@@ -18,11 +16,8 @@ public class UserEntity : BaseEntity {
         Nickname = nickname;
         PasswordHash = passwordHash;
         PasswordSalt = passwordSalt;
-
         FirstName = firstName;
         SecondName = secondName;
-
-        new UserEntityValidator().ValidateAndThrow(this);
     }
 
     /// <summary>

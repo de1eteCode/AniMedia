@@ -8,7 +8,7 @@ public class RegistrationTestSuccess : IntegrationTestBase {
 
     [Fact]
     public override async Task Test() {
-        var regCommand = CommandHelper.RegistrationDe1ete();
+        var regCommand = CommandHelper.RegistrationCommandDe1ete();
 
         var result = await RequestAsync(regCommand);
 

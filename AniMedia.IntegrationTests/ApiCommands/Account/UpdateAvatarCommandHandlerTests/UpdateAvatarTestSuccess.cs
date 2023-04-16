@@ -10,7 +10,7 @@ public class UpdateAvatarTestSuccess : IntegrationBinaryTestBase {
     [Fact]
     public override async Task Test() {
         // set user
-        var de1eteUser = await RequestAsync(CommandHelper.RegistrationDe1ete());
+        var de1eteUser = await RequestAsync(CommandHelper.RegistrationCommandDe1ete());
 
         SetUser(de1eteUser.Value!.UID);
 

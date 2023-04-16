@@ -1,6 +1,6 @@
 ﻿using AniMedia.Domain.Entities;
 
-namespace AniMedia.Domain.Models.Dtos;
+namespace AniMedia.Domain.Models.BinaryFiles.Dtos;
 
 public class BinaryFileDto {
 

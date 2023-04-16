@@ -10,13 +10,12 @@ public class GetSessionListTestSuccess : IntegrationTestBase {
 
     [Fact]
     public override async Task Test() {
-        var de1eteUser = await RequestAsync(CommandHelper.RegistrationDe1ete());
+        var de1eteUser = await RequestAsync(CommandHelper.RegistrationCommandDe1ete());
 
         var loginCommand = new LoginCommand(
-            CommandHelper.RegistrationDe1ete().Nickname,
-            CommandHelper.RegistrationDe1ete().Password,
-            CommandHelper.RegistrationDe1ete().Ip,
-            CommandHelper.RegistrationDe1ete().UserAgent);
+            CommandHelper.LoginRequestDe1ete(),
+            CommandHelper.RegistrationCommandDe1ete().Ip,
+            CommandHelper.RegistrationCommandDe1ete().UserAgent);
 
         await RequestAsync(loginCommand);
 
