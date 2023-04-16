@@ -7,9 +7,14 @@ namespace AniMedia.Domain.Entities;
 /// <summary>
 /// Сессия пользователя
 /// </summary>
-public class SessionEntity : IBaseEntity {
+public class SessionEntity : BaseEntity {
 
-    public SessionEntity(Guid userUid, string accessToken, string ip, string userAgent, DateTime expiresAt) {
+    public SessionEntity(
+        Guid userUid, 
+        string accessToken, 
+        string ip, 
+        string userAgent, 
+        DateTime expiresAt) {
         UserUid = userUid;
         AccessToken = accessToken;
         Ip = ip;
@@ -64,11 +69,6 @@ public class SessionEntity : IBaseEntity {
     /// Идентификатор пользователя
     /// </summary>
     public Guid UserUid { get; set; }
-
-    /// <summary>
-    /// Идентификатор
-    /// </summary>
-    public Guid UID { get; set; } = Guid.NewGuid();
 
     public void UpdateAccessToken(string newAccessToken, double accessTokenLifeTimeInMinutes) {
         AccessToken = newAccessToken;

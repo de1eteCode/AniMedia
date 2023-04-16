@@ -2,7 +2,7 @@
 
 namespace AniMedia.Domain.Entities;
 
-public class BinaryFileEntity : IBaseEntity {
+public class BinaryFileEntity : BaseEntity {
 
     public BinaryFileEntity(string name, string pathFile, string contentType, long length, string hash) {
         Name = name;
@@ -21,6 +21,4 @@ public class BinaryFileEntity : IBaseEntity {
     public string Name { get; set; } = default!;
 
     public string PathFile { get; set; } = default!;
-
-    public Guid UID { get; set; } = Guid.NewGuid();
 }

@@ -7,9 +7,13 @@ namespace AniMedia.Domain.Entities;
 /// <summary>
 /// Пользователь
 /// </summary>
-public class UserEntity : IBaseEntity {
+public class UserEntity : BaseEntity {
 
-    public UserEntity(string nickname, string passwordHash, string passwordSalt, string firstName = "",
+    public UserEntity(
+        string nickname, 
+        string passwordHash, 
+        string passwordSalt, 
+        string firstName = "", 
         string secondName = "") {
         Nickname = nickname;
         PasswordHash = passwordHash;
@@ -60,6 +64,4 @@ public class UserEntity : IBaseEntity {
     /// Сессии пользователя
     /// </summary>
     public virtual List<SessionEntity> Sessions { get; set; } = new();
-
-    public Guid UID { get; set; } = Guid.NewGuid();
 }
