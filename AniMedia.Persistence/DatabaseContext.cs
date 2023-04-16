@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using System.Reflection; 
 using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Entities;
 using AniMedia.Persistence.Interceptors;
@@ -24,6 +24,14 @@ public class DatabaseContext : DbContext, IApplicationDbContext {
     public virtual DbSet<SessionEntity> Sessions { get; set; } = default!;
 
     public virtual DbSet<UserEntity> Users { get; set; } = default!;
+
+    public virtual DbSet<AnimeSeriesEntity> AnimeSeries { get; set; } = default!;
+
+    public virtual DbSet<AnimeSeriesGenreEntity> AnimeSeriesGenres { get; set; } = default!;
+
+    public virtual DbSet<GenreEntity> Genres { get; set; } = default!;
+
+    public virtual DbSet<RateAnimeSeriesEntity> Rates { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
