@@ -3,61 +3,31 @@
 <div class="container">
     <div class="row">
         @* Аватарка *@
-        <div class="container">
-            @{
-                var avUid = UserState.Value.AvatarUid;
-                if (avUid is not null && avUid != Guid.Empty) {
-                    <img
-                        width="150"
-                        src=@($"{Configuration["ApiServiceUrl"]}/api/v1/media/file/{avUid}")/>
-                }
-                else {
-                    <img
-                        width="150"
-                        src="resources/default_avatar.jpg"/>
-                }
-            }
-        </div>
-
-        @* Кнопки смены аватарки *@
-        <div class="container">
-            <div class="row">
-                @* Кнопка выбора файла *@
-                <div class="col">
-                    @if (DoubleBuffer) {
-                        <InputFile
-                            multiple="false"
-                            OnChange="LoadNewAvatarEvent"/>
+        <div class="container col-4 row row-cols-1 align-content-center">
+            <div class="container col px-2">
+                @{
+                    var avUid = UserState.Value.AvatarUid;
+                    if (avUid is not null && avUid != Guid.Empty) {
+                        <img
+                            width="150"
+                            src=@(ApiUrlBuilder.GetMediaFileUrl((Guid)avUid))/>
                     }
                     else {
-                        <InputFile
-                            multiple="false"
-                            OnChange="LoadNewAvatarEvent"/>
+                        <img
+                            width="150"
+                            src="resources/default_avatar.jpg"/>
                     }
-                </div>
-                
-                @* Кнопка загрузки файла *@
-                <div class="col">
-                    @if (_newAvatar != null) {
-                        <button
-                            class="btn btn-primary"
-                            @onclick='() => UpdateAvatar()'>
-                            Обновить
-                        </button>
-                    }
-                    else {
-                        <button
-                            class="btn btn-primary"
-                            disabled>
-                            Обновить
-                        </button>
-                    }
-                </div>
+                }
+            </div>
+            
+            @* Кнопки смены аватарки *@
+            <div class="container px-2">
+                <ChangeAvatarComponent/>
             </div>
         </div>
 
         @* Форма профиля *@
-        <div class="col">
+        <div class="container col-8">
             <EditForm
                 Model="_vmUpdateProfile"
                 OnValidSubmit="@UpdateProfile">
@@ -65,10 +35,10 @@
 
                 <p>
                     <label>
-                        Firstsss name:
+                        First name:
                         <InputText
                             id="firstName"
-                            @bind-Value="_vmUpdateProfile.FirstName"
+                            @bind-Value="                        _vmUpdateProfile.FirstName"
                             DisplayName="First name"/>
                     </label>
                     <ValidationMessage For="() => _vmUpdateProfile.FirstName"/>
@@ -79,7 +49,7 @@
                         Second namess:
                         <InputText
                             id="secondName"
-                            @bind-Value="_vmUpdateProfile.SecondName"
+                            @bind-Value="                        _vmUpdateProfile.SecondName"
                             DisplayName="Second name"/>
                     </label>
                     <ValidationMessage For="() => _vmUpdateProfile.SecondName"/>

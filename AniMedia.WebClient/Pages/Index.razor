@@ -4,3 +4,15 @@
 <PageTitle>Index</PageTitle>
 
 <h1>Hello, world!</h1>
+
+<div class="container row g-2">
+    @foreach (var num in Enumerable.Range(1, 100)) {
+        var r = Random.Shared.Next(0, 255).ToString("X2");
+        var g = Random.Shared.Next(0, 255).ToString("X2");
+        var b = Random.Shared.Next(0, 255).ToString("X2");
+        
+        <div class="col-6">
+            <NewsComponent Title="@($"Title-{num}")" HexColor="@($"#{r}{g}{b}")"/>
+        </div>
+    }
+</div>

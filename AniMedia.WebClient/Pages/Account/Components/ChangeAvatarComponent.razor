@@ -1,0 +1,39 @@
+﻿<Button Color="Color.Primary" Clicked="Show">Изменить автарку</Button>
+
+<Blazorise.Bootstrap5.Modal
+    @ref="_editAvatarRef">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Изменение аватара</ModalTitle>
+            <CloseButton/>
+        </ModalHeader>
+
+        <ModalBody>
+            <div class="container row-cols-1">
+                <div class="row">
+                    @* Превью картинки *@
+                    
+                    @* Кнопка выбора файла *@
+                    <div class="col">
+                        @if (DoubleBuffer) {
+                            <InputFile
+                                multiple="false"
+                                OnChange="LoadNewAvatarEvent"/>
+                        }
+                        else {
+                            <InputFile
+                                multiple="false"
+                                OnChange="LoadNewAvatarEvent"/>
+                        }
+                    </div>
+                </div>
+            </div>
+        </ModalBody>
+
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="Hide">Закрыть</Button>
+            <Button Color="Color.Primary" Disabled="@(_newAvatar == null)" Clicked="UpdateAvatar">Обновить</Button>
+        </ModalFooter>
+    </ModalContent>
+
+</Blazorise.Bootstrap5.Modal>

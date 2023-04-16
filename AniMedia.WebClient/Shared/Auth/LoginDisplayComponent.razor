@@ -1,16 +1,14 @@
 ﻿<AuthorizeView>
     <Authorized>
-        <NavLink href="@PageUrlConstants.ProfilePageUrl">
-            <span>Hello, @context.User.Identity?.Name</span>
-        </NavLink>
-        <AniMedia.WebClient.Shared.Auth.LogoutComponent GetReturnUrl="@GetCurrentUrl" />
+        <BarItem>
+            <Button Color="Color.Info" Type="ButtonType.Link" To="@PageUrlConstants.ProfilePageUrl">@context.User.Identity?.Name</Button>
+            <Button Color="Color.Danger" Outline Clicked="LogOut">Log out</Button>
+        </BarItem>
     </Authorized>
     <NotAuthorized>
-        <NavLink class="nav-link" href="@PageUrlConstants.RegisterPageUrl">
-            Register
-        </NavLink>
-        <NavLink class="nav-link" href="@PageUrlConstants.LoginPageUrl">
-            Login
-        </NavLink>
+        <BarItem>
+            <Button Color="Color.Primary" Type="ButtonType.Link" To="@PageUrlConstants.RegisterPageUrl">Sign up</Button>
+            <Button Color="Color.Secondary" Type="ButtonType.Link" To="@PageUrlConstants.LoginPageUrl">Log in</Button>
+        </BarItem>
     </NotAuthorized>
 </AuthorizeView>

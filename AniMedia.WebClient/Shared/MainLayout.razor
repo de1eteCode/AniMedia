@@ -12,19 +12,35 @@
     ErrorIcon="fa fa-bug"
     SuccessIcon="fa fa-thumbs-up"/>
 
+<header class="container">
+    <Bar
+        Breakpoint="Breakpoint.Desktop"
+        Background="Background.Light"
+        ThemeContrast="ThemeContrast.Light">
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
+        <BarMenu>
+            <BarItem>
+                <Buttons Role="ButtonsRole.Toolbar">
+                    <Buttons Margin="Margin.Is2.FromEnd">
+                        <Button Color="Color.Secondary" Type="ButtonType.Link" To="/">Home</Button>
+                        <Button Color="Color.Secondary" Type="ButtonType.Link" To="/counter">Counter</Button>
+                        <Button Color="Color.Secondary" Type="ButtonType.Link" To="/swagger">Swagger</Button>
+                    </Buttons>
+                </Buttons>
+            </BarItem>
+            <BarEnd>
+                <AniMedia.WebClient.Shared.Auth.LoginDisplayComponent/>
+            </BarEnd>
+        </BarMenu>
+    </Bar>
+</header>
+
+<main class="container px-4">
+    @Body
+</main>
+
+<footer class="mt-auto container px-4">
+    <div class="container">
+        <span>Dev AniMedia 2023</span>
     </div>
-
-    <main>
-        <div class="top-row px-4">
-            <AniMedia.WebClient.Shared.Auth.LoginDisplayComponent/>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+</footer>

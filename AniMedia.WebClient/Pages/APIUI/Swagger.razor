@@ -1,24 +1,5 @@
-﻿@attribute [Route(PageUrlConstants.SwaggerPageUrl)]
+﻿@using AniMedia.WebClient.Common.Contracts
+@attribute [Route(PageUrlConstants.SwaggerPageUrl)]
+@inject IApiUrlBuilder ApiUrlBuilder
 
-<iframe src="@GetSwaggerUrl()" style="border: none; height: 900px; width: 100%;"/>
-
-@code {
-
-    [Inject]
-    public IConfiguration Configuration { get; set; } = default!;
-
-    private string GetSwaggerUrl() {
-        var apiUrl = Configuration["ApiServiceUrl"];
-
-        if (string.IsNullOrEmpty(apiUrl)) {
-            return "https://http.cat/404";
-        }
-
-        if (apiUrl.EndsWith('/')) {
-            apiUrl = apiUrl.Remove(apiUrl.Length - 1);
-        }
-
-        return apiUrl + PageUrlConstants.SwaggerPageUrl;
-    }
-
-}
+<iframe class="full-iframe" src="@ApiUrlBuilder.GetSwaggerUrl()"></iframe>

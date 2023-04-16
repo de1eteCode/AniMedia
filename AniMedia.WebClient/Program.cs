@@ -50,6 +50,7 @@ public class Program {
         builder.Services.AddBlazoredLocalStorage();
         builder.Services.AddScoped<ITokenService, LocalStorageTokenService>();
         builder.Services.AddSingleton<IJwtTokenReadService, JwtReadService>();
+        builder.Services.AddSingleton<IApiUrlBuilder, ApiUrlBuilder>();
         
         // states
         builder.Services.AddFluxor(opt => opt.ScanAssemblies(typeof(Program).Assembly).UseReduxDevTools());
