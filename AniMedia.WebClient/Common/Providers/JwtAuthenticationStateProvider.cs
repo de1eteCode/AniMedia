@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
-using AniMedia.Domain.Models.Auth.Requests;
+using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
-using AniMedia.Domain.Models.Sessions.Dtos;
 using AniMedia.WebClient.Common.ApiServices;
 using AniMedia.WebClient.Common.Contracts;
 using AniMedia.WebClient.Common.Store;
@@ -136,12 +135,7 @@ public class JwtAuthenticationStateProvider : AuthenticationStateProvider {
     /// <param name="viewModel">Данные для регистрации</param>
     /// <returns>True - Пользователь успешно зарегистрирован и авторизирован, иначе False</returns>
     public async Task<bool> Registration(RegistrationVM viewModel) {
-        var request = new RegistrationRequest {
-            Nickname = viewModel.Nickname,
-            Password = viewModel.Password
-        };
-
-        var responce = await _apiClient.AuthRegistrationAsync(request);
+        var responce = await _apiClient.AuthRegistrationAsync(viewModel.Nickname, viewModel.Password);
 
         if (responce == null || string.IsNullOrEmpty(responce.AccessToken)) {
             return false;
@@ -161,12 +155,7 @@ public class JwtAuthenticationStateProvider : AuthenticationStateProvider {
     /// <param name="viewModel">Данные для авторизации</param>
     /// <returns>True - Пользователь успешно авторизирован</returns>
     public async Task<bool> Login(LoginVM viewModel) {
-        var request = new LoginRequest {
-            Nickname = viewModel.Nickname,
-            Password = viewModel.Password
-        };
-
-        var response = await _apiClient.AuthLoginAsync(request);
+        var response = await _apiClient.AuthLoginAsync(viewModel.Nickname, viewModel.Password);
 
         if (response == null || string.IsNullOrEmpty(response.AccessToken)) {
             return false;

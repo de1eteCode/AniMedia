@@ -5,7 +5,6 @@
 //----------------------
 
 using AniMedia.Domain.Models.Dtos;
-using AniMedia.Domain.Models.Requests;
 using AniMedia.Domain.Models.Responses;
 using AniMedia.WebClient.Common.ApiServices;
 

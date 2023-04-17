@@ -1,7 +1,6 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Versioning;
 using AniMedia.Domain.Interfaces;
-using AniMedia.Domain.Models.Profiles.Requests;
 using AniMedia.WebClient.Common.ApiServices;
 using AniMedia.WebClient.Common.Contracts;
 using AniMedia.WebClient.Common.Models;
@@ -45,9 +44,6 @@ public partial class EditProfileComponent : FluxorComponent {
     private async Task UpdateProfile() {
         // todo: track change
 
-        var res = await ApiClient.ApiV1AccountUpdateAsync(new UpdateProfileRequest() {
-            FirstName = _vmUpdateProfile.FirstName,
-            SecondName = _vmUpdateProfile.SecondName
-        });
+        var res = await ApiClient.ApiV1AccountUpdateAsync(_vmUpdateProfile.FirstName, _vmUpdateProfile.SecondName);
     }
 }

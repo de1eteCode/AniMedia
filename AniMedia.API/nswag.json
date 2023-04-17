@@ -98,12 +98,10 @@
       "operationGenerationMode": "SingleClientFromPathSegments",
       "additionalNamespaceUsages": [
         "AniMedia.Domain.Models.Dtos",
-        "AniMedia.Domain.Models.Requests",
         "AniMedia.Domain.Models.Responses"
       ],
       "additionalContractNamespaceUsages": [
         "AniMedia.Domain.Models.Dtos",
-        "AniMedia.Domain.Models.Requests",
         "AniMedia.Domain.Models.Responses"
       ],
       "generateOptionalParameters": false,
