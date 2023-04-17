@@ -1,7 +1,7 @@
 ﻿using AniMedia.Application.Common.Attributes;
 using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Responses;
-using AniMedia.Domain.Models.Sessions.Dtos;
+using AniMedia.Domain.Models.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +24,7 @@ public class RemoveSessionCommandHandler : IRequestHandler<RemoveSessionCommand,
     }
 
     public async Task<Result<SessionDto>> Handle(RemoveSessionCommand request, CancellationToken cancellationToken) {
-        var session = await _context.Sessions.FirstOrDefaultAsync(e => 
+        var session = await _context.Sessions.FirstOrDefaultAsync(e =>
             e.UserUid.Equals(_currentUserService.UserUID) && e.UID.Equals(request.SessionUid),
             cancellationToken);
 

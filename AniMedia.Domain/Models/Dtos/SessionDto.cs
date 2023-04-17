@@ -1,13 +1,16 @@
 ﻿using AniMedia.Domain.Entities;
 
-namespace AniMedia.Domain.Models.Sessions.Dtos;
+namespace AniMedia.Domain.Models.Dtos;
 
-public class SessionDto {
+public class SessionDto
+{
 
-    public SessionDto() {
+    public SessionDto()
+    {
     }
 
-    public SessionDto(SessionEntity session) {
+    public SessionDto(SessionEntity session)
+    {
         ArgumentNullException.ThrowIfNull(session);
 
         Uid = session.UID;

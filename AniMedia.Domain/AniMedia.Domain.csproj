@@ -7,14 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.5.2" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <Compile Remove="Models\RateAnimeSeries\**" />
+    <EmbeddedResource Remove="Models\RateAnimeSeries\**" />
+    <None Remove="Models\RateAnimeSeries\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\RateAnimeSeries\Dtos\" />
-    <Folder Include="Models\RateAnimeSeries\Requests\" />
+    <PackageReference Include="FluentValidation" Version="11.5.2" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
 </Project>

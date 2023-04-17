@@ -1,13 +1,16 @@
 ﻿using AniMedia.Domain.Entities;
 
-namespace AniMedia.Domain.Models.BinaryFiles.Dtos;
+namespace AniMedia.Domain.Models.Dtos;
 
-public class BinaryFileDto {
+public class BinaryFileDto
+{
 
-    public BinaryFileDto() {
+    public BinaryFileDto()
+    {
     }
 
-    public BinaryFileDto(BinaryFileEntity binaryFile) {
+    public BinaryFileDto(BinaryFileEntity binaryFile)
+    {
         ArgumentNullException.ThrowIfNull(binaryFile);
 
         UID = binaryFile.UID;

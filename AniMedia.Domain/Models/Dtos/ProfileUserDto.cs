@@ -1,7 +1,6 @@
 ﻿using AniMedia.Domain.Entities;
-using AniMedia.Domain.Models.BinaryFiles.Dtos;
 
-namespace AniMedia.Domain.Models.Profiles.Dtos;
+namespace AniMedia.Domain.Models.Dtos;
 
 public class ProfileUserDto {
 

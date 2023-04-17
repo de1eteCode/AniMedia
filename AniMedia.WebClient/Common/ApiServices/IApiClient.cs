@@ -4,16 +4,9 @@
 // </auto-generated>
 //----------------------
 
-using AniMedia.Domain.Models.AnimeSeries.Dtos;
-using AniMedia.Domain.Models.AnimeSeries.Requests;
-using AniMedia.Domain.Models.Auth.Requests;
-using AniMedia.Domain.Models.BinaryFiles.Dtos;
-using AniMedia.Domain.Models.Genres.Dtos;
-using AniMedia.Domain.Models.Genres.Requests;
-using AniMedia.Domain.Models.Profiles.Dtos;
-using AniMedia.Domain.Models.Profiles.Requests;
+using AniMedia.Domain.Models.Dtos;
+using AniMedia.Domain.Models.Requests;
 using AniMedia.Domain.Models.Responses;
-using AniMedia.Domain.Models.Sessions.Dtos;
 
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
@@ -39,11 +32,11 @@ namespace AniMedia.WebClient.Common.ApiServices
         System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountProfileAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountUpdateAsync(UpdateProfileRequest profile);
+        System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountUpdateAsync(string firstName, string secondName);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountUpdateAsync(UpdateProfileRequest profile, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountUpdateAsync(string firstName, string secondName, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<BinaryFileDto> ApiV1AccountUpdateavatarAsync(FileParameter newAvatar);
@@ -67,18 +60,18 @@ namespace AniMedia.WebClient.Common.ApiServices
         System.Threading.Tasks.Task<AuthorizationResponse> AuthRefreshAsync(System.Guid refreshToken, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorizationResponse> AuthRegistrationAsync(RegistrationRequest request);
+        System.Threading.Tasks.Task<AuthorizationResponse> AuthRegistrationAsync(string nickname, string password);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorizationResponse> AuthRegistrationAsync(RegistrationRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<AuthorizationResponse> AuthRegistrationAsync(string nickname, string password, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorizationResponse> AuthLoginAsync(LoginRequest request);
+        System.Threading.Tasks.Task<AuthorizationResponse> AuthLoginAsync(string nickname, string password);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorizationResponse> AuthLoginAsync(LoginRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<AuthorizationResponse> AuthLoginAsync(string nickname, string password, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaInfoAsync(System.Guid uid);

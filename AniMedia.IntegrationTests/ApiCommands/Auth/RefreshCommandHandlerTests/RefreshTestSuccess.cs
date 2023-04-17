@@ -15,7 +15,8 @@ public class RefreshTestSuccess : IntegrationTestBase {
 
         for (var i = 0; i < 9; i++) {
             var commonLoginCommand = new LoginCommand(
-                CommandHelper.LoginRequestCommon(),
+                CommandHelper.RegistrationCommon().Nickname,
+                CommandHelper.RegistrationCommon().Password,
                 CommandHelper.RandomIpAddress(),
                 CommandHelper.RegistrationCommon().UserAgent);
 
@@ -30,7 +31,7 @@ public class RefreshTestSuccess : IntegrationTestBase {
         var refreshDe1eteResult = await RequestAsync(refreshDe1eteCommand);
 
         SetUser(de1ete.Value!.UID);
-        
+
         var getSessionDe1eteCommand = new GetSessionListQueryCommand();
 
         var resultSessionDe1ete = await RequestAsync(getSessionDe1eteCommand);

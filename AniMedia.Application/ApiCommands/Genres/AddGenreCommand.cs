@@ -1,22 +1,20 @@
 ﻿using AniMedia.Application.Common.Attributes;
 using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Entities;
-using AniMedia.Domain.Models.Genres.Dtos;
-using AniMedia.Domain.Models.Genres.Requests;
+using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using FluentValidation;
 using MediatR;
 
-namespace AniMedia.Application.ApiCommands.Genres; 
+namespace AniMedia.Application.ApiCommands.Genres;
 
 /// <summary>
 /// Добавление жанра аниме сериала
 /// </summary>
 [ApplicationAuthorize]
-public record AddGenreCommand(AddGenreRequest Model) : IRequest<Result<GenreDto>>;
+public record AddGenreCommand(string Name) : IRequest<Result<GenreDto>>;
 
 public class AddGenreCommandHandler : IRequestHandler<AddGenreCommand, Result<GenreDto>> {
-
     private readonly IApplicationDbContext _context;
 
     public AddGenreCommandHandler(IApplicationDbContext context) {
@@ -24,7 +22,7 @@ public class AddGenreCommandHandler : IRequestHandler<AddGenreCommand, Result<Ge
     }
 
     public async Task<Result<GenreDto>> Handle(AddGenreCommand request, CancellationToken cancellationToken) {
-        var genre = new GenreEntity(request.Model.Name);
+        var genre = new GenreEntity(request.Name);
 
         await _context.Genres.AddAsync(genre, cancellationToken);
 
@@ -37,8 +35,7 @@ public class AddGenreCommandHandler : IRequestHandler<AddGenreCommand, Result<Ge
 public class AddGenreCommandValidator : AbstractValidator<AddGenreCommand> {
 
     public AddGenreCommandValidator() {
-        RuleFor(e => e.Model).NotNull();
-        RuleFor(e => e.Model.Name)
+        RuleFor(e => e.Name)
             .NotEmpty()
             .MinimumLength(2)
             .MaximumLength(64);

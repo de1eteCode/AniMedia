@@ -4,16 +4,9 @@
 // </auto-generated>
 //----------------------
 
-using AniMedia.Domain.Models.AnimeSeries.Dtos;
-using AniMedia.Domain.Models.AnimeSeries.Requests;
-using AniMedia.Domain.Models.Auth.Requests;
-using AniMedia.Domain.Models.BinaryFiles.Dtos;
-using AniMedia.Domain.Models.Genres.Dtos;
-using AniMedia.Domain.Models.Genres.Requests;
-using AniMedia.Domain.Models.Profiles.Dtos;
-using AniMedia.Domain.Models.Profiles.Requests;
+using AniMedia.Domain.Models.Dtos;
+using AniMedia.Domain.Models.Requests;
 using AniMedia.Domain.Models.Responses;
-using AniMedia.Domain.Models.Sessions.Dtos;
 using AniMedia.WebClient.Common.ApiServices;
 
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
@@ -139,20 +132,26 @@ namespace AniMedia.WebClient.Common.ApiServices
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountUpdateAsync(UpdateProfileRequest profile)
+        public virtual System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountUpdateAsync(string firstName, string secondName)
         {
-            return ApiV1AccountUpdateAsync(profile, System.Threading.CancellationToken.None);
+            return ApiV1AccountUpdateAsync(firstName, secondName, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountUpdateAsync(UpdateProfileRequest profile, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ProfileUserDto> ApiV1AccountUpdateAsync(string firstName, string secondName, System.Threading.CancellationToken cancellationToken)
         {
-            if (profile == null)
-                throw new System.ArgumentNullException("profile");
-
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/v1/Account/update");
+            urlBuilder_.Append("api/v1/Account/update?");
+            if (firstName != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("firstName") + "=").Append(System.Uri.EscapeDataString(ConvertToString(firstName, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (secondName != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("secondName") + "=").Append(System.Uri.EscapeDataString(ConvertToString(secondName, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -160,10 +159,7 @@ namespace AniMedia.WebClient.Common.ApiServices
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(profile, _settings.Value);
-                    var content_ = new System.Net.Http.StringContent(json_);
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -513,20 +509,26 @@ namespace AniMedia.WebClient.Common.ApiServices
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AuthorizationResponse> AuthRegistrationAsync(RegistrationRequest request)
+        public virtual System.Threading.Tasks.Task<AuthorizationResponse> AuthRegistrationAsync(string nickname, string password)
         {
-            return AuthRegistrationAsync(request, System.Threading.CancellationToken.None);
+            return AuthRegistrationAsync(nickname, password, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AuthorizationResponse> AuthRegistrationAsync(RegistrationRequest request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AuthorizationResponse> AuthRegistrationAsync(string nickname, string password, System.Threading.CancellationToken cancellationToken)
         {
-            if (request == null)
-                throw new System.ArgumentNullException("request");
-
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("auth/registration");
+            urlBuilder_.Append("auth/registration?");
+            if (nickname != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("nickname") + "=").Append(System.Uri.EscapeDataString(ConvertToString(nickname, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (password != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("password") + "=").Append(System.Uri.EscapeDataString(ConvertToString(password, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -534,10 +536,7 @@ namespace AniMedia.WebClient.Common.ApiServices
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new System.Net.Http.StringContent(json_);
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -602,20 +601,26 @@ namespace AniMedia.WebClient.Common.ApiServices
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AuthorizationResponse> AuthLoginAsync(LoginRequest request)
+        public virtual System.Threading.Tasks.Task<AuthorizationResponse> AuthLoginAsync(string nickname, string password)
         {
-            return AuthLoginAsync(request, System.Threading.CancellationToken.None);
+            return AuthLoginAsync(nickname, password, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AuthorizationResponse> AuthLoginAsync(LoginRequest request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AuthorizationResponse> AuthLoginAsync(string nickname, string password, System.Threading.CancellationToken cancellationToken)
         {
-            if (request == null)
-                throw new System.ArgumentNullException("request");
-
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("auth/login");
+            urlBuilder_.Append("auth/login?");
+            if (nickname != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("nickname") + "=").Append(System.Uri.EscapeDataString(ConvertToString(nickname, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (password != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("password") + "=").Append(System.Uri.EscapeDataString(ConvertToString(password, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -623,10 +628,7 @@ namespace AniMedia.WebClient.Common.ApiServices
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
-                    var content_ = new System.Net.Http.StringContent(json_);
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 

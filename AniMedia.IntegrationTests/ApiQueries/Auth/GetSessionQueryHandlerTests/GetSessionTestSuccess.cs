@@ -15,7 +15,8 @@ public class GetSessionTestSuccess : IntegrationTestBase {
         var loginIp = CommandHelper.RandomIpAddress();
 
         var loginCommand = new LoginCommand(
-            CommandHelper.LoginRequestDe1ete(),
+            CommandHelper.RegistrationCommandDe1ete().Nickname,
+            CommandHelper.RegistrationCommandDe1ete().Password,
             loginIp,
             CommandHelper.RegistrationCommandDe1ete().UserAgent);
 

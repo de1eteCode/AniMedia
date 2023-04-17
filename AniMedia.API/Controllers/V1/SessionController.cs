@@ -1,7 +1,7 @@
 ﻿using AniMedia.Application.ApiCommands.Auth;
 using AniMedia.Application.ApiQueries.Auth;
 using AniMedia.Domain.Models.Responses;
-using AniMedia.Domain.Models.Sessions.Dtos;
+using AniMedia.Domain.Models.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

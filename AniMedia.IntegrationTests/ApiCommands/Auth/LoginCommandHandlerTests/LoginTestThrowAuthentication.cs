@@ -1,5 +1,4 @@
 ﻿using AniMedia.Application.ApiCommands.Auth;
-using AniMedia.Domain.Models.Auth.Requests;
 using AniMedia.Domain.Models.Responses;
 using AniMedia.IntegrationTests.Helpers;
 using FluentAssertions;
@@ -14,10 +13,8 @@ public class LoginTestThrowAuthentication : IntegrationTestBase {
         await RequestAsync(CommandHelper.RegistrationCommandDe1ete());
 
         var loginCommand = new LoginCommand(
-            new LoginRequest() {
-                Nickname = CommandHelper.LoginRequestDe1ete().Nickname,
-                Password = "wrong password"
-            },
+            CommandHelper.RegistrationCommandDe1ete().Nickname,
+            "wrong password",
             "226.28.34.2",
             "Google Chrome 111");
 

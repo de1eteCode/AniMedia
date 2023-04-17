@@ -1,5 +1,4 @@
 ﻿using AniMedia.Application.ApiCommands.Auth;
-using AniMedia.Domain.Models.Auth.Requests;
 
 namespace AniMedia.IntegrationTests.Helpers;
 
@@ -7,44 +6,18 @@ public static class CommandHelper {
 
     public static RegistrationCommand RegistrationCommandDe1ete() {
         return new RegistrationCommand(
-            RegistrationRequestDe1ete(),
+            "de1ete",
+            "password",
             "127.0.0.1",
             "VisualStudio 2022");
     }
 
-    public static RegistrationRequest RegistrationRequestDe1ete() {
-        return new RegistrationRequest() {
-            Nickname = "de1ete",
-            Password = "password"
-        };
-    }
-
-    public static LoginRequest LoginRequestDe1ete() {
-        return new LoginRequest() {
-            Nickname = "de1ete",
-            Password = "password"
-        };
-    }
-
     public static RegistrationCommand RegistrationCommon() {
         return new RegistrationCommand(
-            RegistrationRequestCommon(),
+            "common",
+            "edsregtertgert",
             "212.23.4.243",
             "VisualStudio 2022");
-    }
-
-    public static RegistrationRequest RegistrationRequestCommon() {
-        return new RegistrationRequest() {
-            Nickname = "common",
-            Password = "edsregtertgert"
-        };
-    }
-
-    public static LoginRequest LoginRequestCommon() {
-        return new LoginRequest() {
-            Nickname = "common",
-            Password = "edsregtertgert"
-        };
     }
 
     public static string RandomIpAddress() {

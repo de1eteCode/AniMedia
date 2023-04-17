@@ -1,8 +1,6 @@
 ﻿using AniMedia.Application.ApiCommands.Account;
 using AniMedia.Application.ApiQueries.Account;
-using AniMedia.Domain.Models.BinaryFiles.Dtos;
-using AniMedia.Domain.Models.Profiles.Dtos;
-using AniMedia.Domain.Models.Profiles.Requests;
+using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -28,8 +26,8 @@ public class AccountController : BaseApiV1Controller {
     [HttpPost("update")]
     [ProducesResponseType(typeof(ProfileUserDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> UpdateProfile(UpdateProfileRequest profile, CancellationToken cancellationToken) {
-        var request = new UpdateProfileCommand(profile);
+    public async Task<IActionResult> UpdateProfile(string firstName, string secondName, CancellationToken cancellationToken) {
+        var request = new UpdateProfileCommand(firstName, secondName);
 
         return await RequestAsync(request, cancellationToken);
     }

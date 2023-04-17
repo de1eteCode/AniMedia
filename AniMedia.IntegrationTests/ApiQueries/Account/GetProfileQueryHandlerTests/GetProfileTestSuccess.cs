@@ -21,7 +21,7 @@ public class GetProfileTestSuccess : IntegrationTestBase {
 
         // assert
         result.IsSuccess.Should().BeTrue();
-        result.Value!.NickName.Should().Be(CommandHelper.LoginRequestDe1ete().Nickname);
+        result.Value!.NickName.Should().Be(CommandHelper.RegistrationCommandDe1ete().Nickname);
         result.Value!.UID.Should().Be(de1eteUser.Value!.UID);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AniMedia.Application.ApiCommands.Account;
-using AniMedia.Domain.Models.BinaryFiles.Dtos;
+using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using AniMedia.IntegrationTests.Helpers;
 using FluentAssertions;

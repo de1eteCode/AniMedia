@@ -1,4 +1,4 @@
-﻿using AniMedia.Domain.Models.Sessions.Dtos;
+﻿using AniMedia.Domain.Models.Dtos;
 using AniMedia.WebClient.Common.ApiServices;
 using AniMedia.WebClient.Common.Contracts;
 using AniMedia.WebClient.Common.Providers;

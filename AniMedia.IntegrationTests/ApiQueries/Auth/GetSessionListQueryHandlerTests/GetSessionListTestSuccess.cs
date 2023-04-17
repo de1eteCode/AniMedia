@@ -13,7 +13,8 @@ public class GetSessionListTestSuccess : IntegrationTestBase {
         var de1eteUser = await RequestAsync(CommandHelper.RegistrationCommandDe1ete());
 
         var loginCommand = new LoginCommand(
-            CommandHelper.LoginRequestDe1ete(),
+            CommandHelper.RegistrationCommandDe1ete().Nickname,
+            CommandHelper.RegistrationCommandDe1ete().Password,
             CommandHelper.RegistrationCommandDe1ete().Ip,
             CommandHelper.RegistrationCommandDe1ete().UserAgent);
 

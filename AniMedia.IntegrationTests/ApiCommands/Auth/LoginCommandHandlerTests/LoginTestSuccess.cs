@@ -12,7 +12,8 @@ public class LoginTestSuccess : IntegrationTestBase {
         await RequestAsync(CommandHelper.RegistrationCommandDe1ete());
 
         var loginCommand = new LoginCommand(
-            CommandHelper.LoginRequestDe1ete(),
+            CommandHelper.RegistrationCommandDe1ete().Nickname,
+            CommandHelper.RegistrationCommandDe1ete().Password,
             "216.28.34.2",
             "Google Chrome 111");
 

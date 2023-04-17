@@ -1,5 +1,4 @@
 ﻿using AniMedia.Application.ApiCommands.Auth;
-using AniMedia.Domain.Models.Auth.Requests;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -41,12 +40,13 @@ public class AuthController : BaseApiV1Controller {
     [ProducesResponseType(typeof(AuthorizationResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(RegistrationError), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Registration(
-        [FromBody] RegistrationRequest request,
+        string nickname,
+        string password,
         CancellationToken cancellationToken) {
         var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
         var userAgent = HttpContext.Request.Headers.UserAgent.ToString();
 
-        var command = new RegistrationCommand(request, ip, userAgent);
+        var command = new RegistrationCommand(nickname, password, ip, userAgent);
 
         return await RequestAsync(command, cancellationToken);
     }
@@ -55,12 +55,13 @@ public class AuthController : BaseApiV1Controller {
     [ProducesResponseType(typeof(AuthorizationResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(AuthorizationError), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Login(
-        [FromBody] LoginRequest request,
+        string nickname,
+        string password,
         CancellationToken cancellationToken) {
         var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
         var userAgent = HttpContext.Request.Headers.UserAgent.ToString();
 
-        var command = new LoginCommand(request, ip, userAgent);
+        var command = new LoginCommand(nickname, password, ip, userAgent);
 
         return await RequestAsync(command, cancellationToken);
     }

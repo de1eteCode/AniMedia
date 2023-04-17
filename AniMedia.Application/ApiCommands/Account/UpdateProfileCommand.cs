@@ -1,8 +1,6 @@
 ﻿using AniMedia.Application.Common.Attributes;
 using AniMedia.Application.Common.Interfaces;
-using AniMedia.Domain.Constants;
-using AniMedia.Domain.Models.Profiles.Dtos;
-using AniMedia.Domain.Models.Profiles.Requests;
+using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using FluentValidation;
 using MediatR;
@@ -11,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AniMedia.Application.ApiCommands.Account;
 
 [ApplicationAuthorize]
-public record UpdateProfileCommand(UpdateProfileRequest Model) : IRequest<Result<ProfileUserDto>>;
+public record UpdateProfileCommand(string FirstName, string SecondName) : IRequest<Result<ProfileUserDto>>;
 
 public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand, Result<ProfileUserDto>> {
     private readonly ICurrentUserService _currentUser;
@@ -30,8 +28,8 @@ public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand,
             return new Result<ProfileUserDto>(new EntityNotFoundError());
         }
 
-        user.FirstName = request.Model.FirstName;
-        user.SecondName = request.Model.SecondName;
+        user.FirstName = request.FirstName;
+        user.SecondName = request.SecondName;
 
         await _context.SaveChangesAsync(cancellationToken);
 
@@ -42,8 +40,7 @@ public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand,
 public class UpdateProfileCommandValidator : AbstractValidator<UpdateProfileCommand> {
 
     public UpdateProfileCommandValidator() {
-        RuleFor(e => e.Model).NotNull();
-        RuleFor(e => e.Model.FirstName).NotEmpty();
-        RuleFor(e => e.Model.SecondName).NotEmpty();
+        RuleFor(e => e.FirstName).NotEmpty();
+        RuleFor(e => e.SecondName).NotEmpty();
     }
 }
