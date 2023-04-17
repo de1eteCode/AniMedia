@@ -4,6 +4,7 @@ using AniMedia.Domain.Models.Responses;
 using AniMedia.Domain.Models.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
 
 namespace AniMedia.Application.ApiCommands.Auth;
 
@@ -36,5 +37,12 @@ public class RemoveSessionCommandHandler : IRequestHandler<RemoveSessionCommand,
         await _context.SaveChangesAsync(cancellationToken);
 
         return new Result<SessionDto>(new SessionDto(session));
+    }
+}
+
+public class RemoveSessionCommandValidator : AbstractValidator<RemoveSessionCommand> {
+
+    public RemoveSessionCommandValidator() {
+        RuleFor(x => x.SessionUid).NotEmpty();
     }
 }

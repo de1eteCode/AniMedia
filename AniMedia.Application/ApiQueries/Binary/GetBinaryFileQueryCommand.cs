@@ -1,6 +1,7 @@
 ﻿using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,5 +24,12 @@ public class GetBinaryFileQueryCommandHandler : IRequestHandler<GetBinaryFileQue
         }
 
         return new Result<BinaryFileDto>(new BinaryFileDto(binFile));
+    }
+}
+
+public class GetBinaryFileQueryCommandValidator : AbstractValidator<GetBinaryFileQueryCommand> {
+
+    public GetBinaryFileQueryCommandValidator() {
+        RuleFor(e => e.BinaryFileUid).NotEmpty();
     }
 }

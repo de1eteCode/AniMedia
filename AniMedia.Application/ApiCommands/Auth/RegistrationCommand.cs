@@ -76,5 +76,7 @@ public class RegistrationCommandValidator : AbstractValidator<RegistrationComman
     public RegistrationCommandValidator() {
         RuleFor(e => e.Nickname).NotEmpty();
         RuleFor(e => e.Password).NotEmpty();
+        RuleFor(e => e.UserAgent).NotEmpty();
+        RuleFor(e => e.Ip).NotEmpty();
     }
 }

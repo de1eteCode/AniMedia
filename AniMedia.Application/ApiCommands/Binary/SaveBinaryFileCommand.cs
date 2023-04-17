@@ -4,6 +4,7 @@ using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Entities;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
+using FluentValidation;
 using MediatR;
 
 namespace AniMedia.Application.ApiCommands.Binary;
@@ -54,5 +55,14 @@ public class SaveBinaryFileCommandHandler : IRequestHandler<SaveBinaryFileComman
         transaction.Complete();
 
         return new Result<BinaryFileDto>(new BinaryFileDto(binFile));
+    }
+}
+
+public class SaveBinaryFileCommandValidator : AbstractValidator<SaveBinaryFileCommand> {
+
+    public SaveBinaryFileCommandValidator() {
+        RuleFor(e => e.Stream).NotNull();
+        RuleFor(e => e.Name).NotEmpty();
+        RuleFor(e => e.ContentType).NotEmpty();
     }
 }

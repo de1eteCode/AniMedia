@@ -5,6 +5,7 @@ using AniMedia.Domain.Constants;
 using AniMedia.Domain.Entities;
 using AniMedia.Domain.Interfaces;
 using AniMedia.Domain.Models.Responses;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -28,7 +29,7 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, Result<Auth
     public RefreshCommandHandler(
         IApplicationDbContext context,
         ITokenService tokenService,
-        IOptions<JwtSettings> jwtSettings, 
+        IOptions<JwtSettings> jwtSettings,
         IDateTimeService timeService) {
         _context = context;
         _tokenService = tokenService;
@@ -69,5 +70,14 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, Result<Auth
         await _context.Entry(newSession).Reference(e => e.User).LoadAsync(cancellationToken);
 
         return new Result<AuthorizationResponse>(new AuthorizationResponse(newSession.User.UID, accessToken, newSession.RefreshToken));
+    }
+}
+
+public class RefreshCommandValidator : AbstractValidator<RefreshCommand> {
+
+    public RefreshCommandValidator() {
+        RuleFor(e => e.RefreshToken).NotEmpty();
+        RuleFor(e => e.Ip).NotEmpty();
+        RuleFor(e => e.UserAgent).NotEmpty();
     }
 }

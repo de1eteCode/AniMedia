@@ -5,6 +5,7 @@ using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Constants;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -63,5 +64,14 @@ public class UpdateAvatarCommandHandler : IRequestHandler<UpdateAvatarCommand, R
         transaction.Complete();
 
         return new Result<BinaryFileDto>(new BinaryFileDto(user.Avatar!));
+    }
+}
+
+public class UpdateAvatarCommandValidator : AbstractValidator<UpdateAvatarCommand> {
+
+    public UpdateAvatarCommandValidator() {
+        RuleFor(e => e.Stream).NotNull();
+        RuleFor(e => e.Name).NotNull();
+        RuleFor(e => e.ContentType).NotNull();
     }
 }

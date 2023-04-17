@@ -4,6 +4,7 @@ using AniMedia.Domain.Models.Responses;
 using AniMedia.Domain.Models.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
 
 namespace AniMedia.Application.ApiQueries.Auth;
 
@@ -28,5 +29,12 @@ public class GetSessionQueryCommandHandler : IRequestHandler<GetSessionQueryComm
         }
 
         return new Result<SessionDto>(new SessionDto(session));
+    }
+}
+
+public class GetSessionQueryCommandValidator : AbstractValidator<GetSessionQueryCommand> {
+
+    public GetSessionQueryCommandValidator() {
+        RuleFor(e => e.AccessToken).NotEmpty();
     }
 }

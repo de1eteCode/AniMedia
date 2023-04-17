@@ -3,6 +3,7 @@ using AniMedia.Application.Common.Models;
 using AniMedia.Domain.Constants;
 using AniMedia.Domain.Interfaces;
 using AniMedia.Domain.Models.Responses;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -53,7 +54,7 @@ public class AuthorizationCommandHandler : IRequestHandler<AuthorizationCommand,
             return new Result<AuthorizationResponse>(new AuthenticationError("Not found user", ErrorCodesConstants.NotFoundUser));
         }
 
-        var session = await _context.Sessions.FirstOrDefaultAsync(e => 
+        var session = await _context.Sessions.FirstOrDefaultAsync(e =>
             e.UserUid.Equals(requesterUid) && e.AccessToken.Equals(request.AccessToken),
             cancellationToken);
 
@@ -68,5 +69,12 @@ public class AuthorizationCommandHandler : IRequestHandler<AuthorizationCommand,
         await _context.SaveChangesAsync(cancellationToken);
 
         return new Result<AuthorizationResponse>(new AuthorizationResponse(requester.UID, newAccessToken, session.RefreshToken));
+    }
+}
+
+public class AuthorizationCommandValidator : AbstractValidator<AuthorizationCommand> {
+
+    public AuthorizationCommandValidator() {
+        RuleFor(e => e.AccessToken).NotEmpty();
     }
 }
