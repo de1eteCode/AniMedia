@@ -1,26 +1,35 @@
 ﻿using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
+using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
-namespace AniMedia.Application.ApiQueries.AnimeSeries; 
+namespace AniMedia.Application.ApiQueries.AnimeSeries;
 
-public record GetAnimeSeriesListQueryCommand : IRequest<Result<List<AnimeSeriesDto>>>;
+public record GetAnimeSeriesListQueryCommand(int Page, int PageSize) : IRequest<PagedResult<AnimeSeriesDto>>;
 
-public class GetAnimeSeriesListQueryCommandHandler : IRequestHandler<GetAnimeSeriesListQueryCommand, Result<List<AnimeSeriesDto>>> {
-
+public class GetAnimeSeriesListQueryCommandHandler : IRequestHandler<GetAnimeSeriesListQueryCommand, PagedResult<AnimeSeriesDto>> {
     private readonly IApplicationDbContext _context;
 
     public GetAnimeSeriesListQueryCommandHandler(IApplicationDbContext context) {
         _context = context;
     }
 
-    public async Task<Result<List<AnimeSeriesDto>>> Handle(GetAnimeSeriesListQueryCommand request, CancellationToken cancellationToken) {
-        var animeSeries = await _context.AnimeSeries
-            .Select(e => new AnimeSeriesDto(e))
-            .ToListAsync(cancellationToken);
+    public async Task<PagedResult<AnimeSeriesDto>> Handle(GetAnimeSeriesListQueryCommand request, CancellationToken cancellationToken) {
+        return await ResultExtensions.CreatePagedResultAsync(
+            _context.AnimeSeries
+                .OrderByDescending(e => e.LastModified)
+                .ThenByDescending(e => e.CreateAt)
+                .Select(e => new AnimeSeriesDto(e)),
+            request.Page,
+            request.PageSize);
+    }
+}
 
-        return new Result<List<AnimeSeriesDto>>(animeSeries);
+public class GetAnimeSeriesListQueryCommandValidator : AbstractValidator<GetAnimeSeriesListQueryCommand> {
+
+    public GetAnimeSeriesListQueryCommandValidator() {
+        RuleFor(e => e.Page).GreaterThanOrEqualTo(1);
+        RuleFor(e => e.PageSize).GreaterThanOrEqualTo(1);
     }
 }

@@ -15,17 +15,19 @@ public partial class SessionsComponent : ComponentBase {
 
     [Inject]
     public IApiClient ApiClient { get; set; } = default!;
-    
+
     [Inject]
     public JwtAuthenticationStateProvider AuthStateProvider { get; set; } = default!;
 
     [Inject]
     public ITokenService TokenService { get; set; } = default!;
-    
+
     protected override async Task OnInitializedAsync() {
         try {
             _currentSession = await ApiClient.ApiV1SessionAsync(await TokenService.GetTokenAsync());
-            _sessions = await ApiClient.ApiV1SessionListAsync();
+
+            // Todo: Paging change on table
+            _sessions = await ApiClient.ApiV1SessionListAsync(1, 100);
         }
         catch (Exception ex) {
             _sessions = new List<SessionDto>();
@@ -42,7 +44,7 @@ public partial class SessionsComponent : ComponentBase {
 
         if (res.Uid.Equals(sessionUid)) {
             _sessions!.Remove(_sessions.First(e => e.Uid.Equals(sessionUid)));
-            
+
             // Todo: Придумать что-нить получше
             AuthStateProvider.NotifyAuthenticationStateChanged();
         }

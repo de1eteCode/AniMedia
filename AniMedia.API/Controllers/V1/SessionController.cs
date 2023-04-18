@@ -27,8 +27,8 @@ public class SessionController : BaseApiV1Controller {
     [HttpGet("list")]
     [ProducesResponseType(typeof(List<SessionDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> GetSessionList(CancellationToken cancellationToken) {
-        var query = new GetSessionListQueryCommand();
+    public async Task<IActionResult> GetSessionList(int page, int pageSize, CancellationToken cancellationToken) {
+        var query = new GetSessionListQueryCommand(page, pageSize);
 
         return await RequestAsync(query, cancellationToken);
     }

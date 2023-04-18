@@ -9,7 +9,7 @@ public class GetSessionListTestThrowAuthentication : IntegrationTestBase {
 
     [Fact]
     public override async Task Test() {
-        var getSessionsQuery = new GetSessionListQueryCommand();
+        var getSessionsQuery = new GetSessionListQueryCommand(0, 0);
 
         var result = await RequestAsync(getSessionsQuery);
 
