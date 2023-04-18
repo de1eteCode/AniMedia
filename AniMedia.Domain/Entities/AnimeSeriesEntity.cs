@@ -15,33 +15,33 @@ public class AnimeSeriesEntity : BaseAuditableEntity {
     /// <summary>
     /// Наименование аниме сериала на английском
     /// </summary>
-    public string? EnglishName { get; set; }
-    
+    public string EnglishName { get; set; }
+
     /// <summary>
     /// Наименование аниме сериала на японском
     /// </summary>
-    public string? JapaneseName { get; set; }
-    
+    public string JapaneseName { get; set; }
+
     /// <summary>
     /// Описание
     /// </summary>
     public string? Description { get; set; }
-    
+
     /// <summary>
     /// Дата релиза аниме сериала
     /// </summary>
     public DateTime? DateOfRelease { get; set; }
-    
+
     /// <summary>
     /// Дата анонсирования аниме сериала
     /// </summary>
     public DateTime? DateOfAnnouncement { get; set; }
-    
+
     /// <summary>
     /// Всего выпущено эпизодов
     /// </summary>
     public int? ExistTotalEpisodes { get; set; }
-    
+
     /// <summary>
     /// Запланированое количество эпизодов
     /// </summary>
@@ -56,5 +56,4 @@ public class AnimeSeriesEntity : BaseAuditableEntity {
     /// Оценки аниме сериала от пользователей
     /// </summary>
     public virtual ICollection<RateAnimeSeriesEntity> Rates { get; set; } = new List<RateAnimeSeriesEntity>();
-
 }
