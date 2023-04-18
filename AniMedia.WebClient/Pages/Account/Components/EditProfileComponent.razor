@@ -6,11 +6,11 @@
         <div class="container col-4 row row-cols-1 align-content-center">
             <div class="container col px-2">
                 @{
-                    var avUid = UserState.Value.AvatarUid;
-                    if (avUid is not null && avUid != Guid.Empty) {
+                    var av = UserState.Value;
+                    if (av is not null && string.IsNullOrEmpty(av.Avatar) == false) {
                         <img
                             width="150"
-                            src=@(ApiUrlBuilder.GetMediaFileUrl((Guid)avUid))/>
+                            src=@(ApiUrlBuilder.GetMediaFileUrl(av.Avatar!))/>
                     }
                     else {
                         <img

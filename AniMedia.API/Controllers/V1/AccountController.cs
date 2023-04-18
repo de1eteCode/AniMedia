@@ -43,7 +43,7 @@ public class AccountController : BaseApiV1Controller {
             throw new NotImplementedException();
         }
 
-        var request = new UpdateAvatarCommand(stream, newAvatar.FileName, newAvatar.ContentType);
+        var request = new UpdateAvatarCommand(stream, newAvatar.ContentType);
 
         return await RequestAsync(request, cancellationToken);
     }

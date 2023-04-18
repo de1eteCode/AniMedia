@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiQueries.Binary;
 
-public record GetBinaryFileResponseQueryCommand(Guid BinaryFileUid) : IRequest<Result<BinaryFileEntity>>;
+public record GetBinaryFileResponseQueryCommand(string BinaryFileUidOrName) : IRequest<Result<BinaryFileEntity>>;
 
 public class GetBinaryFileResponseQueryCommandHandler : IRequestHandler<GetBinaryFileResponseQueryCommand, Result<BinaryFileEntity>> {
     private readonly IApplicationDbContext _context;
@@ -17,9 +17,18 @@ public class GetBinaryFileResponseQueryCommandHandler : IRequestHandler<GetBinar
     }
 
     public async Task<Result<BinaryFileEntity>> Handle(GetBinaryFileResponseQueryCommand request, CancellationToken cancellationToken) {
-        var entity = await _context.BinaryFiles
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.UID.Equals(request.BinaryFileUid), cancellationToken);
+        var wasGuid = Guid.TryParse(request.BinaryFileUidOrName, out var id);
+
+        var entity = default(BinaryFileEntity?);
+
+        if (wasGuid) {
+            entity = await _context.BinaryFiles
+                .FirstOrDefaultAsync(e => e.UID.Equals(id), cancellationToken);
+        }
+        else {
+            entity = await _context.BinaryFiles
+                .FirstOrDefaultAsync(e => e.Name.Equals(request.BinaryFileUidOrName), cancellationToken);
+        }
 
         if (entity == null) {
             return new Result<BinaryFileEntity>(new EntityNotFoundError());
@@ -32,6 +41,6 @@ public class GetBinaryFileResponseQueryCommandHandler : IRequestHandler<GetBinar
 public class GetBinaryFileResponseQueryCommandValidator : AbstractValidator<GetBinaryFileResponseQueryCommand> {
 
     public GetBinaryFileResponseQueryCommandValidator() {
-        RuleFor(e => e.BinaryFileUid).NotEmpty();
+        RuleFor(e => e.BinaryFileUidOrName).NotEmpty();
     }
 }

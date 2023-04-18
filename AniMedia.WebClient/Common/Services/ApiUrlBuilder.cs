@@ -11,7 +11,11 @@ public class ApiUrlBuilder : IApiUrlBuilder {
     }
 
     public string GetMediaFileUrl(Guid uid) {
-        return $"{GetBaseUrl()}/api/v1/media/file/{uid}";
+        return GetMediaFileUrl(uid.ToString());
+    }
+
+    public string GetMediaFileUrl(string name) {
+        return $"{GetBaseUrl()}/api/v1/media/file/{name}";
     }
 
     public string GetSwaggerUrl() {

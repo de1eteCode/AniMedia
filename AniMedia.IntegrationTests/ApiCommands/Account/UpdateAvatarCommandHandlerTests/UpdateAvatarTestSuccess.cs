@@ -16,20 +16,19 @@ public class UpdateAvatarTestSuccess : IntegrationBinaryTestBase {
 
         // request
         var rndBin = GetRandomData(Random.Shared.Next(2, 512));
-        var fileName = "random.bin";
         var contentType = "bin/binary";
         using var ms = new MemoryStream();
         await ms.WriteAsync(rndBin, 0, rndBin.Length);
         ms.Position = 0;
 
-        var request = new UpdateAvatarCommand(ms, fileName, contentType);
+        var request = new UpdateAvatarCommand(ms, contentType);
 
         var result = await RequestAsync(request);
 
         // assert
         result.IsSuccess.Should().BeTrue();
         result.Value!.UID.Should().NotBeEmpty();
-        result.Value!.Name.Should().Be(fileName);
+        result.Value!.Name.Should().NotBeEmpty();
         result.Value!.ContentType.Should().Be(contentType);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AniMedia.Application.Common.Interfaces;
+using AniMedia.Domain.Entities;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using FluentValidation;
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiQueries.Binary;
 
-public record GetBinaryFileQueryCommand(Guid BinaryFileUid) : IRequest<Result<BinaryFileDto>>;
+public record GetBinaryFileQueryCommand(string BinaryFileUidOrName) : IRequest<Result<BinaryFileDto>>;
 
 public class GetBinaryFileQueryCommandHandler : IRequestHandler<GetBinaryFileQueryCommand, Result<BinaryFileDto>> {
     private readonly IApplicationDbContext _context;
@@ -17,19 +18,30 @@ public class GetBinaryFileQueryCommandHandler : IRequestHandler<GetBinaryFileQue
     }
 
     public async Task<Result<BinaryFileDto>> Handle(GetBinaryFileQueryCommand request, CancellationToken cancellationToken) {
-        var binFile = await _context.BinaryFiles.FirstOrDefaultAsync(e => e.UID.Equals(request.BinaryFileUid), cancellationToken);
+        var wasGuid = Guid.TryParse(request.BinaryFileUidOrName, out var id);
 
-        if (binFile == null) {
+        var entity = default(BinaryFileEntity?);
+
+        if (wasGuid) {
+            entity = await _context.BinaryFiles
+                .FirstOrDefaultAsync(e => e.UID.Equals(id), cancellationToken);
+        }
+        else {
+            entity = await _context.BinaryFiles
+                .FirstOrDefaultAsync(e => e.Name.Equals(request.BinaryFileUidOrName), cancellationToken);
+        }
+
+        if (entity == null) {
             return new Result<BinaryFileDto>(new EntityNotFoundError());
         }
 
-        return new Result<BinaryFileDto>(new BinaryFileDto(binFile));
+        return new Result<BinaryFileDto>(new BinaryFileDto(entity));
     }
 }
 
 public class GetBinaryFileQueryCommandValidator : AbstractValidator<GetBinaryFileQueryCommand> {
 
     public GetBinaryFileQueryCommandValidator() {
-        RuleFor(e => e.BinaryFileUid).NotEmpty();
+        RuleFor(e => e.BinaryFileUidOrName).NotEmpty();
     }
 }

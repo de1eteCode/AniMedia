@@ -692,21 +692,18 @@ namespace AniMedia.WebClient.Common.ApiServices
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaInfoAsync(System.Guid uid)
+        public virtual System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaInfoAsync(string uidOrName)
         {
-            return ApiV1MediaInfoAsync(uid, System.Threading.CancellationToken.None);
+            return ApiV1MediaInfoAsync(uidOrName, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaInfoAsync(System.Guid uid, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaInfoAsync(string uidOrName, System.Threading.CancellationToken cancellationToken)
         {
-            if (uid == null)
-                throw new System.ArgumentNullException("uid");
-
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/v1/Media/info/{uid}");
-            urlBuilder_.Replace("{uid}", System.Uri.EscapeDataString(ConvertToString(uid, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Append("api/v1/Media/info/{uidOrName}");
+            urlBuilder_.Replace("{uidOrName}", System.Uri.EscapeDataString(ConvertToString(uidOrName, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -778,21 +775,18 @@ namespace AniMedia.WebClient.Common.ApiServices
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<FileResponse> ApiV1MediaFileAsync(System.Guid uid)
+        public virtual System.Threading.Tasks.Task<FileResponse> ApiV1MediaFileAsync(string uidOrName)
         {
-            return ApiV1MediaFileAsync(uid, System.Threading.CancellationToken.None);
+            return ApiV1MediaFileAsync(uidOrName, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileResponse> ApiV1MediaFileAsync(System.Guid uid, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<FileResponse> ApiV1MediaFileAsync(string uidOrName, System.Threading.CancellationToken cancellationToken)
         {
-            if (uid == null)
-                throw new System.ArgumentNullException("uid");
-
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/v1/Media/file/{uid}");
-            urlBuilder_.Replace("{uid}", System.Uri.EscapeDataString(ConvertToString(uid, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Append("api/v1/Media/file/{uidOrName}");
+            urlBuilder_.Replace("{uidOrName}", System.Uri.EscapeDataString(ConvertToString(uidOrName, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             var disposeClient_ = false;
