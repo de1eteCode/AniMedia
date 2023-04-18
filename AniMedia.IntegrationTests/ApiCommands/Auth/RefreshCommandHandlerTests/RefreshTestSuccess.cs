@@ -32,7 +32,7 @@ public class RefreshTestSuccess : IntegrationTestBase {
 
         SetUser(de1ete.Value!.UID);
 
-        var getSessionDe1eteCommand = new GetSessionListQueryCommand();
+        var getSessionDe1eteCommand = new GetSessionListQueryCommand(1, 100);
 
         var resultSessionDe1ete = await RequestAsync(getSessionDe1eteCommand);
 
@@ -40,7 +40,7 @@ public class RefreshTestSuccess : IntegrationTestBase {
 
         SetUser(common.Value!.UID);
 
-        var getSessionCommonCommand = new GetSessionListQueryCommand();
+        var getSessionCommonCommand = new GetSessionListQueryCommand(1, 100);
 
         var resultSessionCommon = await RequestAsync(getSessionCommonCommand);
 
@@ -49,7 +49,7 @@ public class RefreshTestSuccess : IntegrationTestBase {
         refreshDe1eteResult.Value!.AccessToken.Should().NotBe(de1ete.Value.AccessToken);
         refreshDe1eteResult.Value!.RefreshToken.Should().NotBe(de1ete.Value.RefreshToken);
 
-        resultSessionDe1ete.Value!.Count.Should().Be(1);
-        resultSessionCommon.Value!.Count.Should().Be(10);
+        resultSessionDe1ete.Value!.Count().Should().Be(1);
+        resultSessionCommon.Value!.Count().Should().Be(10);
     }
 }

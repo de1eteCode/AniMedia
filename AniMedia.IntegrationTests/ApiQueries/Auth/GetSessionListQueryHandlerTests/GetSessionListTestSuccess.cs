@@ -22,10 +22,10 @@ public class GetSessionListTestSuccess : IntegrationTestBase {
 
         SetUser(de1eteUser.Value!.UID);
 
-        var getSessionsQuery = new GetSessionListQueryCommand();
+        var getSessionsQuery = new GetSessionListQueryCommand(1, 2);
 
         var result = await RequestAsync(getSessionsQuery);
 
-        result.Value!.Count.Should().Be(2);
+        result.Value!.Count().Should().Be(2);
     }
 }

@@ -18,24 +18,24 @@ public class RemoveSessionTestSuccess : IntegrationTestBase {
             CommandHelper.RegistrationCommandDe1ete().Nickname,
             CommandHelper.RegistrationCommandDe1ete().Password,
             loginIp,
-            CommandHelper.RegistrationCommandDe1ete().UserAgent);
+            "Not Visual Studio 2022");
 
         await RequestAsync(loginCommand);
 
         SetUser(de1eteUser.Value!.UID);
 
-        var getSessionQuery = new GetSessionListQueryCommand();
+        var getSessionQuery = new GetSessionListQueryCommand(1, 100);
 
         var sessions = await RequestAsync(getSessionQuery);
 
-        var removeSessionCommand = new RemoveSessionCommand(sessions.Value!.DistinctBy(e => e.CreateAt).First().Uid);
+        var removeSessionCommand = new RemoveSessionCommand(sessions.Value!.OrderBy(e => e.CreateAt).First().Uid);
 
         await RequestAsync(removeSessionCommand);
 
         sessions = await RequestAsync(getSessionQuery);
 
         sessions.IsSuccess.Should().BeTrue();
-        sessions.Value!.Count.Should().Be(1);
+        sessions.Value!.Count().Should().Be(1);
         sessions.Value!.First().Ip.Should().Be(loginIp);
     }
 }

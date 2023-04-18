@@ -1,26 +1,35 @@
 ﻿using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
+using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
-namespace AniMedia.Application.ApiQueries.Genres; 
+namespace AniMedia.Application.ApiQueries.Genres;
 
-public record GetGenresListQueryCommand : IRequest<Result<List<GenreDto>>>;
+public record GetGenresListQueryCommand(int Page, int PageSize) : IRequest<PagedResult<GenreDto>>;
 
-public class GetGenresListQueryCommandHandler : IRequestHandler<GetGenresListQueryCommand, Result<List<GenreDto>>> {
-
+public class GetGenresListQueryCommandHandler : IRequestHandler<GetGenresListQueryCommand, PagedResult<GenreDto>> {
     private readonly IApplicationDbContext _context;
 
     public GetGenresListQueryCommandHandler(IApplicationDbContext context) {
         _context = context;
     }
 
-    public async Task<Result<List<GenreDto>>> Handle(GetGenresListQueryCommand request, CancellationToken cancellationToken) {
-        var genres = await _context.Genres
-            .Select(e => new GenreDto(e))
-            .ToListAsync(cancellationToken);
+    public async Task<PagedResult<GenreDto>> Handle(GetGenresListQueryCommand request, CancellationToken cancellationToken) {
+        return await ResultExtensions.CreatePagedResultAsync(
+            _context.Genres
+                .OrderByDescending(e => e.LastModified)
+                .ThenByDescending(e => e.CreateAt)
+                .Select(e => new GenreDto(e)),
+            request.Page,
+            request.PageSize);
+    }
+}
 
-        return new Result<List<GenreDto>>(genres);
+public class GetGenresListQueryCommandValidator : AbstractValidator<GetGenresListQueryCommand> {
+
+    public GetGenresListQueryCommandValidator() {
+        RuleFor(e => e.Page).GreaterThanOrEqualTo(1);
+        RuleFor(e => e.PageSize).GreaterThanOrEqualTo(1);
     }
 }
