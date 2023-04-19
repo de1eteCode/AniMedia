@@ -15,11 +15,11 @@ public class RemoveBinaryFIleTestSuccess : IntegrationBinaryTestBase {
         memStream.Position = 0;
 
         /// save file
-        var commandSave = new SaveBinaryFileCommand(memStream, nameof(data), "binary bytes");
+        var commandSave = new SaveBinaryFileCommand(memStream,  "binary bytes");
         var resSaveFile = await RequestAsync(commandSave);
 
         /// delete file
-        var commandRemove = new RemoveBinaryFileCommand(resSaveFile.Value!.UID);
+        var commandRemove = new RemoveBinaryFileCommand(resSaveFile.Value!.UID.ToString());
         var resRemove = await RequestAsync(commandRemove);
 
         /// assert

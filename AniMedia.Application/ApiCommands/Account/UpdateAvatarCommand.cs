@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AniMedia.Application.ApiCommands.Account;
 
 [ApplicationAuthorize]
-public record UpdateAvatarCommand(Stream Stream, string Name, string ContentType) : IRequest<Result<BinaryFileDto>>;
+public record UpdateAvatarCommand(Stream Stream, string ContentType) : IRequest<Result<BinaryFileDto>>;
 
 public class UpdateAvatarCommandHandler : IRequestHandler<UpdateAvatarCommand, Result<BinaryFileDto>> {
     private readonly ICurrentUserService _currentUser;
@@ -37,7 +37,7 @@ public class UpdateAvatarCommandHandler : IRequestHandler<UpdateAvatarCommand, R
 
         // remove old avatar
         if (user.Avatar != null && user.AvatarFileUID != null) {
-            var removeAvatarCommand = new RemoveBinaryFileCommand((Guid)user.AvatarFileUID);
+            var removeAvatarCommand = new RemoveBinaryFileCommand(user.AvatarFileUID.ToString()!);
 
             var resultRemoveAvatar = await _mediator.Send(removeAvatarCommand, cancellationToken);
 
@@ -47,7 +47,7 @@ public class UpdateAvatarCommandHandler : IRequestHandler<UpdateAvatarCommand, R
         }
 
         // set new avatar
-        var saveAvatarCommand = new SaveBinaryFileCommand(request.Stream, request.Name, request.ContentType);
+        var saveAvatarCommand = new SaveBinaryFileCommand(request.Stream, request.ContentType);
 
         var resultSaveAvatar = await _mediator.Send(saveAvatarCommand, cancellationToken);
 
@@ -71,7 +71,6 @@ public class UpdateAvatarCommandValidator : AbstractValidator<UpdateAvatarComman
 
     public UpdateAvatarCommandValidator() {
         RuleFor(e => e.Stream).NotNull();
-        RuleFor(e => e.Name).NotNull();
         RuleFor(e => e.ContentType).NotNull();
     }
 }

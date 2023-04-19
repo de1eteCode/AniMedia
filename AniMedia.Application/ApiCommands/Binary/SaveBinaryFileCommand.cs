@@ -13,10 +13,9 @@ namespace AniMedia.Application.ApiCommands.Binary;
 /// Сохранение файла
 /// </summary>
 /// <param name="Stream">Данные</param>
-/// <param name="Name">Имя файла</param>
 /// <param name="ContentType">Тип файла</param>
 /// <returns>Информация о файле</returns>
-public record SaveBinaryFileCommand(Stream Stream, string Name, string ContentType) : IRequest<Result<BinaryFileDto>>;
+public record SaveBinaryFileCommand(Stream Stream, string ContentType) : IRequest<Result<BinaryFileDto>>;
 
 public class SaveBinaryFileCommandHandler : IRequestHandler<SaveBinaryFileCommand, Result<BinaryFileDto>> {
     private readonly IApplicationDbContext _context;
@@ -47,7 +46,7 @@ public class SaveBinaryFileCommandHandler : IRequestHandler<SaveBinaryFileComman
 
         var fInfo = new FileInfo(pathToFile);
 
-        var binFile = new BinaryFileEntity(request.Name, pathToFile, request.ContentType, fInfo.Length, hash);
+        var binFile = new BinaryFileEntity(fInfo.Name, pathToFile, request.ContentType, fInfo.Length, hash);
 
         _context.BinaryFiles.Add(binFile);
         await _context.SaveChangesAsync(cancellationToken);
@@ -62,7 +61,6 @@ public class SaveBinaryFileCommandValidator : AbstractValidator<SaveBinaryFileCo
 
     public SaveBinaryFileCommandValidator() {
         RuleFor(e => e.Stream).NotNull();
-        RuleFor(e => e.Name).NotEmpty();
         RuleFor(e => e.ContentType).NotEmpty();
     }
 }

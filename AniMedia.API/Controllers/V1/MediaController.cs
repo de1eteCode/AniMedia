@@ -8,24 +8,24 @@ using Microsoft.AspNetCore.Mvc;
 namespace AniMedia.API.Controllers.V1;
 
 public class MediaController : BaseApiV1Controller {
-
+    
     public MediaController(IMediator mediator) : base(mediator) {
     }
 
-    [HttpGet("info/{uid:guid}")]
+    [HttpGet("info/{uidOrName}")]
     [ProducesResponseType(typeof(BinaryFileDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetInfo(Guid uid, CancellationToken cancellationToken) {
-        var query = new GetBinaryFileQueryCommand(uid);
+    public async Task<IActionResult> GetInfo(string uidOrName, CancellationToken cancellationToken) {
+        var query = new GetBinaryFileQueryCommand(uidOrName);
 
         return await RequestAsync(query, cancellationToken);
     }
 
-    [HttpGet("file/{uid:guid}")]
+    [HttpGet("file/{uidOrName}")]
     [ProducesResponseType(typeof(FileContentResult), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetFile(Guid uid, CancellationToken cancellationToken) {
-        var query = new GetBinaryFileResponseQueryCommand(uid);
+    public async Task<IActionResult> GetFile(string uidOrName, CancellationToken cancellationToken) {
+        var query = new GetBinaryFileResponseQueryCommand(uidOrName);
 
         var res = await _mediator.Send(query, cancellationToken);
 
@@ -35,9 +35,7 @@ public class MediaController : BaseApiV1Controller {
 
         var entity = res.Value!;
 
-        var stream = System.IO.File.OpenRead(entity.PathFile);
-
-        return File(stream, entity.ContentType, entity.Name, enableRangeProcessing: true);
+        return PhysicalFile(entity.PathFile, entity.ContentType, entity.Name, enableRangeProcessing: true);
     }
 
     [HttpPost("load")]
@@ -49,7 +47,7 @@ public class MediaController : BaseApiV1Controller {
             throw new NotImplementedException();
         }
 
-        var request = new SaveBinaryFileCommand(stream, file.FileName, file.ContentType);
+        var request = new SaveBinaryFileCommand(stream, file.ContentType);
 
         return await RequestAsync(request, cancellationToken);
     }

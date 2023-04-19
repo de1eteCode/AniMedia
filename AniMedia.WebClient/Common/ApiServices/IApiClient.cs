@@ -73,18 +73,18 @@ namespace AniMedia.WebClient.Common.ApiServices
         System.Threading.Tasks.Task<AuthorizationResponse> AuthLoginAsync(string nickname, string password, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaInfoAsync(System.Guid uid);
+        System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaInfoAsync(string uidOrName);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaInfoAsync(System.Guid uid, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaInfoAsync(string uidOrName, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> ApiV1MediaFileAsync(System.Guid uid);
+        System.Threading.Tasks.Task<FileResponse> ApiV1MediaFileAsync(string uidOrName);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> ApiV1MediaFileAsync(System.Guid uid, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<FileResponse> ApiV1MediaFileAsync(string uidOrName, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<BinaryFileDto> ApiV1MediaLoadAsync(FileParameter file);

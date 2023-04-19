@@ -57,7 +57,8 @@ public partial class ChangeAvatarComponent : ComponentBase {
 
         if (result != null) {
             var action = new UserInfoActions.SetNewAvatar {
-                Uid = result.UID
+                Uid = result.UID,
+                Name = result.Name
             };
 
             Dispatcher.Dispatch(action);

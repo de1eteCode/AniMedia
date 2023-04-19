@@ -18,7 +18,6 @@ public class ReUpdateAvatarTestSuccess : IntegrationBinaryTestBase {
 
         // request
         var rndBin = GetRandomData(Random.Shared.Next(2, 512));
-        var fileName = "random.bin";
         var contentType = "bin/binary";
         using var ms = new MemoryStream();
         await ms.WriteAsync(rndBin, 0, rndBin.Length);
@@ -27,7 +26,7 @@ public class ReUpdateAvatarTestSuccess : IntegrationBinaryTestBase {
         Result<BinaryFileDto> result = default!;
 
         for (int i = 0; i < 2; i++) {
-            var request = new UpdateAvatarCommand(ms, fileName, contentType);
+            var request = new UpdateAvatarCommand(ms, contentType);
 
             result = await RequestAsync(request);
         }
@@ -35,7 +34,7 @@ public class ReUpdateAvatarTestSuccess : IntegrationBinaryTestBase {
         // assert
         result.IsSuccess.Should().BeTrue();
         result.Value!.UID.Should().NotBeEmpty();
-        result.Value!.Name.Should().Be(fileName);
+        result.Value!.Name.Should().NotBeEmpty();
         result.Value!.ContentType.Should().Be(contentType);
     }
 }

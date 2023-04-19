@@ -14,12 +14,12 @@ public class SaveBinaryTestSuccess : IntegrationBinaryTestBase {
         await memStream.WriteAsync(data, 0, data.Length);
         memStream.Position = 0;
 
-        var commandSave = new SaveBinaryFileCommand(memStream, nameof(data), "binary bytes");
+        var commandSave = new SaveBinaryFileCommand(memStream,  "binary bytes");
 
         var result = await RequestAsync(commandSave);
 
         result.IsSuccess.Should().BeTrue();
-        result.Value!.Name.Should().Be(nameof(data));
+        result.Value!.Name.Should().NotBeEmpty();
         result.Value!.UID.Should().NotBe(Guid.Empty);
     }
 }

@@ -13,6 +13,8 @@ public class UserInfoState {
     public string? SecondName { get; init; }
 
     public Guid? AvatarUid { get; init; }
+    
+    public string? Avatar { get; set; }
 
     public bool Loading { get; init; }
     
@@ -28,6 +30,8 @@ public static class UserInfoActions {
     public class SetNewAvatar {
 
         public required Guid Uid { get; init; }
+        
+        public required string Name { get; init; }
     }
 
     public class SetNewPersonality {
@@ -45,6 +49,8 @@ public static class UserInfoActions {
         public string? SecondName { get; init; }
 
         public Guid? AvatarUid { get; init; }
+        
+        public string? Avatar { get; init; }
     }
 }
 
@@ -54,6 +60,7 @@ public static class UserInfoReducers {
     public static UserInfoState OnActionSet(UserInfoState currentState, UserInfoActions.SetNewAvatar action) {
         return new UserInfoState {
             AvatarUid = action.Uid,
+            Avatar = action.Name,
             FirstName = currentState.FirstName,
             SecondName = currentState.SecondName,
             UserName = currentState.UserName
@@ -64,6 +71,7 @@ public static class UserInfoReducers {
     public static UserInfoState OnActionSet(UserInfoState currentState, UserInfoActions.SetNewPersonality action) {
         return new UserInfoState {
             AvatarUid = currentState.AvatarUid,
+            Avatar = currentState.Avatar,
             FirstName = action.FirstName,
             SecondName = action.SecondName,
             UserName = currentState.UserName
@@ -74,6 +82,7 @@ public static class UserInfoReducers {
     public static UserInfoState OnActionSet(UserInfoState currentState, UserInfoActions.SetNewState action) {
         return new UserInfoState {
             AvatarUid = action.AvatarUid,
+            Avatar = action.Avatar,
             FirstName = action.FirstName,
             SecondName = action.SecondName,
             UserName = action.UserName
@@ -97,6 +106,7 @@ public class UserInfoEffects {
         if (result != null) {
             newState = new UserInfoActions.SetNewState() {
                 AvatarUid = result.Avatar?.UID,
+                Avatar = result.Avatar?.Name,
                 FirstName = result.FirstName,
                 SecondName = result.SecondName,
                 UserName = result.NickName
@@ -105,6 +115,7 @@ public class UserInfoEffects {
         else {
             newState = new UserInfoActions.SetNewState() {
                 AvatarUid = null,
+                Avatar = null,
                 FirstName = string.Empty,
                 SecondName = string.Empty,
                 UserName = string.Empty
