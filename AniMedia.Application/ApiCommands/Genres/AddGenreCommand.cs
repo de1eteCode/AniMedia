@@ -11,6 +11,7 @@ namespace AniMedia.Application.ApiCommands.Genres;
 /// <summary>
 /// Добавление жанра аниме сериала
 /// </summary>
+/// <param name="Name">Наименование жанра</param>
 [ApplicationAuthorize]
 public record AddGenreCommand(string Name) : IRequest<Result<GenreDto>>;
 

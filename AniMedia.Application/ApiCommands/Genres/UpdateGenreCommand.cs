@@ -11,7 +11,8 @@ namespace AniMedia.Application.ApiCommands.Genres;
 /// <summary>
 /// Команда обновления жанра
 /// </summary>
-/// <param name="Model">Запрос на обновление жанра</param>
+/// <param name="Uid">Идентификатор жанра</param>
+/// <param name="Name">Новое наименование</param>
 [ApplicationAuthorize]
 public record UpdateGenreCommand(Guid Uid, string Name) : IRequest<Result<GenreDto>>;
 
