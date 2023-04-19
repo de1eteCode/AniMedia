@@ -8,6 +8,10 @@ using FluentValidation;
 
 namespace AniMedia.Application.ApiQueries.Auth;
 
+/// <summary>
+/// Получение сессии по токену
+/// </summary>
+/// <param name="AccessToken">Токен доступа</param>
 [ApplicationAuthorize]
 public record GetSessionQueryCommand(string AccessToken) : IRequest<Result<SessionDto>>;
 

@@ -8,21 +8,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiCommands.Account;
 
+/// <summary>
+/// Обновление профиля пользователя
+/// </summary>
+/// <param name="UserUid">Идентификатор пользователя</param>
+/// <param name="FirstName">Имя</param>
+/// <param name="SecondName">Фамилия</param>
 [ApplicationAuthorize]
-public record UpdateProfileCommand(string FirstName, string SecondName) : IRequest<Result<ProfileUserDto>>;
+public record UpdateProfileCommand(Guid UserUid, string FirstName, string SecondName) : IRequest<Result<ProfileUserDto>>;
 
 public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand, Result<ProfileUserDto>> {
-    private readonly ICurrentUserService _currentUser;
     private readonly IApplicationDbContext _context;
 
-    public UpdateProfileCommandHandler(ICurrentUserService currentUser, IApplicationDbContext context) {
-        _currentUser = currentUser;
+    public UpdateProfileCommandHandler(IApplicationDbContext context) {
         _context = context;
     }
 
     public async Task<Result<ProfileUserDto>> Handle(UpdateProfileCommand request, CancellationToken cancellationToken) {
         var user = await _context.Users
-            .FirstOrDefaultAsync(e => e.UID.Equals(_currentUser.UserUID), cancellationToken);
+            .FirstOrDefaultAsync(e => e.UID.Equals(request.UserUid), cancellationToken);
 
         if (user == null) {
             return new Result<ProfileUserDto>(new EntityNotFoundError());
@@ -40,6 +44,7 @@ public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand,
 public class UpdateProfileCommandValidator : AbstractValidator<UpdateProfileCommand> {
 
     public UpdateProfileCommandValidator() {
+        RuleFor(e => e.UserUid).NotEmpty();
         RuleFor(e => e.FirstName).NotEmpty();
         RuleFor(e => e.SecondName).NotEmpty();
     }

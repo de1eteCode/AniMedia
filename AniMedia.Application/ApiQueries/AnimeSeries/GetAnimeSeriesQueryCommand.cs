@@ -7,6 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiQueries.AnimeSeries; 
 
+/// <summary>
+/// Получение аниме сериала по идентификатору
+/// </summary>
+/// <param name="Page">Страница</param>
+/// <param name="PageSize">Размер страницы</param>
 public record GetAnimeSeriesQueryCommand(Guid AnimeSeriesUid) : IRequest<Result<AnimeSeriesDto>>;
 
 public class GetAnimeSeriesQueryCommandHandler : IRequestHandler<GetAnimeSeriesQueryCommand, Result<AnimeSeriesDto>> {

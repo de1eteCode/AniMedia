@@ -28,7 +28,7 @@ public class RemoveSessionTestSuccess : IntegrationTestBase {
 
         var sessions = await RequestAsync(getSessionQuery);
 
-        var removeSessionCommand = new RemoveSessionCommand(sessions.Value!.OrderBy(e => e.CreateAt).First().Uid);
+        var removeSessionCommand = new RemoveSessionCommand(de1eteUser.Value!.UID, sessions.Value!.OrderBy(e => e.CreateAt).First().Uid);
 
         await RequestAsync(removeSessionCommand);
 

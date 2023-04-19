@@ -6,6 +6,11 @@ using MediatR;
 
 namespace AniMedia.Application.ApiQueries.Genres;
 
+/// <summary>
+/// Получение списка жанров
+/// </summary>
+/// <param name="Page">Страница</param>
+/// <param name="PageSize">Размер страницы</param>
 public record GetGenresListQueryCommand(int Page, int PageSize) : IRequest<PagedResult<GenreDto>>;
 
 public class GetGenresListQueryCommandHandler : IRequestHandler<GetGenresListQueryCommand, PagedResult<GenreDto>> {

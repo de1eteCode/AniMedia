@@ -8,6 +8,9 @@ using MediatR;
 
 namespace AniMedia.Application.ApiCommands.AnimeSeries;
 
+/// <summary>
+/// Добавление аниме сериала
+/// </summary>
 [ApplicationAuthorize]
 public record AddAnimeSeriesCommand : IRequest<Result<AnimeSeriesDto>> {
     public required string Name { get; init; }

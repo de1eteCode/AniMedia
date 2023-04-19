@@ -13,20 +13,18 @@ namespace AniMedia.Application.ApiCommands.Auth;
 /// </summary>
 /// <param name="SessionUid">Идентификатор сессии</param>
 [ApplicationAuthorize]
-public record RemoveSessionCommand(Guid SessionUid) : IRequest<Result<SessionDto>>;
+public record RemoveSessionCommand(Guid UserUid, Guid SessionUid) : IRequest<Result<SessionDto>>;
 
 public class RemoveSessionCommandHandler : IRequestHandler<RemoveSessionCommand, Result<SessionDto>> {
     private readonly IApplicationDbContext _context;
-    private readonly ICurrentUserService _currentUserService;
 
-    public RemoveSessionCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService) {
+    public RemoveSessionCommandHandler(IApplicationDbContext context) {
         _context = context;
-        _currentUserService = currentUserService;
     }
 
     public async Task<Result<SessionDto>> Handle(RemoveSessionCommand request, CancellationToken cancellationToken) {
         var session = await _context.Sessions.FirstOrDefaultAsync(e =>
-            e.UserUid.Equals(_currentUserService.UserUID) && e.UID.Equals(request.SessionUid),
+            e.UserUid.Equals(request.UserUid) && e.UID.Equals(request.SessionUid),
             cancellationToken);
 
         if (session == null) {
@@ -43,6 +41,7 @@ public class RemoveSessionCommandHandler : IRequestHandler<RemoveSessionCommand,
 public class RemoveSessionCommandValidator : AbstractValidator<RemoveSessionCommand> {
 
     public RemoveSessionCommandValidator() {
+        RuleFor(x => x.UserUid).NotEmpty();
         RuleFor(x => x.SessionUid).NotEmpty();
     }
 }
