@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiCommands.AnimeSeries;
 
+/// <summary>
+/// Обновление аниме сериала
+/// </summary>
 [ApplicationAuthorize]
 public record UpdateAnimeSeriesCommand : IRequest<Result<AnimeSeriesDto>> {
     public Guid Uid { get; init; }

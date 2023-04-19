@@ -1,4 +1,5 @@
 ﻿using AniMedia.Application.ApiCommands.Binary;
+using AniMedia.IntegrationTests.Helpers;
 using FluentAssertions;
 using Xunit;
 
@@ -8,6 +9,9 @@ public class SaveBinaryTestSuccess : IntegrationBinaryTestBase {
 
     [Fact]
     public override async Task Test() {
+        // set user
+        SetUser((await RequestAsync(CommandHelper.RegistrationCommandDe1ete())).Value!.UID);
+        
         var data = GetRandomData(128);
 
         using var memStream = new MemoryStream();

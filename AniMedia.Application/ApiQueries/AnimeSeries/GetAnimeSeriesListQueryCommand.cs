@@ -6,6 +6,11 @@ using MediatR;
 
 namespace AniMedia.Application.ApiQueries.AnimeSeries;
 
+/// <summary>
+/// Получение списка аниме сериалов
+/// </summary>
+/// <param name="Page">Страница</param>
+/// <param name="PageSize">Размер страницы</param>
 public record GetAnimeSeriesListQueryCommand(int Page, int PageSize) : IRequest<PagedResult<AnimeSeriesDto>>;
 
 public class GetAnimeSeriesListQueryCommandHandler : IRequestHandler<GetAnimeSeriesListQueryCommand, PagedResult<AnimeSeriesDto>> {

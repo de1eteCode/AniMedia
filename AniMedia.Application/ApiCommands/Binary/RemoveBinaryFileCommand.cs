@@ -1,5 +1,6 @@
 ﻿using System.Transactions;
 using AniMedia.Application.ApiQueries.Binary;
+using AniMedia.Application.Common.Attributes;
 using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
@@ -9,6 +10,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiCommands.Binary;
 
+/// <summary>
+/// Удаление файла
+/// </summary>
+/// <param name="BinaryFileUidOrName">Идентификатор файла или его полное наименование</param>
+[ApplicationAuthorize]
 public record RemoveBinaryFileCommand(string BinaryFileUidOrName) : IRequest<Result<BinaryFileDto>>;
 
 public class RemoveBinaryFileCommandHandler : IRequestHandler<RemoveBinaryFileCommand, Result<BinaryFileDto>> {

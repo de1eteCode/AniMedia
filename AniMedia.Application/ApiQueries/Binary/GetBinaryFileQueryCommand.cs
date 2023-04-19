@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiQueries.Binary;
 
+/// <summary>
+/// Команда получения бинарного файла
+/// </summary>
+/// <param name="BinaryFileUidOrName">Идентификатор файла или его полное наименование</param>
 public record GetBinaryFileQueryCommand(string BinaryFileUidOrName) : IRequest<Result<BinaryFileDto>>;
 
 public class GetBinaryFileQueryCommandHandler : IRequestHandler<GetBinaryFileQueryCommand, Result<BinaryFileDto>> {
