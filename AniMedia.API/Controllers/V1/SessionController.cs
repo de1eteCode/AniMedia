@@ -1,5 +1,6 @@
 ﻿using AniMedia.Application.ApiCommands.Auth;
 using AniMedia.Application.ApiQueries.Auth;
+using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Responses;
 using AniMedia.Domain.Models.Dtos;
 using MediatR;
@@ -11,7 +12,10 @@ namespace AniMedia.API.Controllers.V1;
 [Authorize]
 public class SessionController : BaseApiV1Controller {
 
-    public SessionController(IMediator mediator) : base(mediator) {
+    private readonly ICurrentUserService _currentUserService;
+    
+    public SessionController(IMediator mediator, ICurrentUserService currentUserService) : base(mediator) {
+        _currentUserService = currentUserService;
     }
 
     [HttpGet("remove/{sessionUid:guid}")]
@@ -19,7 +23,7 @@ public class SessionController : BaseApiV1Controller {
     [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> RemoveSession(Guid sessionUid, CancellationToken cancellationToken) {
-        var query = new RemoveSessionCommand(sessionUid);
+        var query = new RemoveSessionCommand(_currentUserService.UserUID ?? Guid.Empty, sessionUid);
 
         return await RequestAsync(query, cancellationToken);
     }

@@ -9,6 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiCommands.RateAnimeSeries; 
 
+/// <summary>
+/// Установка рейтинга для пользователя
+/// </summary>
+/// <param name="AnimeSeriesUid">Идентификатор аниме серии</param>
+/// <param name="Rate">Рейтинг</param>
 [ApplicationAuthorize]
 public record RateAnimeSeriesCommand(Guid AnimeSeriesUid, byte Rate) : IRequest<Result<RateAnimeSeriesDto>>;
 

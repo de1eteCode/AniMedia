@@ -7,6 +7,11 @@ using FluentValidation;
 
 namespace AniMedia.Application.ApiQueries.Auth;
 
+/// <summary>
+/// Получение списка сессий пользователя
+/// </summary>
+/// <param name="Page">Страница</param>
+/// <param name="PageSize">Размер страницы</param>
 [ApplicationAuthorize]
 public record GetSessionListQueryCommand(int Page, int PageSize) : IRequest<PagedResult<SessionDto>>;
 

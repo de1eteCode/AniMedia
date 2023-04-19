@@ -12,10 +12,8 @@ public class GetProfileTestSuccess : IntegrationTestBase {
         // set user
         var de1eteUser = await RequestAsync(CommandHelper.RegistrationCommandDe1ete());
 
-        SetUser(de1eteUser.Value!.UID);
-
         // request
-        var requestProfile = new GetProfileQueryCommand();
+        var requestProfile = new GetProfileQueryCommand(de1eteUser.Value!.UID);
 
         var result = await RequestAsync(requestProfile);
 

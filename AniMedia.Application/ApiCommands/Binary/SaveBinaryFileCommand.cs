@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Transactions;
+using AniMedia.Application.Common.Attributes;
 using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Entities;
 using AniMedia.Domain.Models.Dtos;
@@ -14,7 +15,7 @@ namespace AniMedia.Application.ApiCommands.Binary;
 /// </summary>
 /// <param name="Stream">Данные</param>
 /// <param name="ContentType">Тип файла</param>
-/// <returns>Информация о файле</returns>
+[ApplicationAuthorize]
 public record SaveBinaryFileCommand(Stream Stream, string ContentType) : IRequest<Result<BinaryFileDto>>;
 
 public class SaveBinaryFileCommandHandler : IRequestHandler<SaveBinaryFileCommand, Result<BinaryFileDto>> {

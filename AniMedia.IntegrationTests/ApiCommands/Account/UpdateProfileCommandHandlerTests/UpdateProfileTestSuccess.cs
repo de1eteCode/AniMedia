@@ -16,6 +16,7 @@ public class UpdateProfileTestSuccess : IntegrationTestBase {
 
         //request
         var request = new UpdateProfileCommand(
+            de1eteUser.Value!.UID,
             CommandHelper.GetRandomString(),
             CommandHelper.GetRandomString()
         );

@@ -2,7 +2,6 @@
 using AniMedia.Application.ApiCommands.Binary;
 using AniMedia.Application.Common.Attributes;
 using AniMedia.Application.Common.Interfaces;
-using AniMedia.Domain.Constants;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using FluentValidation;
@@ -11,23 +10,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiCommands.Account;
 
+/// <summary>
+/// Обновление аватара
+/// </summary>
+/// <param name="UserUid">Идентификатор пользователя</param>
+/// <param name="Stream">Поток данных</param>
+/// <param name="ContentType">Тип данных</param>
 [ApplicationAuthorize]
-public record UpdateAvatarCommand(Stream Stream, string ContentType) : IRequest<Result<BinaryFileDto>>;
+public record UpdateAvatarCommand(Guid UserUid, Stream Stream, string ContentType) : IRequest<Result<BinaryFileDto>>;
 
 public class UpdateAvatarCommandHandler : IRequestHandler<UpdateAvatarCommand, Result<BinaryFileDto>> {
-    private readonly ICurrentUserService _currentUser;
     private readonly IApplicationDbContext _context;
     private readonly IMediator _mediator;
 
-    public UpdateAvatarCommandHandler(ICurrentUserService currentUser, IApplicationDbContext context, IMediator mediator) {
-        _currentUser = currentUser;
+    public UpdateAvatarCommandHandler(IApplicationDbContext context, IMediator mediator) {
         _context = context;
         _mediator = mediator;
     }
 
     public async Task<Result<BinaryFileDto>> Handle(UpdateAvatarCommand request, CancellationToken cancellationToken) {
         var user = await _context.Users
-            .FirstOrDefaultAsync(e => e.UID.Equals(_currentUser.UserUID), cancellationToken);
+            .FirstOrDefaultAsync(e => e.UID.Equals(request.UserUid), cancellationToken);
 
         if (user == null) {
             return new Result<BinaryFileDto>(new EntityNotFoundError());
@@ -70,7 +73,11 @@ public class UpdateAvatarCommandHandler : IRequestHandler<UpdateAvatarCommand, R
 public class UpdateAvatarCommandValidator : AbstractValidator<UpdateAvatarCommand> {
 
     public UpdateAvatarCommandValidator() {
+        RuleFor(e => e.UserUid).NotNull();
         RuleFor(e => e.Stream).NotNull();
         RuleFor(e => e.ContentType).NotNull();
+        RuleFor(e => e.ContentType)
+            .Must(str => str.StartsWith("image"))
+            .WithMessage("Only image mime type");
     }
 }
