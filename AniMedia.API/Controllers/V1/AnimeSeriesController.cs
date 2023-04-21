@@ -1,5 +1,7 @@
 ﻿using AniMedia.Application.ApiCommands.AnimeSeries;
+using AniMedia.Application.ApiCommands.RateAnimeSeries;
 using AniMedia.Application.ApiQueries.AnimeSeries;
+using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using MediatR;
@@ -10,7 +12,10 @@ namespace AniMedia.API.Controllers.V1;
 
 public class AnimeSeriesController : BaseApiV1Controller {
 
-    public AnimeSeriesController(IMediator mediator) : base(mediator) {
+    private readonly ICurrentUserService _currentUserService;
+    
+    public AnimeSeriesController(IMediator mediator, ICurrentUserService currentUserService) : base(mediator) {
+        _currentUserService = currentUserService;
     }
 
     [AllowAnonymous]
@@ -95,6 +100,19 @@ public class AnimeSeriesController : BaseApiV1Controller {
             ExistTotalEpisodes = existTotalEpisodes,
             PlanedTotalEpisodes = planedTotalEpisodes
         };
+
+        return await RequestAsync(request, cancellationToken);
+    }
+
+    [Authorize]
+    [HttpPost("rate/{uidAnimeSeries:guid}")]
+    [ProducesResponseType(typeof(RateAnimeSeriesDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> RateAnimeSeries(
+        [FromQuery] Guid uidAnimeSeries,
+        [FromBody] byte rate, 
+        CancellationToken cancellationToken) {
+        var request = new RateAnimeSeriesCommand((Guid)_currentUserService.UserUID!, uidAnimeSeries, rate);
 
         return await RequestAsync(request, cancellationToken);
     }
