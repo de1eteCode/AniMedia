@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AniMedia.IntegrationTests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AniMedia.WebClient", "AniMedia.WebClient\AniMedia.WebClient.csproj", "{1142B715-22D2-4B66-AFF9-F53D3C45575A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AniMedia.API.Tests", "AniMedia.API.Tests\AniMedia.API.Tests.csproj", "{EA7F9A3E-90FC-43B3-A765-066D702F76A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{1142B715-22D2-4B66-AFF9-F53D3C45575A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1142B715-22D2-4B66-AFF9-F53D3C45575A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1142B715-22D2-4B66-AFF9-F53D3C45575A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA7F9A3E-90FC-43B3-A765-066D702F76A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA7F9A3E-90FC-43B3-A765-066D702F76A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA7F9A3E-90FC-43B3-A765-066D702F76A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA7F9A3E-90FC-43B3-A765-066D702F76A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{D9A39F97-C170-4BA6-A0D3-93B19EC3CD38} = {FEFF3B73-7E5E-4E82-AF49-1B3A6E6CA738}
 		{F7CD485E-6280-416A-8D4A-9BF41F6B154B} = {451F6DBC-35F5-4A3D-BBF6-8C18793016D2}
 		{1142B715-22D2-4B66-AFF9-F53D3C45575A} = {6B0B937A-94D4-4681-9FAE-7410BB2C62D1}
+		{EA7F9A3E-90FC-43B3-A765-066D702F76A1} = {451F6DBC-35F5-4A3D-BBF6-8C18793016D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5CDFBFAD-530A-4B63-AC35-BF6156DC81BE}

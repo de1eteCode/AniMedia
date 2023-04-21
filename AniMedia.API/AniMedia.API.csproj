@@ -26,6 +26,7 @@
 
   <Target Name="NSwag" AfterTargets="Build">
     <Exec Command="$(NSwagExe_Net70) run nswag.json /variables:Configuration=$(Configuration)" />
+    <Exec Command="$(NSwagExe_Net70) run nswag.testing.json /variables:Configuration=$(Configuration)" />
   </Target>
 
   <ItemGroup>
@@ -36,6 +37,9 @@
   <ItemGroup>
     <Content Update="appsettings.Development.json">
       <DependentUpon>appsettings.json</DependentUpon>
+    </Content>
+    <Content Update="nswag.testing.json">
+      <DependentUpon>nswag.json</DependentUpon>
     </Content>
   </ItemGroup>
 
