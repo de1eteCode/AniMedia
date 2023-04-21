@@ -31,7 +31,7 @@ public class AnimeSeriesController : BaseApiV1Controller {
     }
 
     [AllowAnonymous]
-    [HttpGet]
+    [HttpGet("{uid:guid}")]
     [ProducesResponseType(typeof(AnimeSeriesDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get(
@@ -46,26 +46,18 @@ public class AnimeSeriesController : BaseApiV1Controller {
     [HttpPost]
     [ProducesResponseType(typeof(AnimeSeriesDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> Add(
-        [FromBody] string name,
-        [FromBody] string englishName,
-        [FromBody] string japaneseName,
-        [FromBody] string description,
-        [FromBody] IEnumerable<GenreDto> genres,
-        [FromBody] DateTime? dateOfRelease,
-        [FromBody] DateTime? dateOfAnnouncement,
-        [FromBody] int? existTotalEpisodes,
-        [FromBody] int? planedTotalEpisodes,
+        [FromBody] AnimeSeriesDto dto,
         CancellationToken cancellationToken) {
         var request = new AddAnimeSeriesCommand {
-            Name = name,
-            EnglishName = englishName,
-            JapaneseName = japaneseName,
-            Description = description,
-            Genres = genres,
-            DateOfRelease = dateOfRelease,
-            DateOfAnnouncement = dateOfAnnouncement,
-            ExistTotalEpisodes = existTotalEpisodes,
-            PlanedTotalEpisodes = planedTotalEpisodes
+            Name = dto.Name,
+            EnglishName = dto.EnglishName,
+            JapaneseName = dto.JapaneseName,
+            Description = dto.Description,
+            Genres = dto.Genres,
+            DateOfRelease = dto.DateOfRelease,
+            DateOfAnnouncement = dto.DateOfAnnouncement,
+            ExistTotalEpisodes = dto.ExistTotalEpisodes,
+            PlanedTotalEpisodes = dto.PlanedTotalEpisodes
         };
 
         return await RequestAsync(request, cancellationToken);
@@ -77,28 +69,21 @@ public class AnimeSeriesController : BaseApiV1Controller {
     [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(
         [FromQuery] Guid uid,
-        [FromBody] string name,
-        [FromBody] string englishName,
-        [FromBody] string japaneseName,
-        [FromBody] string description,
-        [FromBody] IEnumerable<GenreDto> genres,
-        [FromBody] DateTime? dateOfRelease,
-        [FromBody] DateTime? dateOfAnnouncement,
-        [FromBody] int? existTotalEpisodes,
-        [FromBody] int? planedTotalEpisodes,
+        [FromBody] AnimeSeriesDto dto,
         CancellationToken cancellationToken) {
-
+        // ignore guid anime series in dto
+        
         var request = new UpdateAnimeSeriesCommand{
             Uid = uid,
-            Name = name,
-            EnglishName = englishName,
-            JapaneseName = japaneseName,
-            Description = description,
-            Genres = genres,
-            DateOfRelease = dateOfRelease,
-            DateOfAnnouncement = dateOfAnnouncement,
-            ExistTotalEpisodes = existTotalEpisodes,
-            PlanedTotalEpisodes = planedTotalEpisodes
+            Name = dto.Name,
+            EnglishName = dto.EnglishName,
+            JapaneseName = dto.JapaneseName,
+            Description = dto.Description,
+            Genres = dto.Genres,
+            DateOfRelease = dto.DateOfRelease,
+            DateOfAnnouncement = dto.DateOfAnnouncement,
+            ExistTotalEpisodes = dto.ExistTotalEpisodes,
+            PlanedTotalEpisodes = dto.PlanedTotalEpisodes
         };
 
         return await RequestAsync(request, cancellationToken);

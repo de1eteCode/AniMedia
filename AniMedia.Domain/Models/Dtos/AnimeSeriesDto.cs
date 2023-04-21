@@ -31,7 +31,7 @@ public class AnimeSeriesDto {
 
     public string JapaneseName { get; set; }
 
-    public string? Description { get; set; }
+    public string Description { get; set; }
 
     public DateTime? DateOfRelease { get; set; }
 
