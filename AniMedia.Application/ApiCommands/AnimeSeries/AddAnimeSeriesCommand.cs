@@ -11,6 +11,15 @@ namespace AniMedia.Application.ApiCommands.AnimeSeries;
 /// <summary>
 /// Добавление аниме сериала
 /// </summary>
+/// <param name="Name">Наименование</param>
+/// <param name="EnglishName">Наименование на английском</param>
+/// <param name="JapaneseName">Наименование на японском</param>
+/// <param name="Description">Описание</param>
+/// <param name="Genres">Жанры</param>
+/// <param name="DateOfRelease">Дата релиза</param>
+/// <param name="DateOfAnnouncement">Дата анонса</param>
+/// <param name="ExistTotalEpisodes">Вышло эпизодов</param>
+/// <param name="PlanedTotalEpisodes">Запланировано эпизодов</param>
 [ApplicationAuthorize]
 public record AddAnimeSeriesCommand : IRequest<Result<AnimeSeriesDto>> {
     public required string Name { get; init; }
