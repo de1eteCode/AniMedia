@@ -14,7 +14,7 @@ namespace AniMedia.Application.ApiCommands.AnimeSeries;
 /// </summary>
 [ApplicationAuthorize]
 public record UpdateAnimeSeriesCommand : IRequest<Result<AnimeSeriesDto>> {
-    public Guid Uid { get; init; }
+    public required Guid Uid { get; init; }
     public required string Name { get; init; }
     public required string EnglishName { get; init; }
     public required string JapaneseName { get; init; }
