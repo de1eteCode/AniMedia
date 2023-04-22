@@ -12,7 +12,6 @@ namespace AniMedia.Application.ApiCommands.Auth;
 /// Удаление сессии
 /// </summary>
 /// <param name="SessionUid">Идентификатор сессии</param>
-[ApplicationAuthorize]
 public record RemoveSessionCommand(Guid UserUid, Guid SessionUid) : IRequest<Result<SessionDto>>;
 
 public class RemoveSessionCommandHandler : IRequestHandler<RemoveSessionCommand, Result<SessionDto>> {

@@ -30,6 +30,9 @@ public abstract class BaseApiV1Controller : ControllerBase {
             EntityNotFoundError error =>
                 new ObjectResult(new { error.Message }) { StatusCode = 404 },
 
+            { } defError =>
+                new ObjectResult(new { defError.Message }) { StatusCode = 400 },
+            
             _ => new ObjectResult(result.Value) { StatusCode = 200 }
         };
     }

@@ -22,9 +22,7 @@ public class GetSessionTestSuccess : IntegrationTestBase {
 
         var loginResult = await RequestAsync(loginCommand);
 
-        SetUser(de1eteUser.Value!.UID);
-
-        var getSessionQuery = new GetSessionQueryCommand(loginResult.Value!.AccessToken);
+        var getSessionQuery = new GetSessionQueryCommand(de1eteUser.Value.UID, loginResult.Value!.AccessToken);
 
         var result = await RequestAsync(getSessionQuery);
 
