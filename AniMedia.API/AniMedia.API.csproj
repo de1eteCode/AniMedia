@@ -30,6 +30,8 @@
   </Target>
 
   <Target Name="MakeGenericAgain" AfterTargets="NSwag" >
+    <!-- Instal tool -->
+    <Exec IgnoreExitCode="true" Command="dotnet tool install --global makeGenericAgain" />
     <!-- Web client -->
     <Exec Command="makeGenericAgain -f $(SolutionDir)/AniMedia.WebClient/Common/ApiServices/ApiClient.cs" />
     <Exec Command="makeGenericAgain -f $(SolutionDir)/AniMedia.WebClient/Common/ApiServices/IApiClient.cs" />
