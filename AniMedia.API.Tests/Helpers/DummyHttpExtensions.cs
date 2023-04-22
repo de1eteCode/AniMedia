@@ -54,6 +54,10 @@ public static class DummyHttpExtensions {
     /// <param name="client"></param>
     /// <param name="jwtToken"></param>
     public static void SetAuthorizationToken(this HttpClient client, string jwtToken) {
+        if (client.DefaultRequestHeaders.Contains(HeaderNames.Authorization)) {
+            client.DefaultRequestHeaders.Remove(HeaderNames.Authorization);
+        }
+        
         client.DefaultRequestHeaders.Add(HeaderNames.Authorization, "Bearer " + jwtToken);
     }
 }
