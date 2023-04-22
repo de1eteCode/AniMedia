@@ -28,11 +28,10 @@
 
     <ItemGroup>
       <Folder Include="ControllerTests\V1\AccountControllerTests\" />
-      <Folder Include="ControllerTests\V1\AuthControllerTests\" />
+      <Folder Include="ControllerTests\V1\AnimeSeriesControllerTests\" />
       <Folder Include="ControllerTests\V1\GenreControllerTests\" />
       <Folder Include="ControllerTests\V1\MediaControllerTests\" />
       <Folder Include="ControllerTests\V1\SessionControllerTests\" />
-      <Folder Include="Helpers\" />
     </ItemGroup>
 
     <ItemGroup>
