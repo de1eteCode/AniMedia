@@ -3,7 +3,7 @@ using AniMedia.API.Tests.HttpClients;
 using AniMedia.Domain.Models.Responses;
 using Xunit;
 
-namespace AniMedia.API.Tests.ControllerTests.V1.AuthControllerTests;
+namespace AniMedia.API.Tests.ControllerTests.V1.AuthControllerTests.RegistrationTests;
 
 public class DoubleRegistrationThrowAuthorization : ApiTestBase {
     
@@ -12,7 +12,7 @@ public class DoubleRegistrationThrowAuthorization : ApiTestBase {
         var nick = CommandHelper.GetRandomString();
         var password = CommandHelper.GetRandomString(8);
 
-        (var apiClient, var httpClient) = GetClient();
+        var (apiClient, _) = GetClient();
         
         var resp  = await apiClient.AuthRegistrationAsync(nick, password);
         

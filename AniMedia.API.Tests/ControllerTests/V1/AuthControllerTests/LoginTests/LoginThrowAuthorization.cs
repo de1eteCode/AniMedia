@@ -3,7 +3,7 @@ using AniMedia.API.Tests.HttpClients;
 using AniMedia.Domain.Models.Responses;
 using Xunit;
 
-namespace AniMedia.API.Tests.ControllerTests.V1.AuthControllerTests;
+namespace AniMedia.API.Tests.ControllerTests.V1.AuthControllerTests.LoginTests;
 
 public class LoginThrowAuthorization : ApiTestBase {
 

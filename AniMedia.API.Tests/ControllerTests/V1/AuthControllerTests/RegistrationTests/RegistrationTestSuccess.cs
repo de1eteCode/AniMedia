@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace AniMedia.API.Tests.ControllerTests.V1.AuthControllerTests; 
+namespace AniMedia.API.Tests.ControllerTests.V1.AuthControllerTests.RegistrationTests; 
 
 public class RegistrationTestSuccess : ApiTestBase {
 
