@@ -29,6 +29,15 @@
     <Exec Command="$(NSwagExe_Net70) run nswag.testing.json /variables:Configuration=$(Configuration)" />
   </Target>
 
+  <Target Name="MakeGenericAgain" AfterTargets="NSwag" >
+    <!-- Web client -->
+    <Exec Command="makeGenericAgain -f $(SolutionDir)/AniMedia.WebClient/Common/ApiServices/ApiClient.cs" />
+    <Exec Command="makeGenericAgain -f $(SolutionDir)/AniMedia.WebClient/Common/ApiServices/IApiClient.cs" />
+    <!-- Testing -->
+    <Exec Command="makeGenericAgain -f $(SolutionDir)/AniMedia.API.Tests/HttpClients/IApiClient.cs" />
+    <Exec Command="makeGenericAgain -f $(SolutionDir)/AniMedia.API.Tests/HttpClients/ApiClient.cs" />
+  </Target>
+
   <ItemGroup>
     <ProjectReference Include="..\AniMedia.Application\AniMedia.Application.csproj" />
     <ProjectReference Include="..\AniMedia.Infrastructure\AniMedia.Infrastructure.csproj" />

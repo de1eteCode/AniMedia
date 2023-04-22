@@ -1,5 +1,4 @@
-﻿using AniMedia.Application.ApiCommands.Auth;
-using AniMedia.Application.Common.Behaviours;
+﻿using AniMedia.Application.Common.Behaviours;
 using AniMedia.Application.Common.Interfaces;
 using AniMedia.Application.Common.Models;
 using AniMedia.Application.Common.Services;
@@ -19,7 +18,7 @@ public static class ApplicationDependencyInjection {
         
         serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ApplicationAuthorizeBehaviour<,>));
         serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-        serviceCollection.AddMediatR(e => e.RegisterServicesFromAssembly(typeof(AuthorizationCommand).Assembly));
+        serviceCollection.AddMediatR(e => e.RegisterServicesFromAssembly(typeof(ApplicationDependencyInjection).Assembly));
 
         serviceCollection.AddScoped<ITokenService, TokenService>();
         serviceCollection.AddScoped<IHashService, HashService>();

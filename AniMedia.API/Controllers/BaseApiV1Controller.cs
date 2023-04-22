@@ -12,7 +12,7 @@ public abstract class BaseApiV1Controller : ControllerBase {
     protected BaseApiV1Controller(IMediator mediator) {
         _mediator = mediator;
     }
-
+    
     [NonAction]
     protected async Task<IActionResult> RequestAsync<TValue>(IRequest<Result<TValue>> request,
         CancellationToken cancellationToken) {
@@ -20,7 +20,7 @@ public abstract class BaseApiV1Controller : ControllerBase {
 
         return GenerateResponse(result);
     }
-
+    
     [NonAction]
     protected IActionResult GenerateResponse<TValue>(Result<TValue> result) {
         return result.Error switch {

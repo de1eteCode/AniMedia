@@ -27,18 +27,13 @@ public class Result<TValue> : Result {
     public TValue? Value { get; }
 }
 
-public class PagedResult<TValue> : Result<IEnumerable<TValue>> {
+public class PagedResult<TItem>  {
 
-    public PagedResult(Error error) : base(error) {
-        PageSize = -1;
-        Page = -1;
-        PageCount = -1;
-    }
-
-    public PagedResult(int page, int pageSize, int pageCount, IEnumerable<TValue> value) : base(value) {
+    public PagedResult(int page, int pageSize, int pageCount, IEnumerable<TItem> value) {
         Page = page;
         PageSize = pageSize;
         PageCount = pageCount;
+        Items = value;
     }
 
     public int Page { get; init; }
@@ -47,13 +42,5 @@ public class PagedResult<TValue> : Result<IEnumerable<TValue>> {
 
     public int PageSize { get; init; }
 
-    public int Items {
-        get {
-            if (Error != null) {
-                return -1;
-            }
-
-            return Value?.Count() ?? 0;
-        }
-    }
+    public IEnumerable<TItem> Items { get; init; }
 }

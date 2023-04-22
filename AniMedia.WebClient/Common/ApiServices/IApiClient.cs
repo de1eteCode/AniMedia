@@ -45,11 +45,11 @@ namespace AniMedia.WebClient.Common.ApiServices
         System.Threading.Tasks.Task<BinaryFileDto> ApiV1AccountUpdateavatarAsync(FileParameter newAvatar, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AnimeSeriesDto>> ApiV1AnimeSeriesGetAsync(int? page, int? pageSize);
+        System.Threading.Tasks.Task<PagedResult<AnimeSeriesDto>> ApiV1AnimeSeriesGetAsync(int? page, int? pageSize);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AnimeSeriesDto>> ApiV1AnimeSeriesGetAsync(int? page, int? pageSize, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<PagedResult<AnimeSeriesDto>> ApiV1AnimeSeriesGetAsync(int? page, int? pageSize, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesPostAsync(AnimeSeriesDto dto);
@@ -157,11 +157,11 @@ namespace AniMedia.WebClient.Common.ApiServices
         System.Threading.Tasks.Task<SessionDto> ApiV1SessionRemoveAsync(System.Guid sessionUid, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SessionDto>> ApiV1SessionListAsync(int? page, int? pageSize);
+        System.Threading.Tasks.Task<PagedResult<SessionDto>> ApiV1SessionListAsync(int? page, int? pageSize);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SessionDto>> ApiV1SessionListAsync(int? page, int? pageSize, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<PagedResult<SessionDto>> ApiV1SessionListAsync(int? page, int? pageSize, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<SessionDto> ApiV1SessionAsync(string accessToken);

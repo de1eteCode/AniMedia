@@ -5,14 +5,14 @@ using Xunit;
 
 namespace AniMedia.IntegrationTests.ApiQueries.Auth.GetSessionListQueryHandlerTests;
 
-public class GetSessionListTestThrowAuthentication : IntegrationTestBase {
+public class GetSessionListTestThrowNotFound : IntegrationTestBase {
 
     [Fact]
     public override async Task Test() {
-        var getSessionsQuery = new GetSessionListQueryCommand(0, 0);
+        var getSessionsQuery = new GetSessionListQueryCommand(Guid.NewGuid(), 1, 100);
 
         var result = await RequestAsync(getSessionsQuery);
 
-        result.Error.Should().BeOfType<AuthenticationError>();
+        result.Error.Should().BeOfType<EntityNotFoundError>();
     }
 }

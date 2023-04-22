@@ -48,4 +48,22 @@ public static class ApiTestBaseExtensions {
         
         return new UserTest(logged.Profile, logged.Password);
     }
+
+    public static async Task<SessionDto> CreateSession(this ApiTestBase apiTestBase, UserTest user) {
+        await using var scope = apiTestBase.ServiceProvider.CreateAsyncScope();
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
+        var loginReq = new LoginCommand(
+            user.Profile.NickName,
+            user.Password,
+            CommandHelper.RandomIpAddress(),
+            CommandHelper.GetRandomString());
+
+        var authResp = await mediator.Send(loginReq);
+
+        var getSessionReq = new GetSessionQueryCommand(user.Profile.UID, authResp.Value!.AccessToken);
+        var getSessionResp = await mediator.Send(getSessionReq);
+
+        return getSessionResp.Value!;
+    }
 }

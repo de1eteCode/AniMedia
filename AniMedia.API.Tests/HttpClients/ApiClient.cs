@@ -318,14 +318,14 @@ namespace AniMedia.API.Tests.HttpClients
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AnimeSeriesDto>> ApiV1AnimeSeriesGetAsync(int? page, int? pageSize)
+        public virtual System.Threading.Tasks.Task<PagedResult<AnimeSeriesDto>> ApiV1AnimeSeriesGetAsync(int? page, int? pageSize)
         {
             return ApiV1AnimeSeriesGetAsync(page, pageSize, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AnimeSeriesDto>> ApiV1AnimeSeriesGetAsync(int? page, int? pageSize, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<PagedResult<AnimeSeriesDto>> ApiV1AnimeSeriesGetAsync(int? page, int? pageSize, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/v1/AnimeSeries?");
@@ -371,7 +371,7 @@ namespace AniMedia.API.Tests.HttpClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<AnimeSeriesDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<PagedResult<AnimeSeriesDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1741,14 +1741,14 @@ namespace AniMedia.API.Tests.HttpClients
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SessionDto>> ApiV1SessionListAsync(int? page, int? pageSize)
+        public virtual System.Threading.Tasks.Task<PagedResult<SessionDto>> ApiV1SessionListAsync(int? page, int? pageSize)
         {
             return ApiV1SessionListAsync(page, pageSize, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SessionDto>> ApiV1SessionListAsync(int? page, int? pageSize, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<PagedResult<SessionDto>> ApiV1SessionListAsync(int? page, int? pageSize, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/v1/Session/list?");
@@ -1794,7 +1794,7 @@ namespace AniMedia.API.Tests.HttpClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<SessionDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<PagedResult<SessionDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);

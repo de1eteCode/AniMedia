@@ -29,10 +29,10 @@ public class SessionController : BaseApiV1Controller {
     }
 
     [HttpGet("list")]
-    [ProducesResponseType(typeof(IEnumerable<SessionDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResult<SessionDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> GetSessionList(int page, int pageSize, CancellationToken cancellationToken) {
-        var query = new GetSessionListQueryCommand(page, pageSize);
+        var query = new GetSessionListQueryCommand(_currentUserService.UserUID ?? Guid.Empty, page, pageSize);
 
         return await RequestAsync(query, cancellationToken);
     }

@@ -30,7 +30,6 @@
       <Folder Include="ControllerTests\V1\AnimeSeriesControllerTests\" />
       <Folder Include="ControllerTests\V1\GenreControllerTests\" />
       <Folder Include="ControllerTests\V1\MediaControllerTests\" />
-      <Folder Include="ControllerTests\V1\SessionControllerTests\" />
     </ItemGroup>
 
     <ItemGroup>

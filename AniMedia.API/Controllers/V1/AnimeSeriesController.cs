@@ -20,7 +20,7 @@ public class AnimeSeriesController : BaseApiV1Controller {
 
     [AllowAnonymous]
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<AnimeSeriesDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResult<AnimeSeriesDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(
         [FromQuery] int page,
         [FromQuery] int pageSize,

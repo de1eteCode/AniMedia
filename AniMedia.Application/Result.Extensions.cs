@@ -19,4 +19,18 @@ public static class ResultExtensions {
 
         return new PagedResult<TValue>(page, pageSize, countPages, items);
     }
+    
+    public static Task<PagedResult<TValue>> CreatePagedResultAsync<TValue>(IEnumerable<TValue> source, int page, int pageSize) {
+        if (source == null) {
+            throw new ArgumentNullException(nameof(source));
+        }
+
+        var countPages = (int)((double)source.Count() / pageSize);
+        var items = source
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return Task.FromResult(new PagedResult<TValue>(page, pageSize, countPages, items));
+    }
 }
