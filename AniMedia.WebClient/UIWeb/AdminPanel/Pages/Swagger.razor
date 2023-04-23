@@ -1,5 +1,7 @@
 ﻿@using AniMedia.WebClient.Common.Contracts
+@using AniMedia.WebClient.UIWeb.AdminPanel.Shared
 @attribute [Route(PageUrlConstants.SwaggerPageUrl)]
 @inject IApiUrlBuilder ApiUrlBuilder
+@layout AdminUILayout
 
 <iframe class="full-iframe" src="@ApiUrlBuilder.GetSwaggerUrl()"></iframe>
