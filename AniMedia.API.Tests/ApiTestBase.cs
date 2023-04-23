@@ -1,5 +1,6 @@
 ﻿using AniMedia.API.Tests.Helpers;
 using AniMedia.API.Tests.HttpClients;
+using AniMedia.Application.Common.Interfaces;
 using AniMedia.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -59,7 +60,19 @@ public abstract class ApiTestBase : IAsyncLifetime {
         return (apiClient, httpClient);
     }
     
-    public Task DisposeAsync() {
-        return Task.CompletedTask;
+    public async Task DisposeAsync() {
+        await using var scope = ServiceProvider.CreateAsyncScope();
+        
+        var dirService = scope.ServiceProvider.GetRequiredService<IDirectoryService>();
+
+        var pathContent = dirService.GetBinaryFilesDirectory();
+
+        foreach (var filePath in Directory.GetFiles(pathContent, "*.*")) {
+            var fInfo = new FileInfo(filePath);
+
+            if (fInfo.Exists) {
+                fInfo.Delete();
+            }
+        }
     }
 }
