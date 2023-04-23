@@ -14,28 +14,24 @@ public class GenreController : BaseApiV1Controller {
     public GenreController(IMediator mediator) : base(mediator) {
     }
 
-    /// <summary>
-    /// Получение жанров
-    /// </summary>
-    /// <param name="page">Страница</param>
-    /// <param name="pageSize">Размер страницы</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Список жанров</returns>
     [AllowAnonymous]
     [HttpGet]
-    [ProducesResponseType(typeof(GenreDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResult<GenreDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(int page, int pageSize, CancellationToken cancellationToken) {
         var request = new GetGenresListQueryCommand(page, pageSize);
 
         return await RequestAsync(request, cancellationToken);
     }
+    
+    [AllowAnonymous]
+    [HttpGet("id/{genreUid:guid}")]
+    [ProducesResponseType(typeof(GenreDto), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Get(Guid genreUid, CancellationToken cancellationToken) {
+        var request = new GetGenreQueryCommand(genreUid);
 
-    /// <summary>
-    /// Добавление жанра
-    /// </summary>
-    /// <param name="name">Наименование нового жанра</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Добавленный объект</returns>
+        return await RequestAsync(request, cancellationToken);
+    }
+
     [HttpPost]
     [ProducesResponseType(typeof(GenreDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> Add(string name, CancellationToken cancellationToken) {
@@ -44,17 +40,10 @@ public class GenreController : BaseApiV1Controller {
         return await RequestAsync(request, cancellationToken);
     }
 
-    /// <summary>
-    /// Обновление жанра
-    /// </summary>
-    /// <param name="uid">Идентификатор жанра</param>
-    /// <param name="name">Новое наименование</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Обновленный объект</returns>
     [HttpPut("{uid:guid}")]
     [ProducesResponseType(typeof(GenreDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update([FromQuery] Guid uid, [FromBody] string name, CancellationToken cancellationToken) {
+    public async Task<IActionResult> Update(Guid uid, string name, CancellationToken cancellationToken) {
         var request = new UpdateGenreCommand(uid, name);
 
         return await RequestAsync(request, cancellationToken);

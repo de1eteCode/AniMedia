@@ -1,5 +1,6 @@
 ﻿using AniMedia.Application.ApiCommands.Auth;
 using AniMedia.Application.ApiCommands.Binary;
+using AniMedia.Application.ApiCommands.Genres;
 using AniMedia.Application.ApiQueries.Account;
 using AniMedia.Application.ApiQueries.Auth;
 using AniMedia.Domain.Models.Dtos;
@@ -105,6 +106,21 @@ public static class ApiTestBaseExtensions {
         
         var req = new SaveBinaryFileCommand(mockFile.Data, contentType);
         var res = await mediator.Send(req);
+
+        return res.Value!;
+    }
+
+    /// <summary>
+    /// Создание жанра
+    /// </summary>
+    /// <param name="apiTestBase"></param>
+    /// <returns></returns>
+    public static async Task<GenreDto> CreateGenre(this ApiTestBase apiTestBase) {
+        await using var scope = apiTestBase.ServiceProvider.CreateAsyncScope();
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
+        var createCommand = new AddGenreCommand(CommandHelper.GetRandomString());
+        var res = await mediator.Send(createCommand);
 
         return res.Value!;
     }

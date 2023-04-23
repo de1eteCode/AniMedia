@@ -28,7 +28,6 @@
 
     <ItemGroup>
       <Folder Include="ControllerTests\V1\AnimeSeriesControllerTests\" />
-      <Folder Include="ControllerTests\V1\GenreControllerTests\" />
     </ItemGroup>
 
     <ItemGroup>
