@@ -12,9 +12,7 @@ public class GetSessionTestThrowSessionNotFound : IntegrationTestBase {
     public override async Task Test() {
         var de1eteUser = await RequestAsync(CommandHelper.RegistrationCommandDe1ete());
 
-        SetUser(de1eteUser.Value!.UID);
-
-        var getSessionQuery = new GetSessionQueryCommand("wrong_access_token");
+        var getSessionQuery = new GetSessionQueryCommand(de1eteUser.Value!.UID, "wrong_access_token");
 
         var result = await RequestAsync(getSessionQuery);
 

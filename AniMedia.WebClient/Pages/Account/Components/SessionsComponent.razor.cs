@@ -27,7 +27,7 @@ public partial class SessionsComponent : ComponentBase {
             _currentSession = await ApiClient.ApiV1SessionAsync(await TokenService.GetTokenAsync());
 
             // Todo: Paging change on table
-            _sessions = await ApiClient.ApiV1SessionListAsync(1, 100);
+            _sessions = (await ApiClient.ApiV1SessionListAsync(1, 100)).Items.ToList();
         }
         catch (Exception ex) {
             _sessions = new List<SessionDto>();

@@ -11,23 +11,23 @@ namespace AniMedia.Application.ApiQueries.Genres;
 /// </summary>
 /// <param name="Page">Страница</param>
 /// <param name="PageSize">Размер страницы</param>
-public record GetGenresListQueryCommand(int Page, int PageSize) : IRequest<PagedResult<GenreDto>>;
+public record GetGenresListQueryCommand(int Page, int PageSize) : IRequest<Result<PagedResult<GenreDto>>>;
 
-public class GetGenresListQueryCommandHandler : IRequestHandler<GetGenresListQueryCommand, PagedResult<GenreDto>> {
+public class GetGenresListQueryCommandHandler : IRequestHandler<GetGenresListQueryCommand, Result<PagedResult<GenreDto>>> {
     private readonly IApplicationDbContext _context;
 
     public GetGenresListQueryCommandHandler(IApplicationDbContext context) {
         _context = context;
     }
 
-    public async Task<PagedResult<GenreDto>> Handle(GetGenresListQueryCommand request, CancellationToken cancellationToken) {
-        return await ResultExtensions.CreatePagedResultAsync(
+    public async Task<Result<PagedResult<GenreDto>>> Handle(GetGenresListQueryCommand request, CancellationToken cancellationToken) {
+        return new Result<PagedResult<GenreDto>>(await ResultExtensions.CreatePagedResultAsync(
             _context.Genres
                 .OrderByDescending(e => e.LastModified)
                 .ThenByDescending(e => e.CreateAt)
                 .Select(e => new GenreDto(e)),
             request.Page,
-            request.PageSize);
+            request.PageSize));
     }
 }
 

@@ -1,5 +1,4 @@
-﻿using AniMedia.Application.Common.Attributes;
-using AniMedia.Application.Common.Interfaces;
+﻿using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Entities;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
@@ -20,7 +19,6 @@ namespace AniMedia.Application.ApiCommands.AnimeSeries;
 /// <param name="DateOfAnnouncement">Дата анонса</param>
 /// <param name="ExistTotalEpisodes">Вышло эпизодов</param>
 /// <param name="PlanedTotalEpisodes">Запланировано эпизодов</param>
-[ApplicationAuthorize]
 public record AddAnimeSeriesCommand : IRequest<Result<AnimeSeriesDto>> {
     public required string Name { get; init; }
     public required string EnglishName { get; init; }

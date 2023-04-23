@@ -20,12 +20,10 @@ public class GetSessionListTestSuccess : IntegrationTestBase {
 
         await RequestAsync(loginCommand);
 
-        SetUser(de1eteUser.Value!.UID);
-
-        var getSessionsQuery = new GetSessionListQueryCommand(1, 2);
+        var getSessionsQuery = new GetSessionListQueryCommand(de1eteUser.Value!.UID, 1, 2);
 
         var result = await RequestAsync(getSessionsQuery);
 
-        result.Value!.Count().Should().Be(2);
+        result.Value!.Items.Count().Should().Be(2);
     }
 }

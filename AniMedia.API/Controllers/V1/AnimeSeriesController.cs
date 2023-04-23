@@ -20,10 +20,10 @@ public class AnimeSeriesController : BaseApiV1Controller {
 
     [AllowAnonymous]
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<AnimeSeriesDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResult<AnimeSeriesDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(
-        [FromQuery] int page,
-        [FromQuery] int pageSize,
+        int page,
+        int pageSize,
         CancellationToken cancellationToken) {
         var query = new GetAnimeSeriesListQueryCommand(page, pageSize);
 
@@ -35,7 +35,7 @@ public class AnimeSeriesController : BaseApiV1Controller {
     [ProducesResponseType(typeof(AnimeSeriesDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get(
-        [FromQuery] Guid uid,
+        Guid uid,
         CancellationToken cancellationToken) {
         var query = new GetAnimeSeriesQueryCommand(uid);
 
@@ -43,10 +43,10 @@ public class AnimeSeriesController : BaseApiV1Controller {
     }
     
     [Authorize]
-    [HttpPost]
+    [HttpPost("add")]
     [ProducesResponseType(typeof(AnimeSeriesDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> Add(
-        [FromBody] AnimeSeriesDto dto,
+        AnimeSeriesDto dto,
         CancellationToken cancellationToken) {
         var request = new AddAnimeSeriesCommand {
             Name = dto.Name,
@@ -64,12 +64,12 @@ public class AnimeSeriesController : BaseApiV1Controller {
     }
 
     [Authorize]
-    [HttpPost("{uid:guid}")]
+    [HttpPost("update/{uid:guid}")]
     [ProducesResponseType(typeof(AnimeSeriesDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(
-        [FromQuery] Guid uid,
-        [FromBody] AnimeSeriesDto dto,
+        Guid uid,
+        AnimeSeriesDto dto,
         CancellationToken cancellationToken) {
         // ignore guid anime series in dto
         
@@ -94,8 +94,8 @@ public class AnimeSeriesController : BaseApiV1Controller {
     [ProducesResponseType(typeof(RateAnimeSeriesDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> RateAnimeSeries(
-        [FromQuery] Guid uidAnimeSeries,
-        [FromBody] byte rate, 
+        Guid uidAnimeSeries,
+        byte rate, 
         CancellationToken cancellationToken) {
         var request = new RateAnimeSeriesCommand((Guid)_currentUserService.UserUID!, uidAnimeSeries, rate);
 

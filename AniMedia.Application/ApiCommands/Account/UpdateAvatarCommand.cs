@@ -1,6 +1,5 @@
 ﻿using System.Transactions;
 using AniMedia.Application.ApiCommands.Binary;
-using AniMedia.Application.Common.Attributes;
 using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
@@ -16,7 +15,6 @@ namespace AniMedia.Application.ApiCommands.Account;
 /// <param name="UserUid">Идентификатор пользователя</param>
 /// <param name="Stream">Поток данных</param>
 /// <param name="ContentType">Тип данных</param>
-[ApplicationAuthorize]
 public record UpdateAvatarCommand(Guid UserUid, Stream Stream, string ContentType) : IRequest<Result<BinaryFileDto>>;
 
 public class UpdateAvatarCommandHandler : IRequestHandler<UpdateAvatarCommand, Result<BinaryFileDto>> {

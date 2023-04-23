@@ -24,18 +24,20 @@ public class RemoveSessionTestSuccess : IntegrationTestBase {
 
         SetUser(de1eteUser.Value!.UID);
 
-        var getSessionQuery = new GetSessionListQueryCommand(1, 100);
+        var getSessionQuery = new GetSessionListQueryCommand(de1eteUser.Value.UID,1, 100);
 
         var sessions = await RequestAsync(getSessionQuery);
 
-        var removeSessionCommand = new RemoveSessionCommand(de1eteUser.Value!.UID, sessions.Value!.OrderBy(e => e.CreateAt).First().Uid);
+        var removeSessionCommand = new RemoveSessionCommand(
+            de1eteUser.Value!.UID, 
+            sessions.Value!.Items.OrderBy(e => e.CreateAt).First().Uid);
 
         await RequestAsync(removeSessionCommand);
 
         sessions = await RequestAsync(getSessionQuery);
 
         sessions.IsSuccess.Should().BeTrue();
-        sessions.Value!.Count().Should().Be(1);
-        sessions.Value!.First().Ip.Should().Be(loginIp);
+        sessions.Value!.Items.Count().Should().Be(1);
+        sessions.Value!.Items.First().Ip.Should().Be(loginIp);
     }
 }

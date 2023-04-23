@@ -19,8 +19,7 @@ public class AnimeSeriesDto {
         ExistTotalEpisodes = entity.ExistTotalEpisodes;
         PlanedTotalEpisodes = entity.PlanedTotalEpisodes;
         Genres = entity.Genres
-            .Select(e => new GenreDto(e.Genre))
-            .ToList();
+            .Select(e => new GenreDto(e.Genre));
     }
 
     public Guid Uid { get; set; }

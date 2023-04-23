@@ -29,10 +29,10 @@ public class SessionController : BaseApiV1Controller {
     }
 
     [HttpGet("list")]
-    [ProducesResponseType(typeof(List<SessionDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResult<SessionDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> GetSessionList(int page, int pageSize, CancellationToken cancellationToken) {
-        var query = new GetSessionListQueryCommand(page, pageSize);
+        var query = new GetSessionListQueryCommand(_currentUserService.UserUID ?? Guid.Empty, page, pageSize);
 
         return await RequestAsync(query, cancellationToken);
     }
@@ -42,7 +42,7 @@ public class SessionController : BaseApiV1Controller {
     [ProducesResponseType(typeof(AuthenticationError), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(EntityNotFoundError), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetSession(string accessToken, CancellationToken cancellationToken) {
-        var query = new GetSessionQueryCommand(accessToken);
+        var query = new GetSessionQueryCommand(_currentUserService.UserUID ?? Guid.Empty, accessToken);
 
         return await RequestAsync(query, cancellationToken);
     }
