@@ -1,5 +1,4 @@
-﻿using AniMedia.Application.Common.Attributes;
-using AniMedia.Application.Common.Interfaces;
+﻿using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Entities;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
@@ -12,7 +11,6 @@ namespace AniMedia.Application.ApiCommands.AnimeSeries;
 /// <summary>
 /// Обновление аниме сериала
 /// </summary>
-[ApplicationAuthorize]
 public record UpdateAnimeSeriesCommand : IRequest<Result<AnimeSeriesDto>> {
     public required Guid Uid { get; init; }
     public required string Name { get; init; }

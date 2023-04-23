@@ -1,5 +1,4 @@
-﻿using AniMedia.Application.Common.Attributes;
-using AniMedia.Application.Common.Interfaces;
+﻿using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Responses;
 using AniMedia.Domain.Models.Dtos;
 using MediatR;

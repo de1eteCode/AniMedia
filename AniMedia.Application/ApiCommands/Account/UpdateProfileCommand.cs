@@ -1,5 +1,4 @@
-﻿using AniMedia.Application.Common.Attributes;
-using AniMedia.Application.Common.Interfaces;
+﻿using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using FluentValidation;
@@ -14,7 +13,6 @@ namespace AniMedia.Application.ApiCommands.Account;
 /// <param name="UserUid">Идентификатор пользователя</param>
 /// <param name="FirstName">Имя</param>
 /// <param name="SecondName">Фамилия</param>
-[ApplicationAuthorize]
 public record UpdateProfileCommand(Guid UserUid, string FirstName, string SecondName) : IRequest<Result<ProfileUserDto>>;
 
 public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand, Result<ProfileUserDto>> {

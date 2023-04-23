@@ -1,5 +1,4 @@
-﻿using AniMedia.Application.Common.Attributes;
-using AniMedia.Application.Common.Interfaces;
+﻿using AniMedia.Application.Common.Interfaces;
 using AniMedia.Application.Common.Models;
 using AniMedia.Domain.Constants;
 using AniMedia.Domain.Entities;

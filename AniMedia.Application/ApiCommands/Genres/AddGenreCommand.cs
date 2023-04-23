@@ -1,5 +1,4 @@
-﻿using AniMedia.Application.Common.Attributes;
-using AniMedia.Application.Common.Interfaces;
+﻿using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Entities;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
@@ -12,7 +11,6 @@ namespace AniMedia.Application.ApiCommands.Genres;
 /// Добавление жанра аниме сериала
 /// </summary>
 /// <param name="Name">Наименование жанра</param>
-[ApplicationAuthorize]
 public record AddGenreCommand(string Name) : IRequest<Result<GenreDto>>;
 
 public class AddGenreCommandHandler : IRequestHandler<AddGenreCommand, Result<GenreDto>> {

@@ -1,5 +1,4 @@
-﻿using AniMedia.Application.Common.Attributes;
-using AniMedia.Application.Common.Interfaces;
+﻿using AniMedia.Application.Common.Interfaces;
 using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using FluentValidation;
@@ -13,7 +12,6 @@ namespace AniMedia.Application.ApiCommands.Genres;
 /// </summary>
 /// <param name="Uid">Идентификатор жанра</param>
 /// <param name="Name">Новое наименование</param>
-[ApplicationAuthorize]
 public record UpdateGenreCommand(Guid Uid, string Name) : IRequest<Result<GenreDto>>;
 
 public class UpdateGenreCommandHandler : IRequestHandler<UpdateGenreCommand, Result<GenreDto>> {

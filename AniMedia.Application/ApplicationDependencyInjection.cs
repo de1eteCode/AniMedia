@@ -16,7 +16,6 @@ public static class ApplicationDependencyInjection {
         serviceCollection.Configure<BinaryFileSettings>(configuration.GetSection(nameof(BinaryFileSettings)));
         serviceCollection.AddValidatorsFromAssembly(typeof(ApplicationDependencyInjection).Assembly);
         
-        serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ApplicationAuthorizeBehaviour<,>));
         serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         serviceCollection.AddMediatR(e => e.RegisterServicesFromAssembly(typeof(ApplicationDependencyInjection).Assembly));
 
