@@ -1,4 +1,5 @@
-﻿using AniMedia.Application.ApiCommands.Auth;
+﻿using AniMedia.Application.ApiCommands.AnimeSeries;
+using AniMedia.Application.ApiCommands.Auth;
 using AniMedia.Application.ApiCommands.Binary;
 using AniMedia.Application.ApiCommands.Genres;
 using AniMedia.Application.ApiQueries.Account;
@@ -120,6 +121,39 @@ public static class ApiTestBaseExtensions {
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
         var createCommand = new AddGenreCommand(CommandHelper.GetRandomString());
+        var res = await mediator.Send(createCommand);
+
+        return res.Value!;
+    }
+
+    /// <summary>
+    /// Создание аниме серии
+    /// </summary>
+    /// <param name="apiTestBase"></param>
+    /// <returns></returns>
+    public static async Task<AnimeSeriesDto> CreateAnimeSeries(this ApiTestBase apiTestBase) {
+        await using var scope = apiTestBase.ServiceProvider.CreateAsyncScope();
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
+        var genres = new List<GenreDto>();
+
+        for (var i = 0; i < 2; i++) {
+            genres.Add(await apiTestBase.CreateGenre());
+        }
+
+        var announcement = Random.Shared.Next(600, 6000);
+        var createCommand = new AddAnimeSeriesCommand {
+            Name = CommandHelper.GetRandomString(),
+            EnglishName = CommandHelper.GetRandomString(),
+            JapaneseName = CommandHelper.GetRandomString(),
+            Description = CommandHelper.GetRandomString(20, 100),
+            Genres = genres,
+            DateOfAnnouncement = DateTime.Now.AddDays(-1 * announcement),
+            DateOfRelease = DateTime.Now.AddDays(-1 * Random.Shared.Next(1, announcement)),
+            ExistTotalEpisodes = Random.Shared.Next(100, 300),
+            PlanedTotalEpisodes = Random.Shared.Next(300, 1500)
+        };
+
         var res = await mediator.Send(createCommand);
 
         return res.Value!;

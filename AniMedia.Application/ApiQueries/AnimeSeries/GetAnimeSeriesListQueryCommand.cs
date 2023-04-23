@@ -3,6 +3,7 @@ using AniMedia.Domain.Models.Dtos;
 using AniMedia.Domain.Models.Responses;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace AniMedia.Application.ApiQueries.AnimeSeries;
 
@@ -21,13 +22,16 @@ public class GetAnimeSeriesListQueryCommandHandler : IRequestHandler<GetAnimeSer
     }
 
     public async Task<Result<PagedResult<AnimeSeriesDto>>> Handle(GetAnimeSeriesListQueryCommand request, CancellationToken cancellationToken) {
-        return new Result<PagedResult<AnimeSeriesDto>>(await ResultExtensions.CreatePagedResultAsync(
+        var list = await ResultExtensions.CreatePagedResultAsync(
             _context.AnimeSeries
+                .Include(e => e.Genres)
                 .OrderByDescending(e => e.LastModified)
                 .ThenByDescending(e => e.CreateAt)
                 .Select(e => new AnimeSeriesDto(e)),
             request.Page,
-            request.PageSize));
+            request.PageSize);
+
+        return new Result<PagedResult<AnimeSeriesDto>>(list);
     }
 }
 

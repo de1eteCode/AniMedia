@@ -399,105 +399,21 @@ namespace AniMedia.WebClient.Common.ApiServices
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesPostAsync(AnimeSeriesDto dto)
+        public virtual System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesGetAsync(System.Guid uid)
         {
-            return ApiV1AnimeSeriesPostAsync(dto, System.Threading.CancellationToken.None);
+            return ApiV1AnimeSeriesGetAsync(uid, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesPostAsync(AnimeSeriesDto dto, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesGetAsync(System.Guid uid, System.Threading.CancellationToken cancellationToken)
         {
-            if (dto == null)
-                throw new System.ArgumentNullException("dto");
+            if (uid == null)
+                throw new System.ArgumentNullException("uid");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/v1/AnimeSeries");
-
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(dto, _settings.Value);
-                    var content_ = new System.Net.Http.StringContent(json_);
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<AnimeSeriesDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiClientException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesGetAsync(System.Guid? uidQuery, string uidPath)
-        {
-            return ApiV1AnimeSeriesGetAsync(uidQuery, uidPath, System.Threading.CancellationToken.None);
-        }
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesGetAsync(System.Guid? uidQuery, string uidPath, System.Threading.CancellationToken cancellationToken)
-        {
-            if (uidPath == null)
-                throw new System.ArgumentNullException("uidPath");
-
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/v1/AnimeSeries/{uid}?");
-            urlBuilder_.Replace("{uid}", System.Uri.EscapeDataString(ConvertToString(uidPath, System.Globalization.CultureInfo.InvariantCulture)));
-            if (uidQuery != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("uid") + "=").Append(System.Uri.EscapeDataString(ConvertToString(uidQuery, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append("api/v1/AnimeSeries/{uid}");
+            urlBuilder_.Replace("{uid}", System.Uri.EscapeDataString(ConvertToString(uid, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -569,29 +485,103 @@ namespace AniMedia.WebClient.Common.ApiServices
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesPostAsync(System.Guid? uidQuery, string uidPath, AnimeSeriesDto dto)
+        public virtual System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesAddAsync(AnimeSeriesDto dto)
         {
-            return ApiV1AnimeSeriesPostAsync(uidQuery, uidPath, dto, System.Threading.CancellationToken.None);
+            return ApiV1AnimeSeriesAddAsync(dto, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesPostAsync(System.Guid? uidQuery, string uidPath, AnimeSeriesDto dto, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesAddAsync(AnimeSeriesDto dto, System.Threading.CancellationToken cancellationToken)
         {
-            if (uidPath == null)
-                throw new System.ArgumentNullException("uidPath");
+            if (dto == null)
+                throw new System.ArgumentNullException("dto");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append("api/v1/AnimeSeries/add");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(dto, _settings.Value);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<AnimeSeriesDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiClientException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiClientException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesUpdateAsync(System.Guid uid, AnimeSeriesDto dto)
+        {
+            return ApiV1AnimeSeriesUpdateAsync(uid, dto, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <exception cref="ApiClientException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<AnimeSeriesDto> ApiV1AnimeSeriesUpdateAsync(System.Guid uid, AnimeSeriesDto dto, System.Threading.CancellationToken cancellationToken)
+        {
+            if (uid == null)
+                throw new System.ArgumentNullException("uid");
 
             if (dto == null)
                 throw new System.ArgumentNullException("dto");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/v1/AnimeSeries/{uid}?");
-            urlBuilder_.Replace("{uid}", System.Uri.EscapeDataString(ConvertToString(uidPath, System.Globalization.CultureInfo.InvariantCulture)));
-            if (uidQuery != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("uid") + "=").Append(System.Uri.EscapeDataString(ConvertToString(uidQuery, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append("api/v1/AnimeSeries/update/{uid}");
+            urlBuilder_.Replace("{uid}", System.Uri.EscapeDataString(ConvertToString(uid, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -667,27 +657,24 @@ namespace AniMedia.WebClient.Common.ApiServices
         }
 
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<RateAnimeSeriesDto> ApiV1AnimeSeriesRateAsync(System.Guid? uidAnimeSeriesQuery, string uidAnimeSeriesPath, byte rate)
+        public virtual System.Threading.Tasks.Task<RateAnimeSeriesDto> ApiV1AnimeSeriesRateAsync(System.Guid uidAnimeSeries, byte? rate)
         {
-            return ApiV1AnimeSeriesRateAsync(uidAnimeSeriesQuery, uidAnimeSeriesPath, rate, System.Threading.CancellationToken.None);
+            return ApiV1AnimeSeriesRateAsync(uidAnimeSeries, rate, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiClientException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<RateAnimeSeriesDto> ApiV1AnimeSeriesRateAsync(System.Guid? uidAnimeSeriesQuery, string uidAnimeSeriesPath, byte rate, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<RateAnimeSeriesDto> ApiV1AnimeSeriesRateAsync(System.Guid uidAnimeSeries, byte? rate, System.Threading.CancellationToken cancellationToken)
         {
-            if (uidAnimeSeriesPath == null)
-                throw new System.ArgumentNullException("uidAnimeSeriesPath");
-
-            if (rate == null)
-                throw new System.ArgumentNullException("rate");
+            if (uidAnimeSeries == null)
+                throw new System.ArgumentNullException("uidAnimeSeries");
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/v1/AnimeSeries/rate/{uidAnimeSeries}?");
-            urlBuilder_.Replace("{uidAnimeSeries}", System.Uri.EscapeDataString(ConvertToString(uidAnimeSeriesPath, System.Globalization.CultureInfo.InvariantCulture)));
-            if (uidAnimeSeriesQuery != null)
+            urlBuilder_.Replace("{uidAnimeSeries}", System.Uri.EscapeDataString(ConvertToString(uidAnimeSeries, System.Globalization.CultureInfo.InvariantCulture)));
+            if (rate != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("uidAnimeSeries") + "=").Append(System.Uri.EscapeDataString(ConvertToString(uidAnimeSeriesQuery, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(System.Uri.EscapeDataString("rate") + "=").Append(System.Uri.EscapeDataString(ConvertToString(rate, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -697,10 +684,7 @@ namespace AniMedia.WebClient.Common.ApiServices
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(rate, _settings.Value);
-                    var content_ = new System.Net.Http.StringContent(json_);
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 

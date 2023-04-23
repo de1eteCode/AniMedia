@@ -27,10 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ControllerTests\V1\AnimeSeriesControllerTests\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\AniMedia.API\AniMedia.API.csproj" />
     </ItemGroup> 
     <ItemGroup>
