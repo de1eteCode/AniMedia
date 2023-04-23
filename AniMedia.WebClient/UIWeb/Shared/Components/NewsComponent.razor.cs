@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace AniMedia.WebClient.Shared.Components;
+namespace AniMedia.WebClient.UIWeb.Shared.Components;
 
 public partial class NewsComponent : ComponentBase {
 

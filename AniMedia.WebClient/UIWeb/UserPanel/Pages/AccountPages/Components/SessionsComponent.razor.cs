@@ -5,7 +5,7 @@ using AniMedia.WebClient.Common.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
-namespace AniMedia.WebClient.Pages.Account.Components;
+namespace AniMedia.WebClient.UIWeb.UserPanel.Pages.AccountPages.Components;
 
 [Authorize]
 public partial class SessionsComponent : ComponentBase {

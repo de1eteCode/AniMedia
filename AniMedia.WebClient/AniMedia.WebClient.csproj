@@ -34,6 +34,8 @@
 
   <ItemGroup>
     <Folder Include="Common\ApiServices\" />
+    <Folder Include="UIWeb\AdminPanel\Shared\Components\" />
+    <Folder Include="UIWeb\UserPanel\Shared\Components\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +45,13 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />
     <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
+    <_ContentIncludedByDefault Remove="Shared\Auth\LoginDisplayComponent.razor" />
+    <_ContentIncludedByDefault Remove="Shared\Auth\Pages\LoginPage.razor" />
+    <_ContentIncludedByDefault Remove="Shared\Auth\Pages\RegisterPage.razor" />
+    <_ContentIncludedByDefault Remove="Shared\Components\ErrorLabelComponent.razor" />
+    <_ContentIncludedByDefault Remove="Shared\Components\LoadComponent.razor" />
+    <_ContentIncludedByDefault Remove="Shared\Components\NewsComponent.razor" />
+    <_ContentIncludedByDefault Remove="Shared\MainLayout.razor" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +64,17 @@
     <Content Update="wwwroot\appsettings.Development.json">
       <DependentUpon>appsettings.json</DependentUpon>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="UIWeb\Shared\Auth\LoginDisplayComponent.razor" />
+    <AdditionalFiles Include="UIWeb\Shared\Components\ErrorLabelComponent.razor" />
+    <AdditionalFiles Include="UIWeb\Shared\Components\LoadComponent.razor" />
+    <AdditionalFiles Include="UIWeb\Shared\Components\NewsComponent.razor" />
+    <AdditionalFiles Include="UIWeb\Shared\MainLayout.razor" />
+    <AdditionalFiles Include="UIWeb\UserPanel\Pages\AccountPages\Components\ChangeAvatarComponent.razor" />
+    <AdditionalFiles Include="UIWeb\UserPanel\Pages\AccountPages\Components\EditProfileComponent.razor" />
+    <AdditionalFiles Include="UIWeb\UserPanel\Pages\AccountPages\Components\SessionsComponent.razor" />
   </ItemGroup>
   
 </Project>

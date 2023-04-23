@@ -1,7 +1,7 @@
 ﻿using AniMedia.WebClient.Common.Providers;
 using Microsoft.AspNetCore.Components;
 
-namespace AniMedia.WebClient.Shared.Auth;
+namespace AniMedia.WebClient.UIWeb.Shared.Auth.Components;
 
 public partial class LoginDisplayComponent : ComponentBase {
 

@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
 
-namespace AniMedia.WebClient.Pages.Account.Components;
+namespace AniMedia.WebClient.UIWeb.UserPanel.Pages.AccountPages.Components;
 
 public partial class EditProfileComponent : FluxorComponent {
     private readonly UpdateProfileVM _vmUpdateProfile = new();

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Options;
 
-namespace AniMedia.WebClient.Pages.Account.Components; 
+namespace AniMedia.WebClient.UIWeb.UserPanel.Pages.AccountPages.Components; 
 
 public partial class ChangeAvatarComponent : ComponentBase {
 

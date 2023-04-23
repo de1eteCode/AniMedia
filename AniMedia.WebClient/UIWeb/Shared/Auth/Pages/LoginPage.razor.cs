@@ -4,7 +4,7 @@ using AniMedia.WebClient.Common.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
-namespace AniMedia.WebClient.Pages.Account;
+namespace AniMedia.WebClient.UIWeb.Shared.Auth.Pages;
 
 [AllowAnonymous]
 public partial class LoginPage : ComponentBase {
