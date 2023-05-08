@@ -1,54 +1,11 @@
-﻿@inherits LayoutComponentBase
+﻿@using AniMedia.WebClient.UIWeb.AdminPanel.Shared.Components
+@inherits LayoutComponentBase
 @layout MainLayout
 
 <Layout Sider>
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar
-                Mode="BarMode.VerticalInline"
-                CollapseMode="BarCollapseMode.Hide"
-                Breakpoint="Breakpoint.Desktop"
-                NavigationBreakpoint="Breakpoint.Desktop"
-                ThemeContrast="ThemeContrast.Dark">
-
-                @*<BarBrand>
-                    <BarLink To="@PageUrlConstants.AdminIndexPageUrl">
-                        <BarIcon IconName="IconName.Dashboard"/>
-                        AniMedia Admin panel
-                    </BarLink>
-                </BarBrand>*@
-
-                <BarMenu>
-                    <BarStart>
-                        <BarItem>
-                            <BarLink To="@PageUrlConstants.SwaggerPageUrl">
-                                Swagger
-                            </BarLink>
-                        </BarItem>
-
-                        <BarItem>
-                            <BarLink To="#">
-                                Пользователи
-                            </BarLink>
-                        </BarItem>
-
-                        <BarItem>
-                            <BarLink To="#">
-                                Аниме-серии
-                            </BarLink>
-                        </BarItem>
-
-                    </BarStart>
-
-                    <BarEnd>
-                        <BarItem>
-                            <BarLink To="#">
-                                Выйти
-                            </BarLink>
-                        </BarItem>
-                    </BarEnd>
-                </BarMenu>
-            </Bar>
+            <SideMenu/>
         </LayoutSiderContent>
     </LayoutSider>
 

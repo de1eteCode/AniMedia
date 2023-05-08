@@ -1,35 +1,34 @@
 ﻿@inherits LayoutComponentBase
 @layout MainLayout
 
-<header class="container">
-    <Bar
-        Breakpoint="Breakpoint.Desktop"
-        Background="Background.Light"
-        ThemeContrast="ThemeContrast.Light">
+<Layout>
+    <LayoutHeader class="container">
+        <Bar
+            Breakpoint="Breakpoint.Desktop"
+            Background="Background.Light"
+            ThemeContrast="ThemeContrast.Light">
 
-        <BarMenu>
-            <BarItem>
-                <Buttons Role="ButtonsRole.Toolbar">
-                    <Buttons Margin="Margin.Is2.FromEnd">
-                        <Button Color="Color.Secondary" Type="ButtonType.Link" To="/">Home</Button>
-                        <Button Color="Color.Secondary" Type="ButtonType.Link" To="/counter">Counter</Button>
-                        <Button Color="Color.Secondary" Type="ButtonType.Link" To="/swagger">Swagger</Button>
+            <BarMenu>
+                <BarItem>
+                    <Buttons Role="ButtonsRole.Toolbar">
+                        <Buttons Margin="Margin.Is2.FromEnd">
+                            <Button Color="Color.Secondary" Type="ButtonType.Link" To="@PageUrlConstants.IndexPageUrl">Home</Button>
+                            <Button Color="Color.Secondary" Type="ButtonType.Link" To="@PageUrlConstants.CounterPageUrl">Counter</Button>
+                        </Buttons>
                     </Buttons>
-                </Buttons>
-            </BarItem>
-            <BarEnd>
-                <AniMedia.WebClient.UIWeb.Shared.Auth.Components.LoginDisplayComponent/>
-            </BarEnd>
-        </BarMenu>
-    </Bar>
-</header>
+                </BarItem>
+                <BarEnd>
+                    <AniMedia.WebClient.UIWeb.Shared.Auth.Components.LoginDisplayComponent/>
+                </BarEnd>
+            </BarMenu>
+        </Bar>
+    </LayoutHeader>
 
-<main class="container px-4">
-    @Body
-</main>
+    <LayoutContent class="container px-4">
+        @Body
+    </LayoutContent>
 
-<footer class="mt-auto container px-4">
-    <div class="container">
-        <span>Dev AniMedia 2023</span>
-    </div>
-</footer>
+    <LayoutFooter class="mt-auto container px-4">
+        <Span>Dev AniMedia 2023</Span>
+    </LayoutFooter>
+</Layout>

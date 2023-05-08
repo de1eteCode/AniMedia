@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="Common\ApiServices\" />
-    <Folder Include="UIWeb\AdminPanel\Shared\Components\" />
     <Folder Include="UIWeb\UserPanel\Shared\Components\" />
   </ItemGroup>
 
@@ -67,7 +66,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="UIWeb\Shared\Auth\LoginDisplayComponent.razor" />
     <AdditionalFiles Include="UIWeb\Shared\Components\ErrorLabelComponent.razor" />
     <AdditionalFiles Include="UIWeb\Shared\Components\LoadComponent.razor" />
     <AdditionalFiles Include="UIWeb\Shared\Components\NewsComponent.razor" />

@@ -1,0 +1,44 @@
+﻿<Bar
+    Mode="BarMode.VerticalInline"
+    CollapseMode="BarCollapseMode.Small"
+    Breakpoint="Breakpoint.Desktop"
+    NavigationBreakpoint="Breakpoint.Tablet"
+    ThemeContrast="ThemeContrast.Dark">
+
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarLink To="@PageUrlConstants.SwaggerPageUrl">
+                    Swagger
+                </BarLink>
+            </BarItem>
+
+            <BarItem>
+                <BarLink To="@PageUrlConstants.ManageUsersPageUrl">
+                    Пользователи
+                </BarLink>
+            </BarItem>
+
+            <BarItem>
+                <BarLink To="@PageUrlConstants.ManageRulesPageUrl">
+                    Права пользователей
+                </BarLink>
+            </BarItem>
+
+            <BarItem>
+                <BarLink To="@PageUrlConstants.ManageAnimeSeriesPageUrl">
+                    Аниме-серии
+                </BarLink>
+            </BarItem>
+
+        </BarStart>
+
+        <BarEnd>
+            <BarItem>
+                <BarLink To="@PageUrlConstants.IndexPageUrl">
+                    Выйти
+                </BarLink>
+            </BarItem>
+        </BarEnd>
+    </BarMenu>
+</Bar>
